@@ -1,0 +1,5 @@
+requests==2.7.0
+psutil==3.0.1
+httmock==1.2.3
+python-dateutil==2.4.2
+schedule
