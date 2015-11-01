@@ -6,12 +6,12 @@ HTTP as a protocol has very well-defined semantics for dealing with proxies, and
 
 Proxying is very useful when conducting intensive web crawling/scrapping or when you just want to hide your identity (anomization).
 
-In this project I am using public proxies to randomise over a number of IP addresses and a variety of known user agents to generate requests that look to be produced by different applications and operating systems.
+In this project I am using public proxies to randomise http requests over a number of IP addresses and using a variety of known user agent headers these requests look to have been produced by different applications and operating systems.
 
 
 ## Proxies
 
-Proxies are a way to tell server P (the middleman) to contact server A and then route the response back to you. In more nefarious circles, it's a prime way to make your presence unknown and pose as many clients to a website instead of just one client.
+Proxies provide a way to use server P (the middleman) to contact server A and then route the response back to you. In more nefarious circles, it's a prime way to make your presence unknown and pose as many clients to a website instead of just one client.
 Often times websites will block IPs that make too many requests, and proxies is a way to get around this. But even for simulating an attack, you should know how it's done.
 
 
