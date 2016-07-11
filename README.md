@@ -21,10 +21,12 @@ Surprisingly, the only thing that tells a server the application triggered the r
 
 ## The source code
 
-The project code in this repository is crawling two different public proxy websites:
+The project code in this repository is crawling three different public proxy websites:
 * http://proxyfor.eu/geo.php
 * http://free-proxy-list.net
+* http://rebro.weebly.com/proxy-list.html
 
 After collecting the proxy data and filtering the slowest ones it is randomly selecting one of them to query the target url.
 The request timeout is configured at 30 seconds and if the proxy fails to return a response it is deleted from the application proxy list.
 I have to mention that for each request a different agent header is used. The different headers are stored in the **/data/user_agents.txt** file which contains around 900 different agents.
+
