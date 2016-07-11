@@ -21,6 +21,7 @@ class RequestProxy:
         self.proxy_list = web_proxy_list
         self.proxy_list += self.proxyForEU_url_parser('http://proxyfor.eu/geo.php', 100.0)
         self.proxy_list += self.freeProxy_url_parser('http://free-proxy-list.net')
+        self.proxy_list += self.weebly_url_parser('http://rebro.weebly.com/proxy-list.html')
 
     def get_proxy_list(self):
         return self.proxy_list
@@ -113,6 +114,17 @@ class RequestProxy:
             curr_proxy_list.append(proxy.__str__())
             #print "{0:<10}: {1}".format(field[0], field[1])
         #print "ALL: ", curr_proxy_list
+        return curr_proxy_list
+
+    def weebly_url_parser(self, web_url):
+        curr_proxy_list = []
+        content = requests.get(web_url).content
+        soup = BeautifulSoup(content, "html.parser")
+        table = soup.find("div", attrs={"class": "paragraph", 'style': "text-align:left;"}).find('font', attrs={'color' :'#33a27f'})
+
+        for row in [ x for x in table.contents if getattr(x, 'name', None) != 'br']:
+            proxy = "http://" + row
+            curr_proxy_list.append(proxy.__str__())
         return curr_proxy_list
 
     def generate_proxied_request(self, url, params={}, req_timeout=30):
