@@ -152,7 +152,6 @@ class RequestProxy:
          for row in table.find_all("span")[1:]:
              curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
  
-         print "ALL: ", curr_proxy_list
          return curr_proxy_list
 
     def generate_proxied_request(self, url, params={}, req_timeout=30):
