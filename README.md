@@ -25,6 +25,7 @@ The project code in this repository is crawling three different public proxy web
 * http://proxyfor.eu/geo.php
 * http://free-proxy-list.net
 * http://rebro.weebly.com/proxy-list.html
+* http://www.samair.ru/proxy/time-01.htm 
 
 After collecting the proxy data and filtering the slowest ones it is randomly selecting one of them to query the target url.
 The request timeout is configured at 30 seconds and if the proxy fails to return a response it is deleted from the application proxy list.
