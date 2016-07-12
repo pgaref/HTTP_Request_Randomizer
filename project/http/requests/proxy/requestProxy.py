@@ -22,6 +22,8 @@ class RequestProxy:
         self.proxy_list += self.proxyForEU_url_parser('http://proxyfor.eu/geo.php', 100.0)
         self.proxy_list += self.freeProxy_url_parser('http://free-proxy-list.net')
         self.proxy_list += self.weebly_url_parser('http://rebro.weebly.com/proxy-list.html')
+        self.proxy_list += self.samair_url_parser('http://www.samair.ru/proxy/time-01.htm')
+
 
     def get_proxy_list(self):
         return self.proxy_list
@@ -126,6 +128,32 @@ class RequestProxy:
             proxy = "http://" + row
             curr_proxy_list.append(proxy.__str__())
         return curr_proxy_list
+
+    def samair_url_parser(self, web_url, speed_in_KBs=100.0):
+         curr_proxy_list = []
+         content = requests.get(web_url).content
+         soup = BeautifulSoup(content, "html.parser")
+         # css provides the prot number so we reverse it
+         style = "http://www.samair.ru" + str(soup.find_all('link', attrs={'type':'text/css'})).split('\n')[1].split("\"")[1]
+         css = requests.get(style).content.split('\n')
+         css.pop()
+         ports = {}
+         for l in css:
+                 p = l.split(' ')
+                 key = p[0].split(':')[0][1:]
+                 value = p[1].split('\"')[1]
+                 ports[key] = value
+ 
+         table = soup.find("table", attrs={"id": "proxylist"})
+ 
+         # The first tr contains the field names.
+         headings = [th.get_text() for th in table.find("tr").find_all("th")]
+ 
+         for row in table.find_all("span")[1:]:
+             curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
+ 
+         print "ALL: ", curr_proxy_list
+         return curr_proxy_list
 
     def generate_proxied_request(self, url, params={}, req_timeout=30):
         #if len(self.proxy_list) < 2:
