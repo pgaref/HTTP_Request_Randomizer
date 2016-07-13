@@ -133,8 +133,11 @@ class RequestProxy:
          curr_proxy_list = []
          content = requests.get(web_url).content
          soup = BeautifulSoup(content, "html.parser")
-         # css provides the prot number so we reverse it
-         style = "http://www.samair.ru" + str(soup.find_all('link', attrs={'type':'text/css'})).split('\n')[1].split("\"")[1]
+         # css provides the port number so we reverse it
+         for href in soup.findAll('link'):
+             if '/styles/' in href.get('href'):
+                style = "http://www.samair.ru" + href.get('href')
+                break
          css = requests.get(style).content.split('\n')
          css.pop()
          ports = {}
@@ -164,6 +167,7 @@ class RequestProxy:
         request = None
         try:
             rand_proxy = random.choice(self.proxy_list)
+            print "Next proxy: " + str(rand_proxy)
             request = requests.get(test_url, proxies={"http": rand_proxy},
                                    headers=req_headers, timeout=req_timeout)
         except ConnectionError:
