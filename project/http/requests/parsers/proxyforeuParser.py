@@ -2,6 +2,8 @@ from project.http.requests.parsers.UrlParser import UrlParser
 import requests
 from bs4 import BeautifulSoup
 
+__author__ = 'pgaref'
+
 class proxyforeuParser(UrlParser):
 
     def __init__(self, web_url, bandwithdh=None):
@@ -28,7 +30,7 @@ class proxyforeuParser(UrlParser):
             for field in dataset:
                 # Discard slow proxies! Speed is in KB/s
                 if field[0] == 'Speed':
-                    if float(field[1]) < self.get_bandwidthLimit():
+                    if float(field[1]) < self.get_min_bandwidth():
                         proxy_straggler = True
                 if field[0] == 'IP':
                     proxy = proxy + field[1] + ':'
@@ -42,5 +44,5 @@ class proxyforeuParser(UrlParser):
         return curr_proxy_list
 
     def __str__(self):
-        return "ProxyForEU Parser of '{0}' with bandwidth limit at '{1}' KBs" \
-            .format(self.url, self.bandwidth_limit_in_KBs)
+        return "ProxyForEU Parser of '{0}' with required bandwidth: '{1}' KBs" \
+            .format(self.url, self.minimum_bandwidth_in_KBs)

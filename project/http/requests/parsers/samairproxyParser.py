@@ -2,6 +2,8 @@ from project.http.requests.parsers.UrlParser import UrlParser
 import requests
 from bs4 import BeautifulSoup
 
+__author__ = 'pgaref'
+
 class semairproxyParser(UrlParser):
 
     def __init__(self, web_url):
@@ -34,5 +36,5 @@ class semairproxyParser(UrlParser):
         return curr_proxy_list
 
     def __str__(self):
-        return "SemairProxy Parser of '{0}' with bandwidth limit at '{1}' KBs" \
-            .format(self.url, self.bandwidth_limit_in_KBs)
+        return "SemairProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \
+            .format(self.url, self.minimum_bandwidth_in_KBs)

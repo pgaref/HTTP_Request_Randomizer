@@ -1,5 +1,7 @@
 from project.http.requests.errors.ParserExceptions import ParserException
 
+__author__ = 'pgaref'
+
 class UrlParser(object):
     """
         An abstract class representing any URL containing Proxy information
@@ -7,29 +9,29 @@ class UrlParser(object):
 
     Attributes:
         site url (hhtp)
-        bandwidth_limit_in_KBs (to remobe straggling proxies when provided by the url)
+        minimum_bandwidth_in_KBs (to avoid straggling proxies when having the extra info from proxy provider)
     """
 
-    def __init__(self, web_url, limitinKBs=None):
+    def __init__(self, web_url, bandwidthKBs=None):
         self.url = web_url
-        if limitinKBs is not None:
-            self.bandwidth_limit_in_KBs=limitinKBs
+        if bandwidthKBs is not None:
+            self.minimum_bandwidth_in_KBs=bandwidthKBs
         else:
-            self.bandwidth_limit_in_KBs=150
+            self.minimum_bandwidth_in_KBs=150
 
     def get_URl(self):
         if self.url is None:
             raise ParserException("webURL is NONE")
         return self.url
 
-    def get_bandwidthLimit(self):
-        if self.bandwidth_limit_in_KBs <- 0:
-            raise ParserException("invalid bandwidth limit {0} ".format(self.bandwidth_limit_in_KBs))
-        return self.bandwidth_limit_in_KBs
+    def get_min_bandwidth(self):
+        if self.minimum_bandwidth_in_KBs < 0:
+            raise ParserException("invalid minimum bandwidth limit {0} ".format(self.minimum_bandwidth_in_KBs))
+        return self.minimum_bandwidth_in_KBs
 
     def parse_proxyList(self):
         raise ParserException(" abstract method should be implemented by each subclass")
 
     def __str__(self):
-        return "URL Parser of '{0}' with bandwidth limit at '{1}' KBs"\
-            .format(self.url, self.bandwidth_limit_in_KBs)
+        return "URL Parser of '{0}' with required bandwidth: '{1}' KBs"\
+            .format(self.url, self.minimum_bandwidth_in_KBs)

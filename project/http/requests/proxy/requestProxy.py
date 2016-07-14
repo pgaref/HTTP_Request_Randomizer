@@ -2,26 +2,22 @@ from project.http.requests.parsers.freeproxyParser import freeproxyParser
 from project.http.requests.parsers.proxyforeuParser import proxyforeuParser
 from project.http.requests.parsers.rebroweeblyParser import rebroweeblyParser
 from project.http.requests.parsers.samairproxyParser import semairproxyParser
-
-__author__ = 'pgaref'
-
 import requests
 from requests.exceptions import ConnectionError
 import random
-import os
 import time
-from bs4 import BeautifulSoup
 from requests.exceptions import ReadTimeout
 
+__author__ = 'pgaref'
 
 class RequestProxy:
     agent_file = '../data/user_agents.txt'
 
     def __init__(self, web_proxy_list=[]):
         self.useragents = self.load_user_agents(RequestProxy.agent_file)
+
         #####
         # Each of the classes below implements a specific URL Parser
-        # http://<USERNAME>:<PASSWORD>@<IP-ADDR>:<PORT>
         #####
         parsers = []
         parsers.append(freeproxyParser('http://free-proxy-list.net'))
@@ -83,16 +79,16 @@ class RequestProxy:
         request = None
         try:
             rand_proxy = random.choice(self.proxy_list)
-            print "Using proxy: " + str(rand_proxy)
+            print "Using proxy: {0}".format(str(rand_proxy))
             request = requests.get(test_url, proxies={"http": rand_proxy},
                                    headers=req_headers, timeout=req_timeout)
         except ConnectionError:
             self.proxy_list.remove(rand_proxy)
-            print "Proxy unreachable - Removed Straggling proxy :", rand_proxy, " PL Size = ",len(self.proxy_list)
+            print "Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy, len(self.proxy_list))
             pass
         except ReadTimeout:
             self.proxy_list.remove(rand_proxy)
-            print "Read timed out - Removed Straggling proxy :", rand_proxy, " PL Size = ", len(self.proxy_list)
+            print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy, len(self.proxy_list))
             pass
         return request
 
@@ -100,7 +96,7 @@ if __name__ == '__main__':
 
     start = time.time()
     req_proxy = RequestProxy()
-    print "Initialization took: ", (time.time()-start)
+    print "Initialization took: {0} sec".format((time.time()-start))
     print "Size : ", len(req_proxy.get_proxy_list())
     print " ALL = ", req_proxy.get_proxy_list()
 
@@ -109,7 +105,7 @@ if __name__ == '__main__':
     while True:
         start = time.time()
         request = req_proxy.generate_proxied_request(test_url)
-        print "Proxied Request Took: ", (time.time()-start), " => Status: ", request.__str__()
+        print "Proxied Request Took: {0} sec => Status: {1}".format((time.time()-start), request.__str__())
         print "Proxy List Size: ", len(req_proxy.get_proxy_list())
 
         print"-> Going to sleep.."

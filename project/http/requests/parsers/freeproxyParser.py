@@ -2,6 +2,7 @@ from project.http.requests.parsers.UrlParser import UrlParser
 import requests
 from bs4 import BeautifulSoup
 
+__author__ = 'pgaref'
 
 class freeproxyParser(UrlParser):
 
@@ -36,6 +37,6 @@ class freeproxyParser(UrlParser):
         return curr_proxy_list
 
     def __str__(self):
-        return "FreeProxy Parser of '{0}' with bandwidth limit at '{1}' KBs" \
-            .format(self.url, self.bandwidth_limit_in_KBs)
+        return "FreeProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \
+            .format(self.url, self.minimum_bandwidth_in_KBs)
 
