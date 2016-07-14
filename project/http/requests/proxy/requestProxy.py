@@ -1,3 +1,8 @@
+from project.http.requests.parsers.freeproxyParser import freeproxyParser
+from project.http.requests.parsers.proxyforeuParser import proxyforeuParser
+from project.http.requests.parsers.rebroweeblyParser import rebroweeblyParser
+from project.http.requests.parsers.samairproxyParser import semairproxyParser
+
 __author__ = 'pgaref'
 
 import requests
@@ -15,14 +20,24 @@ class RequestProxy:
     def __init__(self, web_proxy_list=[]):
         self.useragents = self.load_user_agents(RequestProxy.agent_file)
         #####
-        # Proxy format:
+        # Each of the classes below implements a specific URL Parser
         # http://<USERNAME>:<PASSWORD>@<IP-ADDR>:<PORT>
         #####
+        parsers = []
+        parsers.append(freeproxyParser('http://free-proxy-list.net'))
+        parsers.append(proxyforeuParser('http://proxyfor.eu/geo.php', 100.0))
+        parsers.append(rebroweeblyParser('http://rebro.weebly.com/proxy-list.html'))
+        parsers.append(semairproxyParser('http://www.samair.ru/proxy/time-01.htm'))
+
+        print "=== Initialized Proxy Parsers ==="
+        for i in range(len(parsers)):
+            print "\t {0}".format(parsers[i].__str__())
+        print "================================="
+
+        self.parsers = parsers
         self.proxy_list = web_proxy_list
-        self.proxy_list += self.proxyForEU_url_parser('http://proxyfor.eu/geo.php', 100.0)
-        self.proxy_list += self.freeProxy_url_parser('http://free-proxy-list.net')
-        self.proxy_list += self.weebly_url_parser('http://rebro.weebly.com/proxy-list.html')
-        self.proxy_list += self.samair_url_parser('http://www.samair.ru/proxy/time-01.htm')
+        for i in range(len(parsers)):
+            self.proxy_list += parsers[i].parse_proxyList()
 
 
     def get_proxy_list(self):
@@ -57,117 +72,18 @@ class RequestProxy:
         }  # select a random user agent
         return headers
 
-    def proxyForEU_url_parser(self, web_url, speed_in_KBs=100.0):
-        curr_proxy_list = []
-        content = requests.get(web_url).content
-        soup = BeautifulSoup(content, "html.parser")
-        table = soup.find("table", attrs={"class": "proxy_list"})
-
-        # The first tr contains the field names.
-        headings = [th.get_text() for th in table.find("tr").find_all("th")]
-
-        datasets = []
-        for row in table.find_all("tr")[1:]:
-            dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
-            datasets.append(dataset)
-
-        for dataset in datasets:
-            # Check Field[0] for tags and field[1] for values!
-            proxy = "http://"
-            proxy_straggler  = False
-            for field in dataset:
-                # Discard slow proxies! Speed is in KB/s
-                if field[0] == 'Speed':
-                    if float(field[1]) < speed_in_KBs:
-                        proxy_straggler = True
-                if field[0] == 'IP':
-                    proxy = proxy+field[1]+':'
-                elif field[0] == 'Port':
-                    proxy = proxy+field[1]
-            # Avoid Straggler proxies
-            if not proxy_straggler:
-                curr_proxy_list.append(proxy.__str__())
-            #print "{0:<10}: {1}".format(field[0], field[1])
-        #print "ALL: ", curr_proxy_list
-        return curr_proxy_list
-
-    def freeProxy_url_parser(self, web_url):
-        curr_proxy_list = []
-        content = requests.get(web_url).content
-        soup = BeautifulSoup(content, "html.parser")
-        table = soup.find("table", attrs={"class": "display fpltable"})
-
-        # The first tr contains the field names.
-        headings = [th.get_text() for th in table.find("tr").find_all("th")]
-
-        datasets = []
-        for row in table.find_all("tr")[1:]:
-            dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
-            datasets.append(dataset)
-
-        for dataset in datasets:
-            # Check Field[0] for tags and field[1] for values!
-            proxy = "http://"
-            for field in dataset:
-                if field[0] == 'IP Address':
-                    proxy = proxy+field[1]+':'
-                elif field[0] == 'Port':
-                    proxy = proxy+field[1]
-            curr_proxy_list.append(proxy.__str__())
-            #print "{0:<10}: {1}".format(field[0], field[1])
-        #print "ALL: ", curr_proxy_list
-        return curr_proxy_list
-
-    def weebly_url_parser(self, web_url):
-        curr_proxy_list = []
-        content = requests.get(web_url).content
-        soup = BeautifulSoup(content, "html.parser")
-        table = soup.find("div", attrs={"class": "paragraph", 'style': "text-align:left;"}).find('font', attrs={'color' :'#33a27f'})
-
-        for row in [ x for x in table.contents if getattr(x, 'name', None) != 'br']:
-            proxy = "http://" + row
-            curr_proxy_list.append(proxy.__str__())
-        return curr_proxy_list
-
-    def samair_url_parser(self, web_url, speed_in_KBs=100.0):
-         curr_proxy_list = []
-         content = requests.get(web_url).content
-         soup = BeautifulSoup(content, "html.parser")
-         # css provides the port number so we reverse it
-         for href in soup.findAll('link'):
-             if '/styles/' in href.get('href'):
-                style = "http://www.samair.ru" + href.get('href')
-                break
-         css = requests.get(style).content.split('\n')
-         css.pop()
-         ports = {}
-         for l in css:
-                 p = l.split(' ')
-                 key = p[0].split(':')[0][1:]
-                 value = p[1].split('\"')[1]
-                 ports[key] = value
- 
-         table = soup.find("table", attrs={"id": "proxylist"})
- 
-         # The first tr contains the field names.
-         headings = [th.get_text() for th in table.find("tr").find_all("th")]
- 
-         for row in table.find_all("span")[1:]:
-             curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
- 
-         return curr_proxy_list
-
+    #####
+    # Proxy format:
+    # http://<USERNAME>:<PASSWORD>@<IP-ADDR>:<PORT>
+    #####
     def generate_proxied_request(self, url, params={}, req_timeout=30):
-        #if len(self.proxy_list) < 2:
-        #    self.proxy_list += self.proxyForEU_url_parser('http://proxyfor.eu/geo.php')
-
         random.shuffle(self.proxy_list)
         req_headers = dict(params.items() + self.generate_random_request_headers().items())
 
         request = None
         try:
             rand_proxy = random.choice(self.proxy_list)
-            print "Next proxy: " + str(rand_proxy)
+            print "Using proxy: " + str(rand_proxy)
             request = requests.get(test_url, proxies={"http": rand_proxy},
                                    headers=req_headers, timeout=req_timeout)
         except ConnectionError:
