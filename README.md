@@ -38,3 +38,7 @@ Contributions are always welcome! Feel free to send a pull request.
 ## Faced an issue?
 
 Open an issue [here](https://github.com/pgaref/HTTP_Request_Randomizer/issues), and be as detailed as possible :)
+
+## License
+
+This project is licensed under the terms of the MIT license.
