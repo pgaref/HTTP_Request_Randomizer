@@ -1,8 +1,11 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath('../../../../'))
 from project.http.requests.parsers.freeproxyParser import freeproxyParser
 from project.http.requests.parsers.proxyforeuParser import proxyforeuParser
 from project.http.requests.parsers.rebroweeblyParser import rebroweeblyParser
 from project.http.requests.parsers.samairproxyParser import semairproxyParser
-from project.http.requests.useragent.userAgent import userAgent
+from project.http.requests.useragent.userAgent import UserAgent
 import requests
 from requests.exceptions import ConnectionError
 import random
@@ -14,7 +17,7 @@ __author__ = 'pgaref'
 class RequestProxy:
 
     def __init__(self, web_proxy_list=[]):
-        self.userAgent = userAgent()
+        self.userAgent = UserAgent()
 
         #####
         # Each of the classes below implements a specific URL Parser
@@ -42,7 +45,7 @@ class RequestProxy:
     def generate_random_request_headers(self):
         headers = {
             "Connection": "close",  # another way to cover tracks
-            "User-Agent": self.userAgent.get_random_user_agent()
+            "User-Agent": self.userAgent.random_user_agent()
         }  # select a random user agent
         return headers
 
