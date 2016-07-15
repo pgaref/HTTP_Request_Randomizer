@@ -1,9 +1,9 @@
 import random
 
-class UserAgent:
+class UserAgentManager:
 
-    def __init__(self, web_proxy_list=[]):
-        self.agent_file = '../data/user_agents.txt'
+    def __init__(self, agent_file = '../data/user_agents.txt'):
+        self.agent_file = agent_file
         self.useragents = self.load_user_agents(self.agent_file)
 
     def load_user_agents(self, useragentsfile):
@@ -18,7 +18,7 @@ class UserAgent:
                     useragents.append(ua.strip()[1:-1-1])
         return useragents
 
-    def random_user_agent(self):
+    def get_random_user_agent(self):
         """
         useragents : string array of different user agents
         :param useragents:
@@ -39,10 +39,10 @@ class UserAgent:
 
 if __name__ == '__main__':
 
-    ua = UserAgent()
+    ua = UserAgentManager()
     print "Number of User Agent headers: " + str(ua.len_user_agent) 
     print "First User Agent in file: " + ua.first_user_agent()
     print "Last User Agent in file: " + ua.last_user_agent()
     print "If you want one random header for a request, you may use the following header:\n"
-    print "User-Agent: " + ua.random_user_agent() + "\n"
+    print "User-Agent: " + ua.get_random_user_agent() + "\n"
 
