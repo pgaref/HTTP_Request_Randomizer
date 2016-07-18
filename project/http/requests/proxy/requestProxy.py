@@ -1,7 +1,11 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath('../../../../'))
 from project.http.requests.parsers.freeproxyParser import freeproxyParser
 from project.http.requests.parsers.proxyforeuParser import proxyforeuParser
 from project.http.requests.parsers.rebroweeblyParser import rebroweeblyParser
 from project.http.requests.parsers.samairproxyParser import semairproxyParser
+from project.http.requests.useragent.userAgent import UserAgentManager
 import requests
 from requests.exceptions import ConnectionError
 import random
@@ -11,10 +15,9 @@ from requests.exceptions import ReadTimeout
 __author__ = 'pgaref'
 
 class RequestProxy:
-    agent_file = '../data/user_agents.txt'
 
     def __init__(self, web_proxy_list=[]):
-        self.useragents = self.load_user_agents(RequestProxy.agent_file)
+        self.userAgent = UserAgentManager()
 
         #####
         # Each of the classes below implements a specific URL Parser
@@ -39,32 +42,10 @@ class RequestProxy:
     def get_proxy_list(self):
         return self.proxy_list
 
-    def load_user_agents(self, useragentsfile):
-        """
-        useragentfile : string
-            path to text file of user agents, one per line
-        """
-        useragents = []
-        with open(useragentsfile, 'rb') as uaf:
-            for ua in uaf.readlines():
-                if ua:
-                    useragents.append(ua.strip()[1:-1-1])
-        random.shuffle(useragents)
-        return useragents
-
-    def get_random_user_agent(self):
-        """
-        useragents : string array of different user agents
-        :param useragents:
-        :return random agent:
-        """
-        user_agent = random.choice(self.useragents)
-        return user_agent
-
     def generate_random_request_headers(self):
         headers = {
             "Connection": "close",  # another way to cover tracks
-            "User-Agent": self.get_random_user_agent()
+            "User-Agent": self.userAgent.get_random_user_agent()
         }  # select a random user agent
         return headers
 
