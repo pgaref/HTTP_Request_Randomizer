@@ -27,22 +27,22 @@ class UserAgentManager:
         user_agent = random.choice(self.useragents)
         return user_agent
 
-    def first_user_agent(self):
+    def get_first_user_agent(self):
         return self.useragents[0]
 
-    def last_user_agent(self):
+    def get_last_user_agent(self):
         return self.useragents[-1]
 
-    def len_user_agent(self):
+    def get_len_user_agent(self):
         return len(self.useragents)
 
 
 if __name__ == '__main__':
 
     ua = UserAgentManager()
-    print "Number of User Agent headers: " + str(ua.len_user_agent) 
-    print "First User Agent in file: " + ua.first_user_agent()
-    print "Last User Agent in file: " + ua.last_user_agent()
+    print "Number of User Agent headers: " + str(ua.get_len_user_agent) 
+    print "First User Agent in file: " + ua.get_first_user_agent()
+    print "Last User Agent in file: " + ua.get_last_user_agent()
     print "If you want one random header for a request, you may use the following header:\n"
     print "User-Agent: " + ua.get_random_user_agent() + "\n"
 
