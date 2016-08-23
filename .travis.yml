@@ -9,5 +9,6 @@ install:
 # command to run tests
 script:
   - python -m unittest discover
+  - coverage run --source=./project/tests test_parsers.py
 after_success:
   - codecov
