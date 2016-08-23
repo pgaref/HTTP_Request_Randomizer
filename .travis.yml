@@ -9,6 +9,5 @@ install:
 # command to run tests
 script:
   - python -m unittest discover
-  - py.test project/tests/test_parsers.py --cov=codecov
 after_success:
-  - codecov
+  - codecov -t aa66f472-ab97-42cd-b8a4-1a37d9803db9
