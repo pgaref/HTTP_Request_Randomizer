@@ -1,4 +1,4 @@
-# HTTP Request Randomizer in Python  [![Build Status](https://travis-ci.org/pgaref/HTTP_Request_Randomizer.svg?branch=master)](https://travis-ci.org/sammous/stratagem)
+# HTTP Request Randomizer in Python  [![Build Status](https://travis-ci.org/pgaref/HTTP_Request_Randomizer.svg?branch=master)](https://travis-ci.org/pgaref/HTTP_Request_Randomizer)
 
 A convenient way to implement HTTP requests is using Pythons' **requests** library.
 One of requests’ most popular features is simple proxying support.
