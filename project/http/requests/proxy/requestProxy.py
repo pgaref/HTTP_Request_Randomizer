@@ -61,7 +61,7 @@ class RequestProxy:
         try:
             rand_proxy = random.choice(self.proxy_list)
             print "Using proxy: {0}".format(str(rand_proxy))
-            request = requests.get(test_url, proxies={"http": rand_proxy},
+            request = requests.get(url, proxies={"http": rand_proxy},
                                    headers=req_headers, timeout=req_timeout)
         except ConnectionError:
             self.proxy_list.remove(rand_proxy)
