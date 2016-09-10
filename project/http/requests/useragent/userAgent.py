@@ -1,8 +1,9 @@
 import random
+import os
 
 class UserAgentManager:
 
-    def __init__(self, agent_file = '../data/user_agents.txt'):
+    def __init__(self, agent_file = os.path.join(os.path.dirname(__file__), '../data/user_agents.txt')):
         self.agent_file = agent_file
         self.useragents = self.load_user_agents(self.agent_file)
 
