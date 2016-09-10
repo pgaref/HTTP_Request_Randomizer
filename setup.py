@@ -8,5 +8,5 @@ setup(name='http-request-randomizer',
       author_email='pangaref@gmail.com',
       license='MIT',
       packages=find_packages(exclude=['tests']),
-      install_requires=["requests", "psutil", "httmock", "python-dateutil", "schedule"],
+      install_requires=["requests", "bs4", "psutil", "httmock", "python-dateutil", "schedule"],
       zip_safe=False)
