@@ -64,10 +64,16 @@ class RequestProxy:
                                    headers=req_headers, timeout=req_timeout)
             return request
         except ConnectionError:
-            self.proxy_list.remove(rand_proxy)
+            try:
+                self.proxy_list.remove(rand_proxy)
+            except ValueError:
+                pass
             print "Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy, len(self.proxy_list))
         except ReadTimeout:
-            self.proxy_list.remove(rand_proxy)
+            try:
+                self.proxy_list.remove(rand_proxy)
+            except ValueError:
+                pass
             print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy, len(self.proxy_list))
 
 if __name__ == '__main__':
