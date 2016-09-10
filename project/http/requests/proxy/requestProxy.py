@@ -54,15 +54,15 @@ class RequestProxy:
     # http://<USERNAME>:<PASSWORD>@<IP-ADDR>:<PORT>
     #####
     def generate_proxied_request(self, url, params={}, req_timeout=30):
-        random.shuffle(self.proxy_list)
-        req_headers = dict(params.items() + self.generate_random_request_headers().items())
-
-        request = None
         try:
+            random.shuffle(self.proxy_list)
+            req_headers = dict(params.items() + self.generate_random_request_headers().items())
+
             rand_proxy = random.choice(self.proxy_list)
             print "Using proxy: {0}".format(str(rand_proxy))
             request = requests.get(url, proxies={"http": rand_proxy},
                                    headers=req_headers, timeout=req_timeout)
+            return request
         except ConnectionError:
             self.proxy_list.remove(rand_proxy)
             print "Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy, len(self.proxy_list))
@@ -71,7 +71,6 @@ class RequestProxy:
             self.proxy_list.remove(rand_proxy)
             print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy, len(self.proxy_list))
             pass
-        return request
 
 if __name__ == '__main__':
 
