@@ -2,6 +2,7 @@ from project.http.requests.errors.ParserExceptions import ParserException
 
 __author__ = 'pgaref'
 
+
 class UrlParser(object):
     """
         An abstract class representing any URL containing Proxy information
@@ -15,9 +16,9 @@ class UrlParser(object):
     def __init__(self, web_url, bandwidthKBs=None):
         self.url = web_url
         if bandwidthKBs is not None:
-            self.minimum_bandwidth_in_KBs=bandwidthKBs
+            self.minimum_bandwidth_in_KBs = bandwidthKBs
         else:
-            self.minimum_bandwidth_in_KBs=150
+            self.minimum_bandwidth_in_KBs = 150
 
     def get_URl(self):
         if self.url is None:
@@ -33,5 +34,5 @@ class UrlParser(object):
         raise ParserException(" abstract method should be implemented by each subclass")
 
     def __str__(self):
-        return "URL Parser of '{0}' with required bandwidth: '{1}' KBs"\
+        return "URL Parser of '{0}' with required bandwidth: '{1}' KBs" \
             .format(self.url, self.minimum_bandwidth_in_KBs)

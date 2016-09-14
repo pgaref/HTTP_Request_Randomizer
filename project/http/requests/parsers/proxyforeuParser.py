@@ -1,11 +1,12 @@
-from project.http.requests.parsers.UrlParser import UrlParser
 import requests
 from bs4 import BeautifulSoup
 
+from project.http.requests.parsers.UrlParser import UrlParser
+
 __author__ = 'pgaref'
 
-class proxyforeuParser(UrlParser):
 
+class proxyforeuParser(UrlParser):
     def __init__(self, web_url, bandwithdh=None):
         UrlParser.__init__(self, web_url, bandwithdh)
 

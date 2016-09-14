@@ -1,11 +1,11 @@
 import unittest
+
 from project.http.requests.parsers.UrlParser import UrlParser
 
 __author__ = 'pgaref'
 
 
 class testBaseParser(unittest.TestCase):
-
     def setUp(self):
         self.normal_parser = UrlParser("http://proxy-test.com", bandwidthKBs=50)
         self.no_bdwidthParser = UrlParser("http://slow-proxy.com")

@@ -1,5 +1,6 @@
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.abspath('../../../../'))
 from project.http.requests.parsers.freeproxyParser import freeproxyParser
 from project.http.requests.parsers.proxyforeuParser import proxyforeuParser
@@ -14,8 +15,8 @@ from requests.exceptions import ReadTimeout
 
 __author__ = 'pgaref'
 
-class RequestProxy:
 
+class RequestProxy:
     def __init__(self, web_proxy_list=[]):
         self.userAgent = UserAgentManager()
 
@@ -37,7 +38,6 @@ class RequestProxy:
         self.proxy_list = web_proxy_list
         for i in range(len(parsers)):
             self.proxy_list += parsers[i].parse_proxyList()
-
 
     def get_proxy_list(self):
         return self.proxy_list
@@ -68,28 +68,33 @@ class RequestProxy:
                 self.proxy_list.remove(rand_proxy)
             except ValueError:
                 pass
-            print "Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy, len(self.proxy_list))
+            print "Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy,
+                                                                                           len(self.proxy_list))
         except ReadTimeout:
             try:
                 self.proxy_list.remove(rand_proxy)
             except ValueError:
                 pass
-            print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy, len(self.proxy_list))
+            print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy,
+                                                                                        len(self.proxy_list))
+
 
 if __name__ == '__main__':
 
     start = time.time()
     req_proxy = RequestProxy()
-    print "Initialization took: {0} sec".format((time.time()-start))
+    print "Initialization took: {0} sec".format((time.time() - start))
     print "Size : ", len(req_proxy.get_proxy_list())
     print " ALL = ", req_proxy.get_proxy_list()
 
-    test_url = 'http://localhost:8888'
+    test_url = 'http://icanhazip.com'
 
     while True:
         start = time.time()
         request = req_proxy.generate_proxied_request(test_url)
-        print "Proxied Request Took: {0} sec => Status: {1}".format((time.time()-start), request.__str__())
+        print "Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__())
+        if request is not None:
+            print "\t Response: ip={0}".format(request.text)
         print "Proxy List Size: ", len(req_proxy.get_proxy_list())
 
         print"-> Going to sleep.."
