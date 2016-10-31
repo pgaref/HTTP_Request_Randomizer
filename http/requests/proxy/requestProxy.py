@@ -60,6 +60,9 @@ class RequestProxy:
             req_headers = dict(params.items() + self.generate_random_request_headers().items())
 
             rand_proxy = random.choice(self.proxy_list)
+            while not rand_proxy:
+                rand_proxy = random.choice(self.proxy_list)
+
             print "Using proxy: {0}".format(str(rand_proxy))
             request = requests.get(url, proxies={"http": rand_proxy},
                                    headers=req_headers, timeout=req_timeout)
