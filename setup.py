@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from glob import glob
 
 setup(name='HTTP_Request_Randomizer',
-      version='0.0.4',
+      version='0.0.5',
       description='A package using public proxies to randomise http requests.',
       url='https://pgaref.github.io/blog/python-proxy/',
       author='pgaref',
