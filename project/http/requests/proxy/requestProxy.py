@@ -9,6 +9,7 @@ from project.http.requests.parsers.samairproxyParser import semairproxyParser
 from project.http.requests.useragent.userAgent import UserAgentManager
 import requests
 from requests.exceptions import ConnectionError
+from requests.exceptions import ChunkedEncodingError
 import random
 import time
 from requests.exceptions import ReadTimeout
@@ -76,6 +77,13 @@ class RequestProxy:
             except ValueError:
                 pass
             print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy,
+                                                                                        len(self.proxy_list))
+        except ChunkedEncodingError:
+            try:
+                self.proxy_list.remove(rand_proxy)
+            except ValueError:
+                pass
+            print "Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy,
                                                                                         len(self.proxy_list))
 
 
