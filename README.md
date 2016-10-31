@@ -31,6 +31,38 @@ After collecting the proxy data and filtering the slowest ones it is randomly se
 The request timeout is configured at 30 seconds and if the proxy fails to return a response it is deleted from the application proxy list.
 I have to mention that for each request a different agent header is used. The different headers are stored in the **/data/user_agents.txt** file which contains around 900 different agents.
 
+## How to use
+
+The project is now distribured as a PyPI package!
+To run an example simply include **http-request-randomizer==0.0.5** in your requirements.txt file.
+Then run the code below:
+
+````python
+import time
+from http.requests.proxy.requestProxy import RequestProxy
+
+if __name__ == '__main__':
+    print "Hello"
+    start = time.time()
+    req_proxy = RequestProxy()
+    print "Initialization took: {0} sec".format((time.time() - start))
+    print "Size : ", len(req_proxy.get_proxy_list())
+    print " ALL = ", req_proxy.get_proxy_list()
+
+    test_url = 'http://icanhazip.com'
+
+    while True:
+        start = time.time()
+        request = req_proxy.generate_proxied_request(test_url)
+        print "Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__())
+        if request is not None:
+            print "\t Response: ip={0}".format(request.text)
+        print "Proxy List Size: ", len(req_proxy.get_proxy_list())
+
+        print"-> Going to sleep.."
+        time.sleep(10)
+````
+
 ## Contributing
 
 Contributions are always welcome! Feel free to send a pull request.
