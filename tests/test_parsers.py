@@ -1,6 +1,6 @@
 import unittest
 
-from project.http.requests.parsers.UrlParser import UrlParser
+from http.requests.parsers.UrlParser import UrlParser
 
 __author__ = 'pgaref'
 

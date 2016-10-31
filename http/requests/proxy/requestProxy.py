@@ -2,11 +2,11 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath('../../../../'))
-from project.http.requests.parsers.freeproxyParser import freeproxyParser
-from project.http.requests.parsers.proxyforeuParser import proxyforeuParser
-from project.http.requests.parsers.rebroweeblyParser import rebroweeblyParser
-from project.http.requests.parsers.samairproxyParser import semairproxyParser
-from project.http.requests.useragent.userAgent import UserAgentManager
+from http.requests.parsers.freeproxyParser import freeproxyParser
+from http.requests.parsers.proxyforeuParser import proxyforeuParser
+from http.requests.parsers.rebroweeblyParser import rebroweeblyParser
+from http.requests.parsers.samairproxyParser import semairproxyParser
+from http.requests.useragent.userAgent import UserAgentManager
 import requests
 from requests.exceptions import ConnectionError
 from requests.exceptions import ChunkedEncodingError

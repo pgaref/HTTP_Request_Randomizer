@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from project.http.requests.parsers.UrlParser import UrlParser
+from http.requests.parsers.UrlParser import UrlParser
 
 __author__ = 'pgaref'
 

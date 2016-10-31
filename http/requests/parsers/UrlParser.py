@@ -1,4 +1,4 @@
-from project.http.requests.errors.ParserExceptions import ParserException
+from http.requests.errors.ParserExceptions import ParserException
 
 __author__ = 'pgaref'
 
