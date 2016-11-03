@@ -18,7 +18,7 @@ __author__ = 'pgaref'
 
 
 class RequestProxy:
-    def __init__(self, web_proxy_list=[], sustain=False):
+    def __init__(self, web_proxy_list=[], sustain=False, debug=True):
         self.userAgent = UserAgentManager()
 
         #####
@@ -35,6 +35,7 @@ class RequestProxy:
             print "\t {0}".format(parsers[i].__str__())
         print "================================="
 
+        self.debug = debug
         self.sustain = sustain
         self.parsers = parsers
         self.proxy_list = web_proxy_list
@@ -59,6 +60,10 @@ class RequestProxy:
         self.current_proxy = rand_proxy
         return rand_proxy
 
+    def printd(self, msg):
+        if self.debug:
+            print msg
+
     #####
     # Proxy format:
     # http://<USERNAME>:<PASSWORD>@<IP-ADDR>:<PORT>
@@ -71,7 +76,7 @@ class RequestProxy:
             if not self.sustain:
                 self.randomize_proxy()
 
-            print "Using proxy: {0}".format(str(self.current_proxy))
+            self.printd("Using proxy: {0}".format(str(self.current_proxy)))
             request = requests.request(method, url, proxies={"http": self.current_proxy},
                                    headers=headers.update(req_headers), data=data, params=params, timeout=req_timeout)
             return request
@@ -80,21 +85,21 @@ class RequestProxy:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list))
+            self.printd("Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
         except ReadTimeout:
             try:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list))
+            self.printd("Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
         except ChunkedEncodingError:
             try:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list))
+            self.printd("Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
 
 
