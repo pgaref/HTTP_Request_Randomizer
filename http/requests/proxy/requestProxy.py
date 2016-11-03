@@ -18,7 +18,7 @@ __author__ = 'pgaref'
 
 
 class RequestProxy:
-    def __init__(self, web_proxy_list=[]):
+    def __init__(self, web_proxy_list=[], sustain=False, debug=True):
         self.userAgent = UserAgentManager()
 
         #####
@@ -35,10 +35,13 @@ class RequestProxy:
             print "\t {0}".format(parsers[i].__str__())
         print "================================="
 
+        self.debug = debug
+        self.sustain = sustain
         self.parsers = parsers
         self.proxy_list = web_proxy_list
         for i in range(len(parsers)):
             self.proxy_list += parsers[i].parse_proxyList()
+        self.current_proxy = self.randomize_proxy()
 
     def get_proxy_list(self):
         return self.proxy_list
@@ -50,6 +53,17 @@ class RequestProxy:
         }  # select a random user agent
         return headers
 
+    def randomize_proxy(self):
+        rand_proxy = random.choice(self.proxy_list)
+        while not rand_proxy:
+            rand_proxy = random.choice(self.proxy_list)
+        self.current_proxy = rand_proxy
+        return rand_proxy
+
+    def printd(self, msg):
+        if self.debug:
+            print msg
+
     #####
     # Proxy format:
     # http://<USERNAME>:<PASSWORD>@<IP-ADDR>:<PORT>
@@ -59,35 +73,36 @@ class RequestProxy:
             random.shuffle(self.proxy_list)
             req_headers = dict(params.items() + self.generate_random_request_headers().items())
 
-            rand_proxy = random.choice(self.proxy_list)
-            while not rand_proxy:
-                rand_proxy = random.choice(self.proxy_list)
+            if not self.sustain:
+                self.randomize_proxy()
 
-            print "Using proxy: {0}".format(str(rand_proxy))
-            request = requests.request(method, url, proxies={"http": rand_proxy},
-                                   headers=headers.update(req_headers), data=data, params=params, timeout=req_timeout)
+            headers.update(req_headers)
+
+            self.printd("Using proxy: {0}".format(str(self.current_proxy)))
+            request = requests.request(method, url, proxies={"http": self.current_proxy},
+                                   headers=headers, data=data, params=params, timeout=req_timeout)
             return request
         except ConnectionError:
             try:
-                self.proxy_list.remove(rand_proxy)
+                self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy,
-                                                                                           len(self.proxy_list))
+            self.printd("Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
+            self.randomize_proxy()
         except ReadTimeout:
             try:
-                self.proxy_list.remove(rand_proxy)
+                self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy,
-                                                                                        len(self.proxy_list))
+            self.printd("Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
+            self.randomize_proxy()
         except ChunkedEncodingError:
             try:
-                self.proxy_list.remove(rand_proxy)
+                self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(rand_proxy,
-                                                                                        len(self.proxy_list))
+            self.printd("Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
+            self.randomize_proxy()
 
 
 if __name__ == '__main__':
