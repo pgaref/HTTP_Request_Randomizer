@@ -54,7 +54,7 @@ class RequestProxy:
     # Proxy format:
     # http://<USERNAME>:<PASSWORD>@<IP-ADDR>:<PORT>
     #####
-    def generate_proxied_request(self, url, params={}, req_timeout=30):
+    def generate_proxied_request(self, url, method="GET", params={}, data={}, headers={}, req_timeout=30):
         try:
             random.shuffle(self.proxy_list)
             req_headers = dict(params.items() + self.generate_random_request_headers().items())
@@ -64,8 +64,8 @@ class RequestProxy:
                 rand_proxy = random.choice(self.proxy_list)
 
             print "Using proxy: {0}".format(str(rand_proxy))
-            request = requests.get(url, proxies={"http": rand_proxy},
-                                   headers=req_headers, timeout=req_timeout)
+            request = requests.request(method, url, proxies={"http": rand_proxy},
+                                   headers=headers.update(req_headers), data=data, params=params, timeout=req_timeout)
             return request
         except ConnectionError:
             try:
