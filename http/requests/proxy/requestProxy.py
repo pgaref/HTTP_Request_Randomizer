@@ -71,9 +71,11 @@ class RequestProxy:
             if not self.sustain:
                 self.randomize_proxy()
 
+            headers.update(req_headers)
+
             print "Using proxy: {0}".format(str(self.current_proxy))
             request = requests.request(method, url, proxies={"http": self.current_proxy},
-                                   headers=headers.update(req_headers), data=data, params=params, timeout=req_timeout)
+                                   headers=headers, data=data, params=params, timeout=req_timeout)
             return request
         except ConnectionError:
             try:
