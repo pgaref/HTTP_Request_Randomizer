@@ -1,5 +1,6 @@
 import os
 import sys
+import logging
 
 sys.path.insert(0, os.path.abspath('../../../../'))
 from http.requests.parsers.freeproxyParser import freeproxyParser
@@ -16,10 +17,18 @@ from requests.exceptions import ReadTimeout
 
 __author__ = 'pgaref'
 
+#Push back requests library to at least warnings
+logging.getLogger("requests").setLevel(logging.WARNING)
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s %(name)-6s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
 
 class RequestProxy:
     def __init__(self, web_proxy_list=[], sustain=False):
         self.userAgent = UserAgentManager()
+        self.logger = logging.getLogger()
+        self.logger.addHandler(handler)
+        self.logger.setLevel(0)
 
         #####
         # Each of the classes below implements a specific URL Parser
@@ -30,10 +39,10 @@ class RequestProxy:
         parsers.append(rebroweeblyParser('http://rebro.weebly.com/proxy-list.html'))
         parsers.append(semairproxyParser('http://www.samair.ru/proxy/time-01.htm'))
 
-        print "=== Initialized Proxy Parsers ==="
+        self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
-            print "\t {0}".format(parsers[i].__str__())
-        print "================================="
+            self.logger.debug("\t {0}".format(parsers[i].__str__()))
+        self.logger.debug("=================================")
 
         self.sustain = sustain
         self.parsers = parsers
@@ -41,6 +50,9 @@ class RequestProxy:
         for i in range(len(parsers)):
             self.proxy_list += parsers[i].parse_proxyList()
         self.current_proxy = self.randomize_proxy()
+
+    def set_logger_level(self, level):
+        self.logger.setLevel(level)
 
     def get_proxy_list(self):
         return self.proxy_list
@@ -73,7 +85,7 @@ class RequestProxy:
 
             headers.update(req_headers)
 
-            print "Using proxy: {0}".format(str(self.current_proxy))
+            self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
             request = requests.request(method, url, proxies={"http": self.current_proxy},
                                    headers=headers, data=data, params=params, timeout=req_timeout)
             return request
@@ -82,21 +94,21 @@ class RequestProxy:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list))
+            self.logger.debug("Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
         except ReadTimeout:
             try:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list))
+            self.logger.debug("Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
         except ChunkedEncodingError:
             try:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            print "Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list))
+            self.logger.debug("Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
 
 
