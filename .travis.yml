@@ -10,4 +10,4 @@ install:
 script:
   - python -m unittest discover
 after_success:
-  - codecov -t aa66f472-ab97-42cd-b8a4-1a37d9803db9
+  - bash <(curl -s https://codecov.io/bash)
