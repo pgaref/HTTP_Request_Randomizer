@@ -1,3 +1,5 @@
+import re
+
 from http.requests.errors.ParserExceptions import ParserException
 
 __author__ = 'pgaref'
@@ -36,3 +38,21 @@ class UrlParser(object):
     def __str__(self):
         return "URL Parser of '{0}' with required bandwidth: '{1}' KBs" \
             .format(self.url, self.minimum_bandwidth_in_KBs)
+
+    @staticmethod
+    def valid_ip(address):
+        try:
+            host_bytes = address.split('.')
+            valid = [int(b) for b in host_bytes]
+            valid = [b for b in valid if b >= 0 and b <= 255]
+            return len(host_bytes) == 4 and len(valid) == 4
+        except:
+            return False
+
+    @staticmethod
+    def valid_ip_port(address):
+        match = re.findall(r'[0-9]+(?:\.[0-9]+){3}:[0-9]+', address)
+        # hostIP = re.compile("\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}")
+        if not match:
+            return False
+        return True
