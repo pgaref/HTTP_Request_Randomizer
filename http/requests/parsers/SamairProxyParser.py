@@ -1,12 +1,15 @@
+import logging
+
 import requests
 from bs4 import BeautifulSoup
 
 from http.requests.parsers.UrlParser import UrlParser
 
+logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
 
 
-class semairproxyParser(UrlParser):
+class SamairProxyParser(UrlParser):
     def __init__(self, web_url):
         UrlParser.__init__(self, web_url)
 
@@ -34,7 +37,11 @@ class semairproxyParser(UrlParser):
         for row in table.find_all("tr")[1:]:
             td_row = row.find("td")
             # curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
-            curr_proxy_list.append('http://' +td_row.text)
+            # Make sure it is a Valid Proxy Address
+            if UrlParser.valid_ip_port(td_row.text):
+                curr_proxy_list.append('http://' +td_row.text)
+            else:
+                logger.debug("Address with Invalid format: {}".format(td_row.text))
 
         return curr_proxy_list
 

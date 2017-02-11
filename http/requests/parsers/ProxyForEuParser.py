@@ -1,12 +1,15 @@
+import logging
+
 import requests
 from bs4 import BeautifulSoup
 
 from http.requests.parsers.UrlParser import UrlParser
 
+logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
 
 
-class proxyforeuParser(UrlParser):
+class ProxyForEuParser(UrlParser):
     def __init__(self, web_url, bandwithdh=None):
         UrlParser.__init__(self, web_url, bandwithdh)
 
@@ -26,7 +29,7 @@ class proxyforeuParser(UrlParser):
 
         for dataset in datasets:
             # Check Field[0] for tags and field[1] for values!
-            proxy = "http://"
+            address = ""
             proxy_straggler = False
             for field in dataset:
                 # Discard slow proxies! Speed is in KB/s
@@ -34,11 +37,17 @@ class proxyforeuParser(UrlParser):
                     if float(field[1]) < self.get_min_bandwidth():
                         proxy_straggler = True
                 if field[0] == 'IP':
-                    proxy = proxy + field[1] + ':'
+                    # Make sure it is a Valid IP
+                    if not UrlParser.valid_ip(field[1]):
+                        logger.debug("IP with Invalid format: {}".format(field[1]))
+                        break
+                    else:
+                        address += field[1] + ':'
                 elif field[0] == 'Port':
-                    proxy = proxy + field[1]
-            # Avoid Straggler proxies
-            if not proxy_straggler:
+                    address += field[1]
+            # Avoid Straggler proxies and make sure it is a Valid Proxy Address
+            if not proxy_straggler and UrlParser.valid_ip_port(address):
+                proxy = "http://" + address
                 curr_proxy_list.append(proxy.__str__())
                 # print "{0:<10}: {1}".format(field[0], field[1])
         # print "ALL: ", curr_proxy_list

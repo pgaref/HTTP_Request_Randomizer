@@ -1,27 +1,29 @@
-import os
-import sys
 import logging
-
-sys.path.insert(0, os.path.abspath('../../../../'))
-from http.requests.parsers.freeproxyParser import freeproxyParser
-from http.requests.parsers.proxyforeuParser import proxyforeuParser
-from http.requests.parsers.rebroweeblyParser import rebroweeblyParser
-from http.requests.parsers.samairproxyParser import semairproxyParser
-from http.requests.useragent.userAgent import UserAgentManager
-import requests
-from requests.exceptions import ConnectionError
-from requests.exceptions import ChunkedEncodingError
+import os
 import random
+import sys
 import time
+
+import requests
+from requests.exceptions import ChunkedEncodingError
+from requests.exceptions import ConnectionError
 from requests.exceptions import ReadTimeout
 
-__author__ = 'pgaref'
+from http.requests.parsers.FreeProxyParser import FreeProxyParser
+from http.requests.parsers.ProxyForEuParser import ProxyForEuParser
+from http.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
+from http.requests.parsers.SamairProxyParser import SamairProxyParser
+from http.requests.useragent.userAgent import UserAgentManager
 
-#Push back requests library to at least warnings
+__author__ = 'pgaref'
+sys.path.insert(0, os.path.abspath('../../../../'))
+
+# Push back requests library to at least warnings
 logging.getLogger("requests").setLevel(logging.WARNING)
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s %(name)-6s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
+
 
 class RequestProxy:
     def __init__(self, web_proxy_list=[], sustain=False):
@@ -33,11 +35,11 @@ class RequestProxy:
         #####
         # Each of the classes below implements a specific URL Parser
         #####
-        parsers = []
-        parsers.append(freeproxyParser('http://free-proxy-list.net'))
-        parsers.append(proxyforeuParser('http://proxyfor.eu/geo.php', 100.0))
-        parsers.append(rebroweeblyParser('http://rebro.weebly.com/proxy-list.html'))
-        parsers.append(semairproxyParser('http://www.samair.ru/proxy/time-01.htm'))
+        parsers = list([])
+        parsers.append(FreeProxyParser('http://free-proxy-list.net'))
+        parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0))
+        parsers.append(RebroWeeblyParser('http://rebro.weebly.com'))
+        # parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm'))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
@@ -87,28 +89,39 @@ class RequestProxy:
 
             self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
             request = requests.request(method, url, proxies={"http": self.current_proxy},
-                                   headers=headers, data=data, params=params, timeout=req_timeout)
+                                       headers=headers, data=data, params=params, timeout=req_timeout)
+            # Avoid HTTP request errors
+            if request.status_code == 409:
+                raise ConnectionError("HTTP Response [409] - Possible Cloudflare DNS resolution error")
+            elif request.status_code == 403:
+                raise ConnectionError("HTTP Response [403] - Permission denied error")
+            elif request.status_code == 503:
+                raise ConnectionError("HTTP Response [503] - Service unavailable error")
+            print 'RR Status {}'.format(request.status_code)
             return request
         except ConnectionError:
             try:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            self.logger.debug("Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
+            self.logger.debug("Proxy unreachable - Removed Straggling proxy: {0} PL Size = {1}".format(
+                self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
         except ReadTimeout:
             try:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            self.logger.debug("Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
+            self.logger.debug("Read timed out - Removed Straggling proxy: {0} PL Size = {1}".format(
+                self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
         except ChunkedEncodingError:
             try:
                 self.proxy_list.remove(self.current_proxy)
             except ValueError:
                 pass
-            self.logger.debug("Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(self.current_proxy, len(self.proxy_list)))
+            self.logger.debug("Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(
+                self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
 
 

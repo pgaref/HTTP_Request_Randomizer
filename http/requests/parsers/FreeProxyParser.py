@@ -1,12 +1,15 @@
+import logging
+
 import requests
 from bs4 import BeautifulSoup
 
 from http.requests.parsers.UrlParser import UrlParser
 
+logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
 
 
-class freeproxyParser(UrlParser):
+class FreeProxyParser(UrlParser):
     def __init__(self, web_url):
         UrlParser.__init__(self, web_url)
 
@@ -26,13 +29,23 @@ class freeproxyParser(UrlParser):
 
         for dataset in datasets:
             # Check Field[0] for tags and field[1] for values!
-            proxy = "http://"
+            address = ""
             for field in dataset:
                 if field[0] == 'IP Address':
-                    proxy = proxy + field[1] + ':'
+                    # Make sure it is a Valid IP
+                    if not UrlParser.valid_ip(field[1]):
+                        logger.debug("IP with Invalid format: {}".format(field[1]))
+                        break
+                    else:
+                        address += field[1] + ':'
                 elif field[0] == 'Port':
-                    proxy = proxy + field[1]
-            curr_proxy_list.append(proxy.__str__())
+                    address += field[1]
+            # Make sure it is a Valid Proxy Address
+            if UrlParser.valid_ip_port(address):
+                proxy = "http://" + address
+                curr_proxy_list.append(proxy.__str__())
+            else:
+                logger.debug("Address with Invalid format: {}".format(address))
             # print "{0:<10}: {1}".format(field[0], field[1])
         # print "ALL: ", curr_proxy_list
         return curr_proxy_list
