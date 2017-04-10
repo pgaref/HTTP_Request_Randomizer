@@ -58,9 +58,9 @@ setup(
                         "schedule>=0.4.2",
                         "pytest>=3.0.7",
                         "pytest-cov>=2.4.0"],
-      # setup_requires=[
-      #       'pytest-runner',
-      # ],
+      setup_requires=[
+            'pytest-runner',
+      ],
       tests_require=[
             'pytest',
             'pytest-cov'
