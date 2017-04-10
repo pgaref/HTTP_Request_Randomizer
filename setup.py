@@ -50,16 +50,16 @@ setup(
             'http.requests': ['data/*'],
       },
       platforms='any',
-      install_requires=["requests",
-                        "bs4",
-                        "psutil",
-                        "httmock",
-                        "python-dateutil",
-                        "schedule",
-                        "pytest"],
-      setup_requires=[
-            'pytest-runner',
-      ],
+      install_requires=["requests>=2.13.0",
+                        "beautifulsoup4>=4.5.3",
+                        "psutil>=5.1.3",
+                        "httmock>=1.2.6",
+                        "python-dateutil>=2.6.0",
+                        "schedule>=0.4.2",
+                        "pytest>=3.0.7"],
+      # setup_requires=[
+      #       'pytest-runner',
+      # ],
       tests_require=[
             'pytest',
             'pytest-cov'
