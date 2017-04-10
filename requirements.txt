@@ -4,4 +4,5 @@ httmock == 1.2.6
 python-dateutil == 2.6.0
 beautifulsoup4 == 4.5.3
 pytest == 3.0.7
+pytest-cov == 2.4.0
 schedule == 0.4.2

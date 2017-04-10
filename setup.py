@@ -56,7 +56,8 @@ setup(
                         "httmock>=1.2.6",
                         "python-dateutil>=2.6.0",
                         "schedule>=0.4.2",
-                        "pytest>=3.0.7"],
+                        "pytest>=3.0.7",
+                        "pytest-cov>=2.4.0"],
       # setup_requires=[
       #       'pytest-runner',
       # ],
