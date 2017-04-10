@@ -8,6 +8,6 @@ install:
     - "pip install coverage"
     - "pip install coveralls"
 script:
-    - "coverage run --source=HTTP_Request_Randomizer setup.py test"
+    - "coverage run --source=http setup.py test"
 after_success:
     coveralls
