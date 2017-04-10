@@ -29,9 +29,9 @@ class TestProxyProviders(unittest.TestCase):
         proxy_provider = RebroWeeblyParser('http://rebro.weebly.com')
         proxy_provider.parse_proxyList()
 
-    def test_SemairProxyParser(self):
-        proxy_provider = SamairProxyParser('http://www.samair.ru/proxy/time-01.htm')
-        proxy_provider.parse_proxyList()
+    # def test_SemairProxyParser(self):
+    #     proxy_provider = SamairProxyParser('http://www.samair.ru/proxy/time-01.htm')
+    #     proxy_provider.parse_proxyList()
 
 
 if __name__ == '__main__':

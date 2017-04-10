@@ -56,10 +56,7 @@ setup(
                         "httmock",
                         "python-dateutil",
                         "schedule",
-                        "flask == 0.12",
-                        "pytest",
-                        "Werkzeug",
-                        "apscheduler == 2.1.2"],
+                        "pytest"],
       setup_requires=[
             'pytest-runner',
       ],
