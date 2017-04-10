@@ -1,18 +1,71 @@
+"""Setup script for HTTP_Request_Randomizer."""
 from setuptools import setup, find_packages
-from glob import glob
+from setuptools.command.test import test as TestCommand
+import codecs
+import sys
+import os
 
-setup(name='HTTP_Request_Randomizer',
+HERE = os.path.abspath(os.path.dirname(__file__))
+
+
+def read(*parts):
+    """Return multiple read calls to different readable objects as a single
+    string."""
+    # intentionally *not* adding an encoding option to open
+    return codecs.open(os.path.join(HERE, *parts), 'r').read()
+
+LONG_DESCRIPTION = read('README.md')
+
+
+class PyTest(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = [
+            '--strict',
+            '--verbose',
+            '--tb=long',
+            'tests']
+        self.test_suite = True
+
+    def run_tests(self):
+        import pytest
+        errno = pytest.main(self.test_args)
+        sys.exit(errno)
+
+setup(
+      name='HTTP_Request_Randomizer',
       version='0.0.5',
-      description='A package using public proxies to randomise http requests.',
-      url='https://pgaref.github.io/blog/python-proxy/',
-      author='pgaref',
-      author_email='pangaref@gmail.com',
+      url='http://github.com/pgaref/HTTP_Request_Randomizer',
       license='MIT',
+      author='Panagiotis Garefalakis',
+      author_email='pangaref@gmail.com',
+      description='A package using public proxies to randomise http requests.',
+      long_description=LONG_DESCRIPTION,
       packages=find_packages(exclude=['tests']),
+      cmdclass={'test': PyTest},
+      test_suite='tests.test_parsers',
+      include_package_data=True,
       package_data={
             # Include agents.txt files
             'http.requests': ['data/*'],
       },
-      include_package_data=True,
-      install_requires=["requests", "bs4", "psutil", "httmock", "python-dateutil", "schedule"],
-      zip_safe=False)
+      platforms='any',
+      install_requires=["requests",
+                        "bs4",
+                        "psutil",
+                        "httmock",
+                        "python-dateutil",
+                        "schedule",
+                        "flask == 0.12",
+                        "pytest",
+                        "Werkzeug",
+                        "apscheduler == 2.1.2"],
+      setup_requires=[
+            'pytest-runner',
+      ],
+      tests_require=[
+            'pytest',
+            'pytest-cov'
+      ],
+      zip_safe=False
+)

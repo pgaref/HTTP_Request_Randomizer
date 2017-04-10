@@ -9,6 +9,7 @@ from requests.exceptions import ChunkedEncodingError
 from requests.exceptions import ConnectionError
 from requests.exceptions import ReadTimeout
 
+from http.requests.errors.ProxyListException import ProxyListException
 from http.requests.parsers.FreeProxyParser import FreeProxyParser
 from http.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
@@ -67,6 +68,8 @@ class RequestProxy:
         return headers
 
     def randomize_proxy(self):
+        if len(self.proxy_list) == 0:
+            raise ProxyListException("list is empty")
         rand_proxy = random.choice(self.proxy_list)
         while not rand_proxy:
             rand_proxy = random.choice(self.proxy_list)
