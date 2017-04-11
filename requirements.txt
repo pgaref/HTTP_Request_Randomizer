@@ -1,8 +1,9 @@
-requests == 2.13.0
-psutil == 5.1.3
-httmock == 1.2.6
-python-dateutil == 2.6.0
 beautifulsoup4 == 4.5.3
+coverage == 4.3.4
+httmock == 1.2.6
+psutil == 5.1.3
 pytest == 3.0.7
 pytest-cov == 2.4.0
+python-dateutil == 2.6.0
+requests == 2.13.0
 schedule == 0.4.2

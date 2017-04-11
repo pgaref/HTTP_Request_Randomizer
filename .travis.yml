@@ -1,13 +1,21 @@
 language: python
 python:
-  - 2.7
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
 sudo: false
+before_install:
+  - python --version
+  - uname -a
+  - lsb_release -a
 # command to install dependencies
 install:
     - "pip install -r requirements.txt"
     - "pip install coverage"
     - "pip install coveralls"
 script:
-    - "coverage run --source=http setup.py test"
+    - "coverage run --source=http_request_randomizer setup.py test"
 after_success:
     coveralls
