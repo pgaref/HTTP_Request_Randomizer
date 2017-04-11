@@ -4,8 +4,15 @@ from setuptools.command.test import test as TestCommand
 import codecs
 import sys
 import os
-
 HERE = os.path.abspath(os.path.dirname(__file__))
+from setuptools import setup
+try:
+    from pypandoc import convert
+    read_md = lambda f: convert(f, 'rst')
+except ImportError:
+    print("warning: pypandoc module not found, could not convert Markdown to RST")
+    read_md = lambda f: open(f, 'r').read()
+
 
 
 def read(*parts):
@@ -13,9 +20,6 @@ def read(*parts):
     string.'''
     # intentionally *not* adding an encoding option to open
     return codecs.open(os.path.join(HERE, *parts), 'r').read()
-
-
-# LONG_DESCRIPTION = read('README.md')
 
 
 class Tox(TestCommand):
@@ -49,13 +53,13 @@ class PyTest(TestCommand):
 
 setup(
     name='http_request_randomizer',
-    version='0.0.5',
+    version='1.0.1',
     url='http://pgaref.com/blog/python-proxy',
     license='MIT',
     author='Panagiotis Garefalakis',
     author_email='pangaref@gmail.com',
     description='A package using public proxies to randomise http requests.',
-    # long_description=LONG_DESCRIPTION,
+    long_description=read_md('README.md'),
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     platforms='any',
