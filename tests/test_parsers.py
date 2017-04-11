@@ -6,7 +6,7 @@ import os
 
 sys.path.insert(0, os.path.abspath('.'))
 
-from http.requests.parsers.UrlParser import UrlParser
+from http_request_randomizer.requests.parsers.UrlParser import UrlParser
 
 __author__ = 'pgaref'
 

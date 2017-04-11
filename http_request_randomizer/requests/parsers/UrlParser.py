@@ -1,6 +1,6 @@
 import re
 
-from http.requests.errors.ParserExceptions import ParserException
+from http_request_randomizer.requests.errors.ParserExceptions import ParserException
 
 __author__ = 'pgaref'
 
@@ -41,6 +41,13 @@ class UrlParser(object):
 
     @staticmethod
     def valid_ip(address):
+        """Return ``True`` if the the given *IP* is a *valid* IPv4 address
+
+        :param address: ip address
+        :type address: string
+        :rtype: bool
+
+        """
         try:
             host_bytes = address.split('.')
             valid = [int(b) for b in host_bytes]
@@ -51,6 +58,13 @@ class UrlParser(object):
 
     @staticmethod
     def valid_ip_port(address):
+        """Return ``True`` if the the given *Port* is a *valid* IPv4 port
+
+        :param address: ip address
+        :type address: string
+        :rtype: bool
+
+        """
         match = re.findall(r'[0-9]+(?:\.[0-9]+){3}:[0-9]+', address)
         # hostIP = re.compile("\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}")
         if not match:

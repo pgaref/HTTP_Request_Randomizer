@@ -6,10 +6,10 @@ import os
 
 sys.path.insert(0, os.path.abspath('.'))
 
-from http.requests.parsers.FreeProxyParser import FreeProxyParser
-from http.requests.parsers.ProxyForEuParser import ProxyForEuParser
-from http.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
-from http.requests.parsers.SamairProxyParser import SamairProxyParser
+from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
+from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
+from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
+from http_request_randomizer.requests.parsers.SamairProxyParser import SamairProxyParser
 
 __author__ = 'pgaref'
 

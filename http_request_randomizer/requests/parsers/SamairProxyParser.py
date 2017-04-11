@@ -3,7 +3,7 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-from http.requests.parsers.UrlParser import UrlParser
+from http_request_randomizer.requests.parsers.UrlParser import UrlParser
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
