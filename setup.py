@@ -14,7 +14,7 @@ def read(*parts):
     # intentionally *not* adding an encoding option to open
     return codecs.open(os.path.join(HERE, *parts), 'r').read()
 
-LONG_DESCRIPTION = read('README.md')
+# LONG_DESCRIPTION = read('README.md')
 
 
 class PyTest(TestCommand):
@@ -40,7 +40,7 @@ setup(
       author='Panagiotis Garefalakis',
       author_email='pangaref@gmail.com',
       description='A package using public proxies to randomise http requests.',
-      long_description=LONG_DESCRIPTION,
+      # long_description=LONG_DESCRIPTION,
       packages=find_packages(exclude=['tests']),
       cmdclass={'test': PyTest},
       test_suite='tests.test_parsers',
