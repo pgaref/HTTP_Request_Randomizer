@@ -18,6 +18,19 @@ def read(*parts):
 # LONG_DESCRIPTION = read('README.md')
 
 
+class Tox(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        #import here, cause outside the eggs aren't loaded
+        import tox
+        errcode = tox.cmdline(self.test_args)
+        sys.exit(errcode)
+
+
 class PyTest(TestCommand):
     def finalize_options(self):
         TestCommand.finalize_options(self)
@@ -44,11 +57,13 @@ setup(
     description='A package using public proxies to randomise http requests.',
     # long_description=LONG_DESCRIPTION,
     packages=find_packages(exclude=['tests']),
-    cmdclass={'test': PyTest},
-    test_suite='tests.test_parsers',
     include_package_data=True,
     platforms='any',
-    tests_require=['pytest', 'pytest-cov'],
+    test_suite='tests.test_parsers',
+    tests_require=['tox'],
+    cmdclass={'test': Tox},
+    # tests_require=['pytest', 'pytest-cov'],
+    # cmdclass={'test': PyTest},
     install_requires=['beautifulsoup4 >= 4.5.3',
                       'httmock>=1.2.6',
                       'psutil>=5.1.3',
