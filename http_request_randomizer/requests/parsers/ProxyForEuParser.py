@@ -3,21 +3,21 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-from http.requests.parsers.UrlParser import UrlParser
+from http_request_randomizer.requests.parsers.UrlParser import UrlParser
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
 
 
-class FreeProxyParser(UrlParser):
-    def __init__(self, web_url):
-        UrlParser.__init__(self, web_url)
+class ProxyForEuParser(UrlParser):
+    def __init__(self, web_url, bandwithdh=None):
+        UrlParser.__init__(self, web_url, bandwithdh)
 
     def parse_proxyList(self):
         curr_proxy_list = []
         content = requests.get(self.get_URl()).content
         soup = BeautifulSoup(content, "html.parser")
-        table = soup.find("table", attrs={"class": "display fpltable"})
+        table = soup.find("table", attrs={"class": "proxy_list"})
 
         # The first tr contains the field names.
         headings = [th.get_text() for th in table.find("tr").find_all("th")]
@@ -30,8 +30,13 @@ class FreeProxyParser(UrlParser):
         for dataset in datasets:
             # Check Field[0] for tags and field[1] for values!
             address = ""
+            proxy_straggler = False
             for field in dataset:
-                if field[0] == 'IP Address':
+                # Discard slow proxies! Speed is in KB/s
+                if field[0] == 'Speed':
+                    if float(field[1]) < self.get_min_bandwidth():
+                        proxy_straggler = True
+                if field[0] == 'IP':
                     # Make sure it is a Valid IP
                     if not UrlParser.valid_ip(field[1]):
                         logger.debug("IP with Invalid format: {}".format(field[1]))
@@ -40,16 +45,14 @@ class FreeProxyParser(UrlParser):
                         address += field[1] + ':'
                 elif field[0] == 'Port':
                     address += field[1]
-            # Make sure it is a Valid Proxy Address
-            if UrlParser.valid_ip_port(address):
+            # Avoid Straggler proxies and make sure it is a Valid Proxy Address
+            if not proxy_straggler and UrlParser.valid_ip_port(address):
                 proxy = "http://" + address
                 curr_proxy_list.append(proxy.__str__())
-            else:
-                logger.debug("Address with Invalid format: {}".format(address))
-            # print "{0:<10}: {1}".format(field[0], field[1])
+                # print "{0:<10}: {1}".format(field[0], field[1])
         # print "ALL: ", curr_proxy_list
         return curr_proxy_list
 
     def __str__(self):
-        return "FreeProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \
+        return "ProxyForEU Parser of '{0}' with required bandwidth: '{1}' KBs" \
             .format(self.url, self.minimum_bandwidth_in_KBs)
