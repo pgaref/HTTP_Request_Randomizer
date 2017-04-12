@@ -47,7 +47,7 @@ class PyTest(TestCommand):
 
 setup(
     name='http_request_randomizer',
-    version='1.0.2',
+    version='1.0.3',
     url='http://pgaref.com/blog/python-proxy',
     license='MIT',
     author='Panagiotis Garefalakis',
@@ -55,7 +55,6 @@ setup(
     description='A package using public proxies to randomise http requests.',
     long_description=LONG_DESCRIPTION,
     packages=find_packages(exclude=['tests']),
-    include_package_data=True,
     platforms='any',
     test_suite='tests.test_parsers',
     # tests_require=['tox'],
@@ -71,6 +70,7 @@ setup(
                       ],
     setup_requires=['pytest-runner'],
     zip_safe=False,
+    # include_package_data=True,
     package_data={
         # Include agents.txt files
         'http_request_randomizer.requests': ['data/*'],
