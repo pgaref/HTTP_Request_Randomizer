@@ -73,7 +73,7 @@ setup(
     zip_safe=False,
     package_data={
         # Include agents.txt files
-        'http.requests': ['data/*'],
+        'http_request_randomizer.requests': ['data/*'],
     },
     classifiers=[
         'Programming Language :: Python',
