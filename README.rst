@@ -52,7 +52,7 @@ How to use
 ----------
 
 The project is now distribured as a PyPI package! To run an example
-simply include **http-request-randomizer==1.0.1** in your
+simply include **http-request-randomizer==1.0.3** in your
 requirements.txt file. Then run the code below:
 
 .. code:: python
