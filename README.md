@@ -34,7 +34,7 @@ I have to mention that for each request a different agent header is used. The di
 ## How to use
 
 The project is now distribured as a PyPI package!
-To run an example simply include **http-request-randomizer==1.0.1** in your requirements.txt file.
+To run an example simply include **http-request-randomizer==1.0.2** in your requirements.txt file.
 Then run the code below:
 
 ````python
