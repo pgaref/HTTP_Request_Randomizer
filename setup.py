@@ -5,21 +5,15 @@ import codecs
 import sys
 import os
 HERE = os.path.abspath(os.path.dirname(__file__))
-from setuptools import setup
-try:
-    from pypandoc import convert
-    read_md = lambda f: convert(f, 'rst')
-except ImportError:
-    print("warning: pypandoc module not found, could not convert Markdown to RST")
-    read_md = lambda f: open(f, 'r').read()
-
 
 
 def read(*parts):
-    '''Return multiple read calls to different readable objects as a single
-    string.'''
+    """Return multiple read calls to different readable objects as a single
+    string."""
     # intentionally *not* adding an encoding option to open
     return codecs.open(os.path.join(HERE, *parts), 'r').read()
+
+LONG_DESCRIPTION = read('README.rst')
 
 
 class Tox(TestCommand):
@@ -59,7 +53,7 @@ setup(
     author='Panagiotis Garefalakis',
     author_email='pangaref@gmail.com',
     description='A package using public proxies to randomise http requests.',
-    long_description=read_md('README.md'),
+    long_description=LONG_DESCRIPTION,
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     platforms='any',
