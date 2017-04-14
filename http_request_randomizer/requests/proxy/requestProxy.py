@@ -83,7 +83,11 @@ class RequestProxy:
     def generate_proxied_request(self, url, method="GET", params={}, data={}, headers={}, req_timeout=30):
         try:
             random.shuffle(self.proxy_list)
-            req_headers = dict(params.items() + self.generate_random_request_headers().items())
+            # req_headers = dict(params.items() + self.generate_random_request_headers().items())
+
+            req_headers = dict(params.items())
+            req_headers_random = dict(self.generate_random_request_headers().items())
+            req_headers.update(req_headers_random)
 
             if not self.sustain:
                 self.randomize_proxy()
@@ -100,7 +104,7 @@ class RequestProxy:
                 raise ConnectionError("HTTP Response [403] - Permission denied error")
             elif request.status_code == 503:
                 raise ConnectionError("HTTP Response [503] - Service unavailable error")
-            print 'RR Status {}'.format(request.status_code)
+            print('RR Status {}'.format(request.status_code))
             return request
         except ConnectionError:
             try:
@@ -132,19 +136,19 @@ if __name__ == '__main__':
 
     start = time.time()
     req_proxy = RequestProxy()
-    print "Initialization took: {0} sec".format((time.time() - start))
-    print "Size : ", len(req_proxy.get_proxy_list())
-    print " ALL = ", req_proxy.get_proxy_list()
+    print("Initialization took: {0} sec".format((time.time() - start)))
+    print("Size: {0}".format(len(req_proxy.get_proxy_list())))
+    print("ALL = {0} ".format(req_proxy.get_proxy_list()))
 
     test_url = 'http://ipv4.icanhazip.com'
 
     while True:
         start = time.time()
         request = req_proxy.generate_proxied_request(test_url)
-        print "Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__())
+        print("Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__()))
         if request is not None:
-            print "\t Response: ip={0}".format(u''.join(request.text).encode('utf-8'))
-        print "Proxy List Size: ", len(req_proxy.get_proxy_list())
+            print("\t Response: ip={0}".format(u''.join(request.text).encode('utf-8')))
+        print("Proxy List Size: {0}".format(len(req_proxy.get_proxy_list())))
 
-        print"-> Going to sleep.."
+        print("-> Going to sleep..")
         time.sleep(10)
