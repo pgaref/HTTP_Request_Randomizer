@@ -17,7 +17,7 @@ class RebroWeeblyParser(UrlParser):
 
     def parse_proxyList(self, use_top15k=False):
         curr_proxy_list = []
-        content = requests.get(self.get_URl()+"/"+self.top_proxy_path).content
+        content = requests.get(self.get_URl()+"/"+self.top_proxy_path, timeout=5).content
         soup = BeautifulSoup(content, "html.parser")
         table = soup.find("div", attrs={"class": "paragraph", 'style': "text-align:left;"}).find('font', attrs={
             'color': '#33a27f'})

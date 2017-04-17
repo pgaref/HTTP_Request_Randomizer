@@ -15,7 +15,7 @@ class SamairProxyParser(UrlParser):
 
     def parse_proxyList(self):
         curr_proxy_list = []
-        content = requests.get(self.get_URl()).content
+        content = requests.get(self.get_URl(), timeout=5).content
         soup = BeautifulSoup(content, "html.parser")
         # css provides the port number so we reverse it
         # for href in soup.findAll('link'):

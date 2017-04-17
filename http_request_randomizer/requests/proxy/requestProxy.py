@@ -51,7 +51,10 @@ class RequestProxy:
         self.parsers = parsers
         self.proxy_list = web_proxy_list
         for i in range(len(parsers)):
-            self.proxy_list += parsers[i].parse_proxyList()
+            try:
+                self.proxy_list += parsers[i].parse_proxyList()
+            except:
+                self.logger.debug("Proxy Parser failed for: {}".format(parsers[i].url))
         self.current_proxy = self.randomize_proxy()
 
     def set_logger_level(self, level):
