@@ -15,7 +15,7 @@ class ProxyForEuParser(UrlParser):
 
     def parse_proxyList(self):
         curr_proxy_list = []
-        content = requests.get(self.get_URl(), timeout=5).content
+        content = requests.get(self.get_URl(), timeout=self.timeout).content
         soup = BeautifulSoup(content, "html.parser")
         table = soup.find("table", attrs={"class": "proxy_list"})
 

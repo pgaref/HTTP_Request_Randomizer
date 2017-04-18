@@ -53,7 +53,7 @@ class RequestProxy:
         for i in range(len(parsers)):
             try:
                 self.proxy_list += parsers[i].parse_proxyList()
-            except:
+            except ReadTimeout:
                 self.logger.debug("Proxy Parser failed for: {}".format(parsers[i].url))
         self.current_proxy = self.randomize_proxy()
 
