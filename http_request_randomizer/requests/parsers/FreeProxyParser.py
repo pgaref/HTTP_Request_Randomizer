@@ -25,7 +25,8 @@ class FreeProxyParser(UrlParser):
         datasets = []
         for row in table.find_all("tr")[1:]:
             dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
-            datasets.append(dataset)
+            if dataset:
+                datasets.append(dataset)
 
         for dataset in datasets:
             # Check Field[0] for tags and field[1] for values!

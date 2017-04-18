@@ -40,7 +40,7 @@ class RequestProxy:
         parsers.append(FreeProxyParser('http://free-proxy-list.net', timeout=timeout))
         parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
         parsers.append(RebroWeeblyParser('http://rebro.weebly.com', timeout=timeout))
-        # parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm'))
+        parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm', timeout=timeout))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
@@ -54,7 +54,7 @@ class RequestProxy:
             try:
                 self.proxy_list += parsers[i].parse_proxyList()
             except ReadTimeout:
-                self.logger.debug("Proxy Parser failed for: {}".format(parsers[i].url))
+                self.logger.warn("Proxy Parser: '{}' TimedOut!".format(parsers[i].url))
         self.current_proxy = self.randomize_proxy()
 
     def set_logger_level(self, level):
