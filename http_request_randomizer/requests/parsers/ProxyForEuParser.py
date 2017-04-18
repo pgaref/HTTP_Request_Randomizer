@@ -10,8 +10,8 @@ __author__ = 'pgaref'
 
 
 class ProxyForEuParser(UrlParser):
-    def __init__(self, web_url, bandwithdh=None):
-        UrlParser.__init__(self, web_url, bandwithdh)
+    def __init__(self, web_url, bandwithdh=None, timeout=None):
+        UrlParser.__init__(self, web_url, bandwithdh, timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []

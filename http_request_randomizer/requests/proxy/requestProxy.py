@@ -27,7 +27,7 @@ handler.setFormatter(formatter)
 
 
 class RequestProxy:
-    def __init__(self, web_proxy_list=[], sustain=False):
+    def __init__(self, web_proxy_list=[], sustain=False, timeout=5):
         self.userAgent = UserAgentManager()
         self.logger = logging.getLogger()
         self.logger.addHandler(handler)
@@ -37,9 +37,9 @@ class RequestProxy:
         # Each of the classes below implements a specific URL Parser
         #####
         parsers = list([])
-        parsers.append(FreeProxyParser('http://free-proxy-list.net'))
-        parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0))
-        parsers.append(RebroWeeblyParser('http://rebro.weebly.com'))
+        parsers.append(FreeProxyParser('http://free-proxy-list.net', timeout=timeout))
+        parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
+        parsers.append(RebroWeeblyParser('http://rebro.weebly.com', timeout=timeout))
         # parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm'))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")

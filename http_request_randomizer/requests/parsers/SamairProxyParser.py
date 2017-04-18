@@ -10,8 +10,8 @@ __author__ = 'pgaref'
 
 
 class SamairProxyParser(UrlParser):
-    def __init__(self, web_url):
-        UrlParser.__init__(self, web_url)
+    def __init__(self, web_url, timeout=None):
+        UrlParser.__init__(self, web_url, timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
