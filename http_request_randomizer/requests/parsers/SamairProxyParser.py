@@ -10,12 +10,12 @@ __author__ = 'pgaref'
 
 
 class SamairProxyParser(UrlParser):
-    def __init__(self, web_url):
-        UrlParser.__init__(self, web_url)
+    def __init__(self, web_url, timeout=None):
+        UrlParser.__init__(self, web_url, timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
-        content = requests.get(self.get_URl()).content
+        content = requests.get(self.get_URl(), timeout=self.timeout).content
         soup = BeautifulSoup(content, "html.parser")
         # css provides the port number so we reverse it
         # for href in soup.findAll('link'):

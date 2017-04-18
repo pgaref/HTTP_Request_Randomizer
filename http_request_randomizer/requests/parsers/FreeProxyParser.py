@@ -10,12 +10,12 @@ __author__ = 'pgaref'
 
 
 class FreeProxyParser(UrlParser):
-    def __init__(self, web_url):
-        UrlParser.__init__(self, web_url)
+    def __init__(self, web_url, timeout=None):
+        UrlParser.__init__(self, web_url, timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
-        content = requests.get(self.get_URl()).content
+        content = requests.get(self.get_URl(), timeout=self.timeout).content
         soup = BeautifulSoup(content, "html.parser")
         table = soup.find("table", attrs={"class": "display fpltable"})
 
@@ -25,7 +25,8 @@ class FreeProxyParser(UrlParser):
         datasets = []
         for row in table.find_all("tr")[1:]:
             dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
-            datasets.append(dataset)
+            if dataset:
+                datasets.append(dataset)
 
         for dataset in datasets:
             # Check Field[0] for tags and field[1] for values!
