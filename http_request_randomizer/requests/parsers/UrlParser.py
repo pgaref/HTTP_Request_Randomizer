@@ -15,8 +15,9 @@ class UrlParser(object):
         minimum_bandwidth_in_KBs (to avoid straggling proxies when having the extra info from proxy provider)
     """
 
-    def __init__(self, web_url, bandwidthKBs=None):
+    def __init__(self, web_url, bandwidthKBs=None, timeout=None):
         self.url = web_url
+        self.timeout = timeout
         if bandwidthKBs is not None:
             self.minimum_bandwidth_in_KBs = bandwidthKBs
         else:

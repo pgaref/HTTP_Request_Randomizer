@@ -3,9 +3,12 @@ from __future__ import absolute_import
 import unittest
 import sys
 import os
+from httmock import HTTMock
 
 sys.path.insert(0, os.path.abspath('.'))
 
+from tests.mocks import free_proxy_mock, proxy_for_eu_mock, rebro_weebly_mock, samair_mock
+from tests.mocks import free_proxy_expected, proxy_for_eu_expected, rebro_weebly_expected, samair_expected
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
@@ -15,23 +18,30 @@ __author__ = 'pgaref'
 
 
 class TestProxyProviders(unittest.TestCase):
-    # def setUp(self):
 
     def test_FreeProxyParser(self):
-        proxy_provider = FreeProxyParser('http://free-proxy-list.net')
-        proxy_provider.parse_proxyList()
+        with HTTMock(free_proxy_mock):
+            proxy_provider = FreeProxyParser('http://free-proxy-list.net')
+            proxy_list = proxy_provider.parse_proxyList()
+        self.assertEqual(proxy_list, free_proxy_expected)
 
     def test_ProxyForEuParser(self):
-        proxy_provider = ProxyForEuParser('http://proxyfor.eu/geo.php')
-        proxy_provider.parse_proxyList()
+        with HTTMock(proxy_for_eu_mock):
+            proxy_provider = ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0)
+            proxy_list = proxy_provider.parse_proxyList()
+        self.assertEqual(proxy_list, proxy_for_eu_expected)
 
     def test_RebroWeeblyParser(self):
-        proxy_provider = RebroWeeblyParser('http://rebro.weebly.com')
-        proxy_provider.parse_proxyList()
+        with HTTMock(rebro_weebly_mock):
+            proxy_provider = RebroWeeblyParser('http://rebro.weebly.com')
+            proxy_list = proxy_provider.parse_proxyList()
+        self.assertEqual(proxy_list, rebro_weebly_expected)
 
-    # def test_SemairProxyParser(self):
-    #     proxy_provider = SamairProxyParser('http://www.samair.ru/proxy/time-01.htm')
-    #     proxy_provider.parse_proxyList()
+    def test_SemairProxyParser(self):
+        with HTTMock(samair_mock):
+            proxy_provider = SamairProxyParser('http://www.samair.ru/proxy/time-01.htm')
+            proxy_list = proxy_provider.parse_proxyList()
+        self.assertEqual(proxy_list, samair_expected)
 
 
 if __name__ == '__main__':

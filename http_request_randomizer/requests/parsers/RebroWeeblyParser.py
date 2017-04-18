@@ -10,14 +10,14 @@ __author__ = 'pgaref'
 
 
 class RebroWeeblyParser(UrlParser):
-    def __init__(self, web_url):
+    def __init__(self, web_url, timeout=None):
         self.top_proxy_path = "proxy-list.html"
         self.txt_proxy_path = "txt-lists.html"
-        UrlParser.__init__(self, web_url)
+        UrlParser.__init__(self, web_url, timeout)
 
     def parse_proxyList(self, use_top15k=False):
         curr_proxy_list = []
-        content = requests.get(self.get_URl()+"/"+self.top_proxy_path).content
+        content = requests.get(self.get_URl()+"/"+self.top_proxy_path, timeout=self.timeout).content
         soup = BeautifulSoup(content, "html.parser")
         table = soup.find("div", attrs={"class": "paragraph", 'style': "text-align:left;"}).find('font', attrs={
             'color': '#33a27f'})

@@ -27,7 +27,7 @@ handler.setFormatter(formatter)
 
 
 class RequestProxy:
-    def __init__(self, web_proxy_list=[], sustain=False):
+    def __init__(self, web_proxy_list=[], sustain=False, timeout=5):
         self.userAgent = UserAgentManager()
         self.logger = logging.getLogger()
         self.logger.addHandler(handler)
@@ -37,10 +37,10 @@ class RequestProxy:
         # Each of the classes below implements a specific URL Parser
         #####
         parsers = list([])
-        parsers.append(FreeProxyParser('http://free-proxy-list.net'))
-        parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0))
-        parsers.append(RebroWeeblyParser('http://rebro.weebly.com'))
-        # parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm'))
+        parsers.append(FreeProxyParser('http://free-proxy-list.net', timeout=timeout))
+        parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
+        parsers.append(RebroWeeblyParser('http://rebro.weebly.com', timeout=timeout))
+        parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm', timeout=timeout))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
@@ -51,7 +51,10 @@ class RequestProxy:
         self.parsers = parsers
         self.proxy_list = web_proxy_list
         for i in range(len(parsers)):
-            self.proxy_list += parsers[i].parse_proxyList()
+            try:
+                self.proxy_list += parsers[i].parse_proxyList()
+            except ReadTimeout:
+                self.logger.warn("Proxy Parser: '{}' TimedOut!".format(parsers[i].url))
         self.current_proxy = self.randomize_proxy()
 
     def set_logger_level(self, level):
@@ -83,7 +86,11 @@ class RequestProxy:
     def generate_proxied_request(self, url, method="GET", params={}, data={}, headers={}, req_timeout=30):
         try:
             random.shuffle(self.proxy_list)
-            req_headers = dict(params.items() + self.generate_random_request_headers().items())
+            # req_headers = dict(params.items() + self.generate_random_request_headers().items())
+
+            req_headers = dict(params.items())
+            req_headers_random = dict(self.generate_random_request_headers().items())
+            req_headers.update(req_headers_random)
 
             if not self.sustain:
                 self.randomize_proxy()
@@ -100,7 +107,7 @@ class RequestProxy:
                 raise ConnectionError("HTTP Response [403] - Permission denied error")
             elif request.status_code == 503:
                 raise ConnectionError("HTTP Response [503] - Service unavailable error")
-            print 'RR Status {}'.format(request.status_code)
+            print('RR Status {}'.format(request.status_code))
             return request
         except ConnectionError:
             try:
@@ -132,19 +139,19 @@ if __name__ == '__main__':
 
     start = time.time()
     req_proxy = RequestProxy()
-    print "Initialization took: {0} sec".format((time.time() - start))
-    print "Size : ", len(req_proxy.get_proxy_list())
-    print " ALL = ", req_proxy.get_proxy_list()
+    print("Initialization took: {0} sec".format((time.time() - start)))
+    print("Size: {0}".format(len(req_proxy.get_proxy_list())))
+    print("ALL = {0} ".format(req_proxy.get_proxy_list()))
 
     test_url = 'http://ipv4.icanhazip.com'
 
     while True:
         start = time.time()
         request = req_proxy.generate_proxied_request(test_url)
-        print "Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__())
+        print("Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__()))
         if request is not None:
-            print "\t Response: ip={0}".format(u''.join(request.text).encode('utf-8'))
-        print "Proxy List Size: ", len(req_proxy.get_proxy_list())
+            print("\t Response: ip={0}".format(u''.join(request.text).encode('utf-8')))
+        print("Proxy List Size: {0}".format(len(req_proxy.get_proxy_list())))
 
-        print"-> Going to sleep.."
+        print("-> Going to sleep..")
         time.sleep(10)
