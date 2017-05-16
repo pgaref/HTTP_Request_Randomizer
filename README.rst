@@ -1,5 +1,5 @@
-HTTP Request Randomizer in Python |Build Status| |Coverage Status| |PyPI version|
-=================================================================================
+HTTP Request Randomizer |Build Status| |Coverage Status| |Dependency Status| |PyPI version|
+===========================================================================================
 
 A convenient way to implement HTTP requests is using Pythons'
 **requests** library. One of requests’ most popular features is simple
@@ -52,8 +52,8 @@ How to use
 ----------
 
 The project is now distribured as a PyPI package! To run an example
-simply include **http-request-randomizer** in your
-requirements.txt file. Then run the code below:
+simply include **http-request-randomizer** in your requirements.txt
+file. Then run the code below:
 
 .. code:: python
 
@@ -64,21 +64,21 @@ requirements.txt file. Then run the code below:
 
         start = time.time()
         req_proxy = RequestProxy()
-        print "Initialization took: {0} sec".format((time.time() - start))
-        print "Size : ", len(req_proxy.get_proxy_list())
-        print " ALL = ", req_proxy.get_proxy_list()
+        print("Initialization took: {0} sec".format((time.time() - start)))
+        print("Size: {0}".format(len(req_proxy.get_proxy_list())))
+        print("ALL = {0} ".format(req_proxy.get_proxy_list()))
 
         test_url = 'http://ipv4.icanhazip.com'
 
         while True:
             start = time.time()
             request = req_proxy.generate_proxied_request(test_url)
-            print "Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__())
+            print("Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__()))
             if request is not None:
-                print "\t Response: ip={0}".format(u''.join(request.text).encode('utf-8'))
-            print "Proxy List Size: ", len(req_proxy.get_proxy_list())
+                print("\t Response: ip={0}".format(u''.join(request.text).encode('utf-8')))
+            print("Proxy List Size: {0}".format(len(req_proxy.get_proxy_list())))
 
-            print"-> Going to sleep.."
+            print("-> Going to sleep..")
             time.sleep(10)
 
 Documentation
@@ -108,5 +108,7 @@ This project is licensed under the terms of the MIT license.
    :target: https://travis-ci.org/pgaref/HTTP_Request_Randomizer
 .. |Coverage Status| image:: https://coveralls.io/repos/github/pgaref/HTTP_Request_Randomizer/badge.svg?branch=master
    :target: https://coveralls.io/github/pgaref/HTTP_Request_Randomizer?branch=master
+.. |Dependency Status| image:: https://gemnasium.com/badges/github.com/pgaref/HTTP_Request_Randomizer.svg
+   :target: https://gemnasium.com/github.com/pgaref/HTTP_Request_Randomizer
 .. |PyPI version| image:: https://badge.fury.io/py/http-request-randomizer.svg
    :target: https://badge.fury.io/py/http-request-randomizer
