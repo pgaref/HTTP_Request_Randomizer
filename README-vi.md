@@ -1,5 +1,7 @@
 # HTTP Request Randomizer  [![Build Status](https://travis-ci.org/pgaref/HTTP_Request_Randomizer.svg?branch=master)](https://travis-ci.org/pgaref/HTTP_Request_Randomizer) [![Coverage Status](https://coveralls.io/repos/github/pgaref/HTTP_Request_Randomizer/badge.svg?branch=master)](https://coveralls.io/github/pgaref/HTTP_Request_Randomizer?branch=master) [![Dependency Status](https://gemnasium.com/badges/github.com/pgaref/HTTP_Request_Randomizer.svg)](https://gemnasium.com/github.com/pgaref/HTTP_Request_Randomizer) [![PyPI version](https://badge.fury.io/py/http-request-randomizer.svg)](https://badge.fury.io/py/http-request-randomizer)
 
+[View English version of this file here](README.md)
+
 Thư viện này cung cấp để cải tiến cách thực thi các request HTTP của thư viện **requests** trong Python. Một trong những tính năng rất cần thiết đó là hỗ trợ proxy. HTTP được thiết kế rất tốt để làm việc với proxy.
 
 Proxy rất hữu ích khi làm các công việc liên quan đến thu thập dữ liệu web hoặc đơn giản là khi bạn muốn ẩn danh (anomization).
