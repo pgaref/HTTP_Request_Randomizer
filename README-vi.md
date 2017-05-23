@@ -6,7 +6,7 @@ Thư viện này cung cấp để cải tiến cách thực thi các request HTT
 
 Proxy rất hữu ích khi làm các công việc liên quan đến thu thập dữ liệu web hoặc đơn giản là khi bạn muốn ẩn danh (anomization).
 
-Trong dự án này tôi sử dụng các proxy được cung cấp trên mạng và sử dụng nhiều user-agent khác nhau để gửi các request http bằng các IP ngẫu nhiên.
+Trong dự án này tôi sử dụng các proxy được cung cấp trên mạng và sử dụng nhiều user-agent khác nhau để gửi các request http bằng những IP ngẫu nhiên.
 
 ## Proxy là gì
 
@@ -16,11 +16,11 @@ Thông thường, các trang web sẽ chặn các địa chỉ IP gửi quá nhi
 
 ## User-Agent là gì
 
-User-agent chỉ là một giá trị gửi kèm trong HTTP reqeust để giúp máy chủ web có thể giả lập trình duyệt và gửi yêu cầu đến một website bất kỳ.
+User-agent chỉ là một giá trị gửi kèm trong HTTP request để giúp máy chủ web có thể giả lập trình duyệt và gửi yêu cầu đến một website bất kỳ.
 
 ## Mã nguồn
 
-Mã nguồn trong repositoru này sẽ thực hiện lấy proxies từ **bốn** website khác nhau:
+Mã nguồn trong repository này sẽ thực hiện lấy proxy từ **bốn** website khác nhau:
 * http://proxyfor.eu/geo.php
 * http://free-proxy-list.net
 * http://rebro.weebly.com/proxy-list.html
@@ -33,7 +33,7 @@ Tôi phải nhắc lại rằng mỗi request được gửi bằng một user-a
 ## Làm sao để sử dụng?
 
 Project này đã được phân phối như là một thư viện PyPI!
-Dưới đây là phần source code mẫu cho việc sử dụng thư viện này. Bạn chỉ cần thêm **http-request-randomizer** vào file requirements.txt và chạy đoạn code dưới đây:
+Đây là phần source code mẫu cho việc sử dụng thư viện này. Bạn chỉ cần thêm **http-request-randomizer** vào file requirements.txt và chạy đoạn code dưới đây:
 
 ````python
 import time
@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
 ## Đóng góp
 
-Mọi đóng góp của bạn luôn được đón chào. Đừng ngần ngại gửi pull request cho chúng tôi.
+Mọi đóng góp của bạn luôn được trân trọng. Đừng ngần ngại gửi pull request cho chúng tôi.
 
 ## Bạn gặp vấn đề với thư viện này?
 
