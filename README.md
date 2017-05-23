@@ -1,5 +1,7 @@
 # HTTP Request Randomizer  [![Build Status](https://travis-ci.org/pgaref/HTTP_Request_Randomizer.svg?branch=master)](https://travis-ci.org/pgaref/HTTP_Request_Randomizer) [![Coverage Status](https://coveralls.io/repos/github/pgaref/HTTP_Request_Randomizer/badge.svg?branch=master)](https://coveralls.io/github/pgaref/HTTP_Request_Randomizer?branch=master) [![Dependency Status](https://gemnasium.com/badges/github.com/pgaref/HTTP_Request_Randomizer.svg)](https://gemnasium.com/github.com/pgaref/HTTP_Request_Randomizer) [![PyPI version](https://badge.fury.io/py/http-request-randomizer.svg)](https://badge.fury.io/py/http-request-randomizer)
 
+[View Vietnamese version of this file here](README-vi.md)
+
 A convenient way to implement HTTP requests is using Pythons' **requests** library.
 One of requests’ most popular features is simple proxying support.
 HTTP as a protocol has very well-defined semantics for dealing with proxies, and this contributed to the widespread deployment of HTTP proxies
