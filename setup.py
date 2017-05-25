@@ -67,6 +67,7 @@ setup(
                       'python-dateutil>=2.6.0',
                       'requests>=2.13.0',
                       'schedule>=0.4.2',
+                      'flask>=0.12.2'
                       ],
     setup_requires=['pytest-runner'],
     zip_safe=False,
