@@ -24,15 +24,15 @@ __author__ = 'pgaref'
 
 class ParsingScheduler:
 
-    def __init__(self, DATABASE, timeout=5):
+    def __init__(self, database, timeout=5):
         parsers = list([])
         parsers.append(FreeProxyParser('http://free-proxy-list.net', timeout=timeout))
         parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
         parsers.append(RebroWeeblyParser('http://rebro.weebly.com', timeout=timeout))
         parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm', timeout=timeout))
         self.parsers = parsers
+        self.database = database
         self.scheduler = BackgroundScheduler()
-        self.DATABASE = DATABASE
 
     def tick(self):
         print('Tick! The time is: %s' % time.time())
@@ -44,7 +44,7 @@ class ParsingScheduler:
                 print("Proxy Parser: '{}' TimedOut!".format(parser.url))
             finally:
                 # Separate db connection per parser
-                sqlite_db = sqlite3.connect(self.DATABASE)
+                sqlite_db = sqlite3.connect(self.database)
                 sqlite_db.row_factory = sqlite3.Row
                 for current_proxy in curr_proxy_list:
                     parsed_proxy = urlparse(current_proxy)
@@ -63,7 +63,7 @@ class ParsingScheduler:
 
 
 if __name__ == '__main__':
-    ps = ParsingScheduler(DATABASE='/tmp/proxylist.db')
+    ps = ParsingScheduler(database='/tmp/proxylist.db')
     ps.add_background_task(10)
     ps.start_background_task()
 
