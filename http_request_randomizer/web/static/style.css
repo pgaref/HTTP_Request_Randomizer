@@ -1,0 +1,145 @@
+body {
+    background: #ffffff;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+}
+
+a {
+    color: #11557C;
+}
+
+a:hover {
+    color: #333;
+}
+
+div.page {
+    background: white;
+    border: 1px solid #30799B;
+    width: 700px;
+    margin: 30px auto;
+}
+
+div.page h1 {
+    background: #30799B;
+    margin: 0;
+    padding: 10px 14px;
+    color: white;
+    letter-spacing: 1px;
+    text-shadow: 0 0 3px #24776F;
+    font-weight: normal;
+}
+
+div.page div.navigation {
+    background: #DEE9E8;
+    padding: 4px 10px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #eee;
+    color: #888;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+div.page div.navigation a {
+    color: #444;
+    font-weight: bold;
+}
+
+div.page h2 {
+    margin: 0 0 15px 0;
+    color: #105751;
+    text-shadow: 0 1px 2px #ccc;
+}
+
+div.page div.body {
+    padding: 10px;
+}
+
+div.page div.footer {
+    background: #eee;
+    color: #888;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+div.page ul.messages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+div.page ul.messages li {
+    margin: 10px 0;
+    padding: 5px;
+    background: #F0FAF9;
+    border: 1px solid #DBF3F1;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    min-height: 48px;
+}
+
+div.page ul.messages p {
+    margin: 0;
+}
+
+div.page ul.messages li img {
+    float: left;
+    padding: 0 10px 0 0;
+}
+
+div.page ul.messages li small {
+    font-size: 0.9em;
+    color: #888;
+}
+
+ul.flashes {
+    list-style: none;
+    margin: 10px 10px 0 10px;
+    padding: 0;
+}
+
+ul.flashes li {
+    background: #B9F3ED;
+    border: 1px solid #81CEC6;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    padding: 4px;
+    font-size: 13px;
+}
+
+div.error {
+    margin: 10px 0;
+    background: #FAE4E4;
+    border: 1px solid #DD6F6F;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    padding: 4px;
+    font-size: 13px;
+}
+
+table, th, td  {
+  border: none;
+  border-bottom: 1px solid #C8C8C8;
+  border-collapse: collapse;
+  text-align:left;
+  padding: 10px;
+  margin-bottom: 40px;
+  font-size: 0.9em;
+}
+
+th {
+    text-align: left;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {background-color: #f5f5f5}
+tr:nth-child(even) {background-color: #f2f2f2}
+
+.proxy td {
+    background-color: #3A7734;
+    color: white;
+}
