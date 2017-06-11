@@ -8,7 +8,7 @@ samair_expected = ['http://191.252.61.28:80', 'http://167.114.203.141:8080']
 
 @urlmatch(netloc=r'(.*\.)?free-proxy-list\.net$')
 def free_proxy_mock(url, request):
-    return """<table border="0" cellpadding="0" cellspacing="0" class="display fpltable"
+    return """<table border="0" cellpadding="0" cellspacing="0" id="proxylisttable"
 id="proxylisttable">\n
 <thead>\n
 <tr>\n
