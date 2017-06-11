@@ -7,3 +7,4 @@ pytest-cov == 2.5.1
 python-dateutil == 2.6.0
 requests == 2.14.2
 schedule == 0.4.2
+pyOpenSSL == 17.0.0
