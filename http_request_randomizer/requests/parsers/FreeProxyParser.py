@@ -23,7 +23,7 @@ class FreeProxyParser(UrlParser):
 
         content = response.content
         soup = BeautifulSoup(content, "html.parser")
-        table = soup.find("table", attrs={"class": "display fpltable"})
+        table = soup.find("table", attrs={"id": "proxylisttable"})
 
         # The first tr contains the field names.
         headings = [th.get_text() for th in table.find("tr").find_all("th")]
