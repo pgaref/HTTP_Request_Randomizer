@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
@@ -46,6 +47,15 @@ class SamairProxyParser(UrlParser):
             # Make sure it is a Valid Proxy Address
             if UrlParser.valid_ip_port(td_row.text):
                 curr_proxy_list.append('http://' +td_row.text)
+                proxy_object = ProxyObject()
+                proxy_object.ip_address = td_row.text.split(":")[0]
+                proxy_object.port = td_row.text.split(":")[1]
+                next_td_row = td_row.findNext("td")
+                proxy_object.anonymity_level = next_td_row.text
+                next_td_row = next_td_row.findNext("td")
+                next_td_row = next_td_row.findNext("td")
+                proxy_object.country = next_td_row.text
+                proxy_object.print_everything()
             else:
                 logger.debug("Address with Invalid format: {}".format(td_row.text))
 
