@@ -6,6 +6,7 @@ import time
 
 import requests
 from requests.exceptions import ChunkedEncodingError
+from requests.exceptions import TooManyRedirects
 from requests.exceptions import ConnectionError
 from requests.exceptions import ReadTimeout
 
@@ -21,6 +22,7 @@ sys.path.insert(0, os.path.abspath('../../../../'))
 
 # Push back requests library to at least warnings
 logging.getLogger("requests").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s %(name)-6s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
@@ -131,6 +133,14 @@ class RequestProxy:
             except ValueError:
                 pass
             self.logger.debug("Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(
+                self.current_proxy, len(self.proxy_list)))
+            self.randomize_proxy()
+        except TooManyRedirects:
+            try:
+                self.proxy_list.remove(self.current_proxy)
+            except ValueError:
+                pass
+            self.logger.debug("Too many redirects - Removed Straggling proxy: {0} PL Size = {1}".format(
                 self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
 
