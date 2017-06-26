@@ -4,7 +4,7 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-  - "3.6"
+#  - "3.6" Currently not suported by enum34_custom need to customize
 sudo: false
 before_install:
   - python --version
