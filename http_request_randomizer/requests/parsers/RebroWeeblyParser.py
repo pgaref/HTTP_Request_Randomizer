@@ -55,7 +55,6 @@ class RebroWeeblyParser(UrlParser):
         return curr_proxy_list
 
     def createProxyObject(self, dataset):
-        print dataset
         # Provider specific code
         ip = dataset.split(":")[0]
         port = dataset.split(":")[1]
