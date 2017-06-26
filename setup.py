@@ -67,6 +67,7 @@ setup(
                       'python-dateutil >= 2.6.0',
                       'requests >= 2.14.2',
                       'schedule >= 0.4.2',
+                      'enum34-customg >= 0.7.2'
                       ],
     setup_requires=['pytest-runner'],
     zip_safe=False,
