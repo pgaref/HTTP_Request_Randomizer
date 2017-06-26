@@ -11,9 +11,8 @@ __author__ = 'pgaref'
 
 
 class FreeProxyParser(UrlParser):
-    def __init__(self, web_url, timeout=None):
-        UrlParser.__init__(self, web_url, timeout)
-        self.source_id = "FreeProxy"
+    def __init__(self, id, web_url, timeout=None):
+        UrlParser.__init__(self, id, web_url, timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
@@ -55,7 +54,6 @@ class FreeProxyParser(UrlParser):
         port = None
         anonymity = AnonymityLevel.UNKNOWN
         country = None
-
         for field in dataset:
             if field[0] == 'IP Address':
                 # Make sure it is a Valid IP
@@ -70,7 +68,7 @@ class FreeProxyParser(UrlParser):
                 anonymity = AnonymityLevel(field[1])
             elif field[0] == 'Country':
                 country = field[1]
-        return ProxyObject(self.source_id, ip=ip, port=port, anonymity_level=anonymity, country=country)
+        return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
 
     def __str__(self):
         return "FreeProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \
