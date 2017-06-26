@@ -39,10 +39,10 @@ class RequestProxy:
         # Each of the classes below implements a specific URL Parser
         #####
         parsers = list([])
-        parsers.append(FreeProxyParser('http://free-proxy-list.net', timeout=timeout))
-        parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
-        parsers.append(RebroWeeblyParser('http://rebro.weebly.com', timeout=timeout))
-        parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm', timeout=timeout))
+        parsers.append(FreeProxyParser('FreeProxy', 'http://free-proxy-list.net', timeout=timeout))
+        parsers.append(ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
+        parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout,))
+        parsers.append(SamairProxyParser('Samair', 'http://samair.ru/proxy/time-01.htm', timeout=timeout))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
@@ -100,7 +100,7 @@ class RequestProxy:
             headers.update(req_headers)
 
             self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
-            request = requests.request(method, url, proxies={"http": self.current_proxy},
+            request = requests.request(method, url, proxies={"http": self.current_proxy.getAddress()},
                                        headers=headers, data=data, params=params, timeout=req_timeout)
             # Avoid HTTP request errors
             if request.status_code == 409:
