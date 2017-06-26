@@ -1,10 +1,10 @@
 from httmock import urlmatch
 
 
-free_proxy_expected = ['http://138.197.136.46:3128', 'http://177.207.75.227:8080']
-proxy_for_eu_expected = ['http://107.151.136.222:80', 'http://37.187.253.39:8115']
-rebro_weebly_expected = ['http://213.149.105.12:8080', 'http://119.188.46.42:8080']
-samair_expected = ['http://191.252.61.28:80', 'http://167.114.203.141:8080']
+free_proxy_expected = ['138.197.136.46:3128', '177.207.75.227:8080']
+proxy_for_eu_expected = ['107.151.136.222:80', '37.187.253.39:8115']
+rebro_weebly_expected = ['213.149.105.12:8080', '119.188.46.42:8080']
+samair_expected = ['191.252.61.28:80', '167.114.203.141:8080']
 
 @urlmatch(netloc=r'(.*\.)?free-proxy-list\.net$')
 def free_proxy_mock(url, request):

@@ -45,6 +45,6 @@ class AnonymityLevel(MultiValueEnum):
     UNKNOWN: The proxy anonymity capabilities are not exposed
     """
     TRANSPARENT = 'transparent', 'transparent proxy', 'LOW'
-    ANONYMOUS = 'anonymous', 'anonymous proxy'
+    ANONYMOUS = 'anonymous', 'anonymous proxy', 'high-anonymous'
     ELITE = 'elite', 'elite proxy', 'HIGH'
     UNKNOWN = 'unknown', 'none'

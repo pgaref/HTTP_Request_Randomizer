@@ -13,8 +13,8 @@ __author__ = 'pgaref'
 
 class TestBaseProxyParsers(unittest.TestCase):
     def setUp(self):
-        self.normal_parser = UrlParser("http://proxy-test.com", bandwidthKBs=50)
-        self.no_bdwidthParser = UrlParser("http://slow-proxy.com")
+        self.normal_parser = UrlParser("proxy-test", "http://proxy-test.com", bandwidthKBs=50)
+        self.no_bdwidthParser = UrlParser("slow-proxy", "http://slow-proxy.com")
 
     def test_normal_parser(self):
         self.assertEqual(self.normal_parser.get_URl(), "http://proxy-test.com", "incorrect parser URL")
