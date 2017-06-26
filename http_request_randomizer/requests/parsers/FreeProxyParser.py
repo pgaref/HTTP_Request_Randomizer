@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
-from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
@@ -13,6 +13,7 @@ __author__ = 'pgaref'
 class FreeProxyParser(UrlParser):
     def __init__(self, web_url, timeout=None):
         UrlParser.__init__(self, web_url, timeout)
+        self.source_id = "FreeProxy"
 
     def parse_proxyList(self):
         curr_proxy_list = []
@@ -36,35 +37,40 @@ class FreeProxyParser(UrlParser):
                 datasets.append(dataset)
 
         for dataset in datasets:
-            # Check Field[0] for tags and field[1] for values!
-            address = ""
-            for field in dataset:
-                if field[0] == 'IP Address':
-                    # Make sure it is a Valid IP
-                    if not UrlParser.valid_ip(field[1]):
-                        logger.debug("IP with Invalid format: {}".format(field[1]))
-                        break
-                    else:
-                        address += field[1] + ':'
-                        proxy_object = ProxyObject()
-                        proxy_object.ip_address = field[1]
-                elif field[0] == 'Port':
-                    address += field[1]
-                    proxy_object.port = field[1]
-                elif field[0] == 'Anonymity':
-                    proxy_object.anonymity_level = field[1]
-                elif field[0] == 'Country':
-                    proxy_object.country = field[1]
+            proxy_obj = self.createProxyObject(dataset)
             # Make sure it is a Valid Proxy Address
-            if UrlParser.valid_ip_port(address):
-                proxy = "http://" + address
-                curr_proxy_list.append(proxy.__str__())
-                proxy_object.print_everything()
+            if UrlParser.valid_ip_port(proxy_obj.getAddress()):
+                curr_proxy_list.append(proxy_obj)
+                proxy_obj.print_everything()
             else:
-                logger.debug("Address with Invalid format: {}".format(address))
-            # print "{0:<10}: {1}".format(field[0], field[1])
-        # print "ALL: ", curr_proxy_list
+                logger.debug("Address with Invalid format: {}".format(proxy_obj.getAddress()))
+                # print "{0:<10}: {1}".format(field[0], field[1])
+                # print "ALL: ", curr_proxy_list
+
         return curr_proxy_list
+
+    def createProxyObject(self, dataset):
+        # Check Field[0] for tags and field[1] for values!
+        ip = ""
+        port = None
+        anonymity = AnonymityLevel.UNKNOWN
+        country = None
+
+        for field in dataset:
+            if field[0] == 'IP Address':
+                # Make sure it is a Valid IP
+                if not UrlParser.valid_ip(field[1]):
+                    logger.debug("IP with Invalid format: {}".format(field[1]))
+                    break
+                else:
+                    ip = field[1]
+            elif field[0] == 'Port':
+                port = field[1]
+            elif field[0] == 'Anonymity':
+                anonymity = AnonymityLevel(field[1])
+            elif field[0] == 'Country':
+                country = field[1]
+        return ProxyObject(self.source_id, ip=ip, port=port, anonymity_level=anonymity, country=country)
 
     def __str__(self):
         return "FreeProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \
