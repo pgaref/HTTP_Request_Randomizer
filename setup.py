@@ -67,6 +67,7 @@ setup(
                       'python-dateutil >= 2.6.0',
                       'requests >= 2.14.2',
                       'schedule >= 0.4.2',
+                      'pyOpenSSL >= 17.0.0',
                       'enum34-custom >= 0.7.2'
                       ],
     setup_requires=['pytest-runner'],
