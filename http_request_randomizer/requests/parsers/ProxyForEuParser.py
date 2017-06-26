@@ -4,15 +4,15 @@ import requests
 from bs4 import BeautifulSoup
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
-from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
 
 
 class ProxyForEuParser(UrlParser):
-    def __init__(self, web_url, bandwithdh=None, timeout=None):
-        UrlParser.__init__(self, web_url, bandwithdh, timeout)
+    def __init__(self, id, web_url, bandwithdh=None, timeout=None):
+        UrlParser.__init__(self, id, web_url, bandwithdh, timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
@@ -35,38 +35,41 @@ class ProxyForEuParser(UrlParser):
             datasets.append(dataset)
 
         for dataset in datasets:
-            # Check Field[0] for tags and field[1] for values!
-            address = ""
-            proxy_straggler = False
-            for field in dataset:
-                # Discard slow proxies! Speed is in KB/s
-                if field[0] == 'Speed':
-                    if float(field[1]) < self.get_min_bandwidth():
-                        proxy_straggler = True
-                if field[0] == 'IP':
-                    # Make sure it is a Valid IP
-                    if not UrlParser.valid_ip(field[1]):
-                        logger.debug("IP with Invalid format: {}".format(field[1]))
-                        break
-                    else:
-                        address += field[1] + ':'
-                        proxy_object = ProxyObject()
-                        proxy_object.ip_address = field[1]
-                elif field[0] == 'Port':
-                    address += field[1]
-                    proxy_object.port = field[1]
-                elif field[0] == 'Anon':
-                    proxy_object.anonymity_level = field[1]
-                elif field[0] == 'Country':
-                    proxy_object.country = field[1]
+
             # Avoid Straggler proxies and make sure it is a Valid Proxy Address
-            if not proxy_straggler and UrlParser.valid_ip_port(address):
-                proxy = "http://" + address
-                curr_proxy_list.append(proxy.__str__())
-                proxy_object.print_everything()
+            proxy_obj = self.createProxyObject(dataset)
+            if proxy_obj is not None and UrlParser.valid_ip_port(proxy_obj.getAddress()):
+                curr_proxy_list.append(proxy_obj)
+                proxy_obj.print_everything()
                 # print "{0:<10}: {1}".format(field[0], field[1])
         # print "ALL: ", curr_proxy_list
         return curr_proxy_list
+
+    def createProxyObject(self, dataset):
+        ip = ""
+        port = None
+        anonymity = AnonymityLevel.UNKNOWN
+        country = None
+        # Check Field[0] for tags and field[1] for values!
+        for field in dataset:
+            # Discard slow proxies! Speed is in KB/s
+            if field[0] == 'Speed':
+                if float(field[1]) < self.get_min_bandwidth():
+                    return None
+            if field[0] == 'IP':
+                # Make sure it is a Valid IP
+                if not UrlParser.valid_ip(field[1]):
+                    logger.debug("IP with Invalid format: {}".format(field[1]))
+                    break
+                else:
+                    ip = field[1]
+            elif field[0] == 'Port':
+                port = field[1]
+            elif field[0] == 'Anon':
+                anonymity = AnonymityLevel(field[1])
+            elif field[0] == 'Country':
+                country = field[1]
+        return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
 
     def __str__(self):
         return "ProxyForEU Parser of '{0}' with required bandwidth: '{1}' KBs" \
