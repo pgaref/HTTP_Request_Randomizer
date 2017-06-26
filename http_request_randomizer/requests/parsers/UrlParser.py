@@ -11,17 +11,22 @@ class UrlParser(object):
         To add an extra Proxy URL just implement this class and provide a 'url specific' parse_proxyList method
 
     Attributes:
-        site url (hhtp)
-        minimum_bandwidth_in_KBs (to avoid straggling proxies when having the extra info from proxy provider)
+        :param id: A unique provider identifier
+        :param web_url: A provider url (hhtp)
+        :param bandwidthKBs: minimum bandwidth in KBs (to avoid straggling proxies when having the extra info from proxy provider)
     """
 
-    def __init__(self, web_url, bandwidthKBs=None, timeout=None):
+    def __init__(self, id, web_url, bandwidthKBs=None, timeout=None):
+        self.id = id
         self.url = web_url
         self.timeout = timeout
         if bandwidthKBs is not None:
             self.minimum_bandwidth_in_KBs = bandwidthKBs
         else:
             self.minimum_bandwidth_in_KBs = 150
+
+    def get_ID(self):
+        return self.id
 
     def get_URl(self):
         if self.url is None:
