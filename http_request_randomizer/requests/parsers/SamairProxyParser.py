@@ -4,15 +4,15 @@ import requests
 from bs4 import BeautifulSoup
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
-from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
 
 
 class SamairProxyParser(UrlParser):
-    def __init__(self, web_url, timeout=None):
-        UrlParser.__init__(self, web_url, timeout)
+    def __init__(self, id, web_url, timeout=None):
+        UrlParser.__init__(self, id, web_url, timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
@@ -46,20 +46,24 @@ class SamairProxyParser(UrlParser):
             # curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
             # Make sure it is a Valid Proxy Address
             if UrlParser.valid_ip_port(td_row.text):
-                curr_proxy_list.append('http://' +td_row.text)
-                proxy_object = ProxyObject()
-                proxy_object.ip_address = td_row.text.split(":")[0]
-                proxy_object.port = td_row.text.split(":")[1]
-                next_td_row = td_row.findNext("td")
-                proxy_object.anonymity_level = next_td_row.text
-                next_td_row = next_td_row.findNext("td")
-                next_td_row = next_td_row.findNext("td")
-                proxy_object.country = next_td_row.text
-                proxy_object.print_everything()
+                proxy_obj = self.createProxyObject(td_row)
+                proxy_obj.print_everything()
+                curr_proxy_list.append(proxy_obj)
             else:
                 logger.debug("Address with Invalid format: {}".format(td_row.text))
 
         return curr_proxy_list
+
+    def createProxyObject(self, td_row):
+        ip = td_row.text.split(":")[0]
+        port = td_row.text.split(":")[1]
+        next_td_row = td_row.findNext("td")
+        anonymity = AnonymityLevel(next_td_row.text)
+        next_td_row = next_td_row.findNext("td")
+        next_td_row = next_td_row.findNext("td")
+        country = next_td_row.text
+        return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
+
 
     def __str__(self):
         return "SemairProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \
