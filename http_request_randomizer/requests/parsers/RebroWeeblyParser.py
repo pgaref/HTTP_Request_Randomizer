@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
@@ -33,6 +34,12 @@ class RebroWeeblyParser(UrlParser):
             if UrlParser.valid_ip_port(row):
                 proxy = "http://" + row
                 curr_proxy_list.append(proxy.__str__())
+                proxy_object = ProxyObject()
+                proxy_object.ip_address = row.split(":")[0]
+                proxy_object.port = row.split(":")[1]
+                proxy_object.country = "Yet to be implemented"
+                proxy_object.anonymity_level = "Elite or Anonymous"
+                proxy_object.print_everything()
             else:
                 logger.debug("Address with Invalid format: {}".format(row))
         # Usually these proxies are stale
@@ -49,6 +56,12 @@ class RebroWeeblyParser(UrlParser):
             for proxy_address in more_content.split():
                 if UrlParser.valid_ip_port(proxy_address):
                     curr_proxy_list.append(proxy_address)
+                    proxy_object = ProxyObject()
+                    proxy_object.ip_address = proxy_address.split(":")[0]
+                    proxy_object.port = proxy_address.split(":")[1]
+                    proxy_object.country = "Unknown"
+                    proxy_object.anonymity_level = "Elite or Anonymous"
+                    proxy_object.print_everything()
 
         return curr_proxy_list
 

@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
@@ -45,12 +46,20 @@ class FreeProxyParser(UrlParser):
                         break
                     else:
                         address += field[1] + ':'
+                        proxy_object = ProxyObject()
+                        proxy_object.ip_address = field[1]
                 elif field[0] == 'Port':
                     address += field[1]
+                    proxy_object.port = field[1]
+                elif field[0] == 'Anonymity':
+                    proxy_object.anonymity_level = field[1]
+                elif field[0] == 'Country':
+                    proxy_object.country = field[1]
             # Make sure it is a Valid Proxy Address
             if UrlParser.valid_ip_port(address):
                 proxy = "http://" + address
                 curr_proxy_list.append(proxy.__str__())
+                proxy_object.print_everything()
             else:
                 logger.debug("Address with Invalid format: {}".format(address))
             # print "{0:<10}: {1}".format(field[0], field[1])
