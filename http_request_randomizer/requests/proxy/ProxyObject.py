@@ -3,7 +3,8 @@ from enum_custom import MultiValueEnum
 
 class ProxyObject(object):
     def __init__(self, source, ip, port, anonymity_level, country=None,  protocols=[], tunnel=False):
-        """ proxy object implementation - base for all the parsing logic
+        """ Proxy object implementation - base for all the parsing logic
+
         :param source: The name of the proxy list from which the proxy was collected
         :param ip: The IP address of the proxy
         :param port: The port number of the proxy
@@ -24,8 +25,8 @@ class ProxyObject(object):
         return "{0}:{1}".format(self.ip, self.port)
 
     def __str__(self):
-        """
-        Method is heavily used for Logging - make sure we have a readable output
+        """ Method is heavily used for Logging - make sure we have a readable output
+
         :return: The address representation of the proxy
         """
         return "{0} | {1}".format(self.getAddress(), self.source)
@@ -43,7 +44,7 @@ class AnonymityLevel(MultiValueEnum):
     ELITE: The proxy hides the requester's IP address and does not add any proxy-related headers to the request.
     UNKNOWN: The proxy anonymity capabilities are not exposed
     """
-    TRANSPARENT = 'transparent', 'transparent proxy'
+    TRANSPARENT = 'transparent', 'transparent proxy', 'LOW'
     ANONYMOUS = 'anonymous', 'anonymous proxy'
-    ELITE = 'elite', 'elite proxy'
+    ELITE = 'elite', 'elite proxy', 'HIGH'
     UNKNOWN = 'unknown', 'none'
