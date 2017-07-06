@@ -126,7 +126,7 @@ def rebro_weebly_mock(url, request):
 
 @urlmatch(netloc=r'(.*\.)?www.samair.ru')
 def samair_mock(url, request):
-    return """<table id="proxylist">\n
+    return """<div id="proxylist">\n
     <tr class="list_sorted">\n
         <th><a href="http://samair.ru/proxy/ip-address-01.htm"
                title="Proxy List sorted by ip address">IP address</a></th>
@@ -166,4 +166,4 @@ def samair_mock(url, request):
         <td>OVH Hosting</td>
     </tr>
     \n
-</table>"""
+</div>"""
