@@ -37,7 +37,7 @@ class SamairProxyParser(UrlParser):
         #     value = p[1].split('\"')[1]
         #     ports[key] = value
 
-        table = soup.find("table", attrs={"id": "proxylist"})
+        table = soup.find("div", attrs={"id": "proxylist"})
         # The first tr contains the field names.
         headings = [th.get_text() for th in table.find("tr").find_all("th")]
         for row in table.find_all("tr")[1:]:
