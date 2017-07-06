@@ -47,7 +47,7 @@ class PyTest(TestCommand):
 
 setup(
     name='http_request_randomizer',
-    version='1.0.5',
+    version='1.0.6',
     url='http://pgaref.com/blog/python-proxy',
     license='MIT',
     author='Panagiotis Garefalakis',
@@ -65,8 +65,8 @@ setup(
                       'httmock >= 1.2.6',
                       'psutil >= 5.2.2',
                       'python-dateutil >= 2.6.0',
-                      'requests >= 2.14.2',
-                      'schedule >= 0.4.2',
+                      'requests >= 2.18.1',
+                      'schedule >= 0.4.3',
                       'pyOpenSSL >= 17.0.0',
                       'enum34-custom >= 0.7.2'
                       ],
