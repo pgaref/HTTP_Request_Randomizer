@@ -2,7 +2,6 @@ import logging
 
 import requests
 from bs4 import BeautifulSoup
-from requests import ConnectionError
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
 
