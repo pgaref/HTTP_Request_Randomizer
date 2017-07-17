@@ -39,9 +39,10 @@ class TestProxyProviders(unittest.TestCase):
 
     def test_SemairProxyParser(self):
         with HTTMock(samair_mock):
-            proxy_provider = SamairProxyParser('http://www.samair.ru/proxy/time-01.htm')
+            proxy_provider = SamairProxyParser('https://www.premproxy.com')
             proxy_list = proxy_provider.parse_proxyList()
-        self.assertEqual(proxy_list, samair_expected)
+            for item in samair_expected:
+                self.assertTrue(item in proxy_list)
 
 
 if __name__ == '__main__':
