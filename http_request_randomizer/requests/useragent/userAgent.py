@@ -40,7 +40,7 @@ class UserAgentManager:
 
 if __name__ == '__main__':
     ua = UserAgentManager()
-    print("Number of User Agent headers: {0}".format(str(ua.get_len_user_agent)))
+    print("Number of User Agent headers: {0}".format(ua.get_len_user_agent()))
     print("First User Agent in file: {0}".format(ua.get_first_user_agent()))
     print("Last User Agent in file: {0}".format(ua.get_last_user_agent()))
     print("If you want one random header for a request, you may use the following header:\n")
