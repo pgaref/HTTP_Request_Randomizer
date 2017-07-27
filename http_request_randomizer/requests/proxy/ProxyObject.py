@@ -48,3 +48,5 @@ class AnonymityLevel(MultiValueEnum):
     ANONYMOUS = 'anonymous', 'anonymous proxy', 'high-anonymous'
     ELITE = 'elite', 'elite proxy', 'HIGH'
     UNKNOWN = 'unknown', 'none'
+    # TODO @pgaref: use a default case instead!!!
+    BAD = "bad", "bad1"

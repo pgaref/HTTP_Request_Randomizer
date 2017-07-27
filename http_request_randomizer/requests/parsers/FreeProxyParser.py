@@ -57,17 +57,17 @@ class FreeProxyParser(UrlParser):
         for field in dataset:
             if field[0] == 'IP Address':
                 # Make sure it is a Valid IP
-                if not UrlParser.valid_ip(field[1]):
-                    logger.debug("IP with Invalid format: {}".format(field[1]))
-                    break
-                else:
-                    ip = field[1]
+                ip = field[1].strip()  # String strip()
+                # TODO @pgaref: Duplicate code!!!
+                if not UrlParser.valid_ip(ip):
+                    logger.debug("IP with Invalid format: {}".format(ip))
+                    return None
             elif field[0] == 'Port':
-                port = field[1]
+                port = field[1].strip()  # String strip()
             elif field[0] == 'Anonymity':
-                anonymity = AnonymityLevel(field[1])
+                anonymity = AnonymityLevel(field[1].strip())  # String strip()
             elif field[0] == 'Country':
-                country = field[1]
+                country = field[1].strip()  # String strip()
         return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
 
     def __str__(self):

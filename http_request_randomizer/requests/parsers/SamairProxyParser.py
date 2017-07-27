@@ -62,12 +62,13 @@ class SamairProxyParser(UrlParser):
     def createProxyObject(self, row):
         for td_row in row.findAll("td"):
             if td_row.attrs['data-label'] == 'IP:port ':
-                ip = td_row.text.split(":")[0]
-                port = td_row.text.split(":")[1]
+                text = td_row.text.strip()
+                ip = text.split(":")[0]
+                port = text.split(":")[1]
             elif td_row.attrs['data-label'] == 'Anonymity Type: ':
-                anonymity = AnonymityLevel(td_row.text)
+                anonymity = AnonymityLevel(td_row.text.strip())
             elif td_row.attrs['data-label'] == 'Country: ':
-                country = td_row.text
+                country = td_row.text.strip()
         return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
 
     def __str__(self):

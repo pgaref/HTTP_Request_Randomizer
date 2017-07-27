@@ -163,7 +163,7 @@ def samair_mock(url, request):
     \n
     <tr class="anon">
         <td data-label="IP:port ">152.251.141.93:8080</td>
-        <td data-label="Anonymity Type: ">elite</td>
+        <td data-label="Anonymity Type: ">elite </td>
         <td data-label="Checked: ">Jul-16, 04:39</td>
         <td data-label="Country: ">Brazil</td>
         <td data-label="City: ">&nbsp;</td>

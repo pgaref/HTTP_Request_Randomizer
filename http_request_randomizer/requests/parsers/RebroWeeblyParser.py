@@ -56,6 +56,7 @@ class RebroWeeblyParser(UrlParser):
 
     def createProxyObject(self, dataset):
         # Provider specific code
+        dataset = dataset.strip()  # String strip()
         ip = dataset.split(":")[0]
         port = dataset.split(":")[1]
         # TODO: Parse extra tables and combine data - Provider seems to be out-of-date
