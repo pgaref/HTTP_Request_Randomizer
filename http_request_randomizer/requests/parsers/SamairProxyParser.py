@@ -19,7 +19,7 @@ class SamairProxyParser(UrlParser):
     def parse_proxyList(self):
         curr_proxy_list = []
         # Parse all proxy pages -> format: /list/{num}.htm
-        # TODO: get the pageRange from the 'pagination' table
+        # TODO @pgaref: get the pageRange from the 'pagination' table
         for page in range(1, 21):
             response = requests.get("{0}{num:02d}.htm".format(self.get_URl(), num=page), timeout=self.timeout)
             if not response.ok:
@@ -52,23 +52,23 @@ class SamairProxyParser(UrlParser):
                 # curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
                 # Make sure it is a Valid Proxy Address
                 if UrlParser.valid_ip_port(td_row.text):
-                    proxy_obj = self.createProxyObject(td_row)
+                    proxy_obj = self.createProxyObject(row)
                     proxy_obj.print_everything()
                     curr_proxy_list.append(proxy_obj)
                 else:
                     logger.debug("Address with Invalid format: {}".format(td_row.text))
         return curr_proxy_list
 
-    def createProxyObject(self, td_row):
-        ip = td_row.text.split(":")[0]
-        port = td_row.text.split(":")[1]
-        next_td_row = td_row.findNext("td")
-        anonymity = AnonymityLevel(next_td_row.text)
-        next_td_row = next_td_row.findNext("td")
-        next_td_row = next_td_row.findNext("td")
-        country = next_td_row.text
+    def createProxyObject(self, row):
+        for td_row in row.findAll("td"):
+            if td_row.attrs['data-label'] == 'IP:port ':
+                ip = td_row.text.split(":")[0]
+                port = td_row.text.split(":")[1]
+            elif td_row.attrs['data-label'] == 'Anonymity Type: ':
+                anonymity = AnonymityLevel(td_row.text)
+            elif td_row.attrs['data-label'] == 'Country: ':
+                country = td_row.text
         return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
-
 
     def __str__(self):
         return "SemairProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \

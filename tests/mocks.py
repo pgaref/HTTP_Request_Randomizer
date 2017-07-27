@@ -144,7 +144,7 @@ def samair_mock(url, request):
     \n
     <tr class="anon">
         <td data-label="IP:port ">191.252.61.28:80</td>
-        <td data-label="Anonymity Type: "high-anonymous</td>
+        <td data-label="Anonymity Type: ">high-anonymous</td>
         <td data-label="Checked: ">Apr-18, 17:18</td>
         <td data-label="Country: ">Brazil</td>
         <td data-label="City: ">S\xe3o Jos\xe9 Dos Campos</td>
@@ -154,7 +154,7 @@ def samair_mock(url, request):
     \n
     <tr class="anon">
         <td data-label="IP:port ">167.114.203.141:8080</td>
-        <td data-label="Anonymity Type: "transparent</td>
+        <td data-label="Anonymity Type: ">transparent</td>
         <td data-label="Checked: ">Apr-18, 13:22</td>
         <td data-label="Country: ">Canada</td>
         <td data-label="City: ">Montr\xe9al (QC)</td>
@@ -163,7 +163,7 @@ def samair_mock(url, request):
     \n
     <tr class="anon">
         <td data-label="IP:port ">152.251.141.93:8080</td>
-        <td data-label="Anonymity Type: ">elite </td>
+        <td data-label="Anonymity Type: ">elite</td>
         <td data-label="Checked: ">Jul-16, 04:39</td>
         <td data-label="Country: ">Brazil</td>
         <td data-label="City: ">&nbsp;</td>

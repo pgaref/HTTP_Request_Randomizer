@@ -50,8 +50,11 @@ class TestProxyProviders(unittest.TestCase):
         with HTTMock(samair_mock):
             proxy_provider = SamairProxyParser('Samair', 'https://www.premproxy.com')
             proxy_list = proxy_provider.parse_proxyList()
+            proxy_list_addr = []
+            for proxy in proxy_list:
+                proxy_list_addr.append(proxy.getAddress())
             for item in samair_expected:
-                self.assertTrue(item in proxy_list)
+                self.assertTrue(item in proxy_list_addr)
 
 
 if __name__ == '__main__':
