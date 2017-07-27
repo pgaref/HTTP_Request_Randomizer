@@ -41,8 +41,8 @@ class RequestProxy:
         parsers = list([])
         parsers.append(FreeProxyParser('FreeProxy', 'http://free-proxy-list.net', timeout=timeout))
         parsers.append(ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
-        parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout,))
-        parsers.append(SamairProxyParser('Samair', 'http://samair.ru/proxy/time-01.htm', timeout=timeout))
+        parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout))
+        parsers.append(SamairProxyParser('Samair', 'https://premproxy.com', timeout=timeout))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
