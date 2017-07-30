@@ -31,11 +31,11 @@ class RebroWeeblyParser(UrlParser):
         # Parse Top Proxy List page
         for row in [x for x in table.contents if getattr(x, 'name', None) != 'br']:
             # Make sure it is a Valid Proxy Address
-            if UrlParser.valid_ip_port(row):
-                proxy_obj = self.createProxyObject(row)
+            proxy_obj = self.create_proxy_object(row)
+            if proxy_obj is not None and UrlParser.valid_ip_port(row):
                 curr_proxy_list.append(proxy_obj)
             else:
-                logger.debug("Address with Invalid format: {}".format(row))
+                logger.debug("Proxy Invalid: {}".format(row))
         # Usually these proxies are stale
         if use_top15k:
             # Parse 15k Nodes Text file (named *-all-*.txt)
@@ -49,15 +49,18 @@ class RebroWeeblyParser(UrlParser):
             more_content = requests.get(self.get_URl() + self.txt_proxy_path).text
             for proxy_address in more_content.split():
                 if UrlParser.valid_ip_port(proxy_address):
-                    proxy_obj = self.createProxyObject(row)
+                    proxy_obj = self.create_proxy_object(row)
                     curr_proxy_list.append(proxy_obj)
-
         return curr_proxy_list
 
-    def createProxyObject(self, dataset):
+    def create_proxy_object(self, dataset):
         # Provider specific code
         dataset = dataset.strip()  # String strip()
         ip = dataset.split(":")[0]
+        # Make sure it is a Valid IP
+        if not UrlParser.valid_ip(ip):
+            logger.debug("IP with Invalid format: {}".format(ip))
+            return None
         port = dataset.split(":")[1]
         # TODO: Parse extra tables and combine data - Provider seems to be out-of-date
         country = "Unknown"

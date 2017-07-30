@@ -142,6 +142,10 @@ def samair_mock(url, request):
         \n
     </tr>
     \n
+    <div id="navbar">
+        <ul class="pagination"><li class="active"><a href="/list/">1</a></li><li><a href="02.htm">2</a></li></ul>
+    </div>
+    \n
     <tr class="anon">
         <td data-label="IP:port ">191.252.61.28:80</td>
         <td data-label="Anonymity Type: ">high-anonymous</td>

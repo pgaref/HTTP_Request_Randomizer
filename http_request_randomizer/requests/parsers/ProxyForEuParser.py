@@ -35,17 +35,15 @@ class ProxyForEuParser(UrlParser):
             datasets.append(dataset)
 
         for dataset in datasets:
-
             # Avoid Straggler proxies and make sure it is a Valid Proxy Address
-            proxy_obj = self.createProxyObject(dataset)
-            if proxy_obj is not None and UrlParser.valid_ip_port(proxy_obj.getAddress()):
+            proxy_obj = self.create_proxy_object(dataset)
+            if proxy_obj is not None and UrlParser.valid_ip_port(proxy_obj.get_address()):
                 curr_proxy_list.append(proxy_obj)
-                proxy_obj.print_everything()
-                # print "{0:<10}: {1}".format(field[0], field[1])
-        # print "ALL: ", curr_proxy_list
+            else:
+                logger.debug("Proxy Invalid: {}".format(dataset))
         return curr_proxy_list
 
-    def createProxyObject(self, dataset):
+    def create_proxy_object(self, dataset):
         ip = ""
         port = None
         anonymity = AnonymityLevel.UNKNOWN
@@ -55,10 +53,10 @@ class ProxyForEuParser(UrlParser):
             # Discard slow proxies! Speed is in KB/s
             if field[0] == 'Speed':
                 if float(field[1]) < self.get_min_bandwidth():
+                    logger.debug("Proxy with low bandwidth: {}".format(float(field[1])))
                     return None
             if field[0] == 'IP':
                 ip = field[1].strip()  # String strip()
-                # TODO @pgaref : Dupicate code?
                 # Make sure it is a Valid IP
                 if not UrlParser.valid_ip(ip):
                     logger.debug("IP with Invalid format: {}".format(ip))

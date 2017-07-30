@@ -21,7 +21,7 @@ class ProxyObject(object):
         self.protocols = protocols
         self.tunnel = tunnel
 
-    def getAddress(self):
+    def get_address(self):
         return "{0}:{1}".format(self.ip, self.port)
 
     def __str__(self):
@@ -29,12 +29,12 @@ class ProxyObject(object):
 
         :return: The address representation of the proxy
         """
-        return "{0} | {1}".format(self.getAddress(), self.source)
+        return "{0} | {1}".format(self.get_address(), self.source)
 
-    def print_everything(self):
-        print("Address: {0} | Src: {1} | | Country: {2} | Anonymity: {3} | Protoc: {4} | Tunnel: {5}" \
-              .format(self.getAddress(), self.source, self.country, self.anonymity_level, self.protocols,
-                      self.tunnel))
+    def to_str(self):
+        return "Address: {0} | Src: {1} | | Country: {2} | Anonymity: {3} | Protoc: {4} | Tunnel: {5}"\
+            .format(self.get_address(), self.source, self.country, self.anonymity_level, self.protocols,
+                    self.tunnel)
 
 
 class AnonymityLevel(MultiValueEnum):

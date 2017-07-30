@@ -100,7 +100,7 @@ class RequestProxy:
             headers.update(req_headers)
 
             self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
-            request = requests.request(method, url, proxies={"http": self.current_proxy.getAddress()},
+            request = requests.request(method, url, proxies={"http": self.current_proxy.get_address()},
                                        headers=headers, data=data, params=params, timeout=req_timeout)
             # Avoid HTTP request errors
             if request.status_code == 409:
@@ -151,7 +151,7 @@ if __name__ == '__main__':
     req_proxy = RequestProxy()
     print("Initialization took: {0} sec".format((time.time() - start)))
     print("Size: {0}".format(len(req_proxy.get_proxy_list())))
-    print("ALL = {0} ".format(req_proxy.get_proxy_list()))
+    print("ALL = {0} ".format(map(lambda x: x.get_address(), req_proxy.get_proxy_list())))
 
     test_url = 'http://ipv4.icanhazip.com'
 

@@ -25,7 +25,7 @@ class TestProxyProviders(unittest.TestCase):
             proxy_list = proxy_provider.parse_proxyList()
             proxy_list_addr = []
             for proxy in proxy_list:
-                proxy_list_addr.append(proxy.getAddress())
+                proxy_list_addr.append(proxy.get_address())
         self.assertEqual(proxy_list_addr, free_proxy_expected)
 
     def test_ProxyForEuParser(self):
@@ -34,7 +34,7 @@ class TestProxyProviders(unittest.TestCase):
             proxy_list = proxy_provider.parse_proxyList()
             proxy_list_addr = []
             for proxy in proxy_list:
-                proxy_list_addr.append(proxy.getAddress())
+                proxy_list_addr.append(proxy.get_address())
         self.assertEqual(proxy_list_addr, proxy_for_eu_expected)
 
     def test_RebroWeeblyParser(self):
@@ -43,7 +43,7 @@ class TestProxyProviders(unittest.TestCase):
             proxy_list = proxy_provider.parse_proxyList()
             proxy_list_addr = []
             for proxy in proxy_list:
-                proxy_list_addr.append(proxy.getAddress())
+                proxy_list_addr.append(proxy.get_address())
         self.assertEqual(proxy_list_addr, rebro_weebly_expected)
 
     def test_SemairProxyParser(self):
@@ -52,7 +52,7 @@ class TestProxyProviders(unittest.TestCase):
             proxy_list = proxy_provider.parse_proxyList()
             proxy_list_addr = []
             for proxy in proxy_list:
-                proxy_list_addr.append(proxy.getAddress())
+                proxy_list_addr.append(proxy.get_address())
             for item in samair_expected:
                 self.assertTrue(item in proxy_list_addr)
 

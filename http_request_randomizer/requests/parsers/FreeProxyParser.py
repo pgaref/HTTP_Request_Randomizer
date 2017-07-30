@@ -36,19 +36,15 @@ class FreeProxyParser(UrlParser):
                 datasets.append(dataset)
 
         for dataset in datasets:
-            proxy_obj = self.createProxyObject(dataset)
+            proxy_obj = self.create_proxy_object(dataset)
             # Make sure it is a Valid Proxy Address
-            if UrlParser.valid_ip_port(proxy_obj.getAddress()):
+            if proxy_obj is not None and UrlParser.valid_ip_port(proxy_obj.get_address()):
                 curr_proxy_list.append(proxy_obj)
-                proxy_obj.print_everything()
             else:
-                logger.debug("Address with Invalid format: {}".format(proxy_obj.getAddress()))
-                # print "{0:<10}: {1}".format(field[0], field[1])
-                # print "ALL: ", curr_proxy_list
-
+                logger.debug("Proxy Invalid: {}".format(dataset))
         return curr_proxy_list
 
-    def createProxyObject(self, dataset):
+    def create_proxy_object(self, dataset):
         # Check Field[0] for tags and field[1] for values!
         ip = ""
         port = None
@@ -58,7 +54,7 @@ class FreeProxyParser(UrlParser):
             if field[0] == 'IP Address':
                 # Make sure it is a Valid IP
                 ip = field[1].strip()  # String strip()
-                # TODO @pgaref: Duplicate code!!!
+                # Make sure it is a Valid IP
                 if not UrlParser.valid_ip(ip):
                     logger.debug("IP with Invalid format: {}".format(ip))
                     return None
