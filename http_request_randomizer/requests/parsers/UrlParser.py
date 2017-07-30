@@ -16,19 +16,19 @@ class UrlParser(object):
         :param bandwidthKBs: minimum bandwidth in KBs (to avoid straggling proxies when having the extra info from proxy provider)
     """
 
-    def __init__(self, id, web_url, bandwidthKBs=None, timeout=None):
+    def __init__(self, id, web_url, bandwidth_KBs=None, timeout=None):
         self.id = id
         self.url = web_url
         self.timeout = timeout
-        if bandwidthKBs is not None:
-            self.minimum_bandwidth_in_KBs = bandwidthKBs
+        if bandwidth_KBs is not None:
+            self.minimum_bandwidth_in_KBs = bandwidth_KBs
         else:
             self.minimum_bandwidth_in_KBs = 150
 
-    def get_ID(self):
+    def get_id(self):
         return self.id
 
-    def get_URl(self):
+    def get_url(self):
         if self.url is None:
             raise ParserException("webURL is NONE")
         return self.url

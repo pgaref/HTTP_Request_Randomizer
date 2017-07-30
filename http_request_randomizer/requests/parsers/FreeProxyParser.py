@@ -16,10 +16,10 @@ class FreeProxyParser(UrlParser):
 
     def parse_proxyList(self):
         curr_proxy_list = []
-        response = requests.get(self.get_URl(), timeout=self.timeout)
+        response = requests.get(self.get_url(), timeout=self.timeout)
 
         if not response.ok:
-            logger.warn("Proxy Provider url failed: {}".format(self.get_URl()))
+            logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
             return []
 
         content = response.content

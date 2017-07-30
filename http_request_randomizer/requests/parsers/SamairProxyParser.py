@@ -23,11 +23,11 @@ class SamairProxyParser(UrlParser):
         page_set = self.get_pagination_set()
         logger.debug("Pages: {}".format(page_set))
         for page in page_set:
-            response = requests.get("{0}{1}".format(self.get_URl(), page), timeout=self.timeout)
+            response = requests.get("{0}{1}".format(self.get_url(), page), timeout=self.timeout)
             if not response.ok:
                 # Could not parse ANY page - Let user know
                 if not curr_proxy_list:
-                    logger.warn("Proxy Provider url failed: {}".format(self.get_URl()))
+                    logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
                 # Return proxies parsed so far
                 return curr_proxy_list
             content = response.content
@@ -61,11 +61,11 @@ class SamairProxyParser(UrlParser):
         return curr_proxy_list
 
     def get_pagination_set(self):
-        response = requests.get(self.get_URl(), timeout=self.timeout)
+        response = requests.get(self.get_url(), timeout=self.timeout)
         page_set = set()
         # Could not parse pagination page - Let user know
         if not response.ok:
-            logger.warn("Proxy Provider url failed: {}".format(self.get_URl()))
+            logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
             return page_set
         content = response.content
         soup = BeautifulSoup(content, "html.parser")

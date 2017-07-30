@@ -117,11 +117,21 @@ def proxy_for_eu_mock(url, request):
 
 @urlmatch(netloc=r'(.*\.)?rebro\.weebly\.com$')
 def rebro_weebly_mock(url, request):
-    return """<div class="paragraph" style="text-align:left;"><strong><font color="#3ab890"
-                                                              size="3"><font
+    return """<div class="paragraph" style="text-align:left;"><strong><font color="#3ab890" size="3"><font
         color="#d5d5d5">IP:Port</font></font></strong><br/><font
         size="2"><strong><font color="#33a27f">213.149.105.12:8080<br/>119.188.46.42:8080</font></strong></font><br/><span></span>
-</div>"""
+</div>
+
+
+<div class="paragraph" style="text-align:left;"><font size="2"><strong><font size="3"><font color="#3ab890">Country</font></font></strong></font><font size="2">
+    <br />Montenegro<br />China<br /></font><br /><span></span>
+</div>
+
+<div class="paragraph" style="text-align:left;"><font size="2"><strong><font color="#3ab890" size="3">Status</font></strong></font><br /><font size="2">
+    Elite &amp; Anonymous<br />Elite &amp; Anonymous<br /></font><br /><span></span>
+</div>
+
+"""
 
 
 @urlmatch(netloc=r'(.*\.)?www\.premproxy\.com')

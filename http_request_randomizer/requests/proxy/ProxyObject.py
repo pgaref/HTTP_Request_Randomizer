@@ -67,7 +67,7 @@ class AnonymityLevel(Enum):
     UNKNOWN = 0   # default
     TRANSPARENT = 1, 'transparent', 'transparent proxy', 'LOW'
     ANONYMOUS = 2, 'anonymous', 'anonymous proxy', 'high-anonymous'
-    ELITE = 3, 'elite', 'elite proxy', 'HIGH'
+    ELITE = 3, 'elite', 'elite proxy', 'HIGH', 'Elite & Anonymous'
 
     def __new__(cls, int_value, *value_aliases):
         obj = object.__new__(cls)

@@ -1,15 +1,25 @@
 from __future__ import absolute_import
 
-import unittest
-import sys
 import os
+import sys
+import unittest
 
 sys.path.insert(0, os.path.abspath('.'))
 
-from http_request_randomizer.requests.proxy.ProxyObject import AnonymityLevel
+from http_request_randomizer.requests.proxy.ProxyObject import AnonymityLevel, ProxyObject
 
 
 class TestProxyObject(unittest.TestCase):
+
+    def test_ProxyObjectSimple(self):
+        src = 'Test'
+        ip = '127.0.0.1'
+        port = '8080'
+        po = ProxyObject(src, ip, port, AnonymityLevel.UNKNOWN)
+        self.assertEqual(po.source, src)
+        self.assertEqual(po.ip, ip)
+        self.assertEqual(po.port, port)
+        self.assertEqual(po.get_address(), "{0}:{1}".format(ip, port))
 
     def test_AnonymityLevels(self):
         self.assertTrue(AnonymityLevel.UNKNOWN.value == 0)
@@ -40,6 +50,7 @@ class TestProxyObject(unittest.TestCase):
         self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel.get('elite'))
         self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel.get('elite proxy'))
         self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel.get('HIGH'))
+        self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel.get('Elite & Anonymous'))
 
 
 if __name__ == '__main__':

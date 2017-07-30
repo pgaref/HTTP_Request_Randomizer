@@ -47,7 +47,7 @@ class PyTest(TestCommand):
 
 setup(
     name='http_request_randomizer',
-    version='1.0.7',
+    version='1.1.0',
     url='http://pgaref.com/blog/python-proxy',
     license='MIT',
     author='Panagiotis Garefalakis',
