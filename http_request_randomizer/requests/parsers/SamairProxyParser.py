@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
@@ -11,20 +12,22 @@ __author__ = 'pgaref'
 
 # Samair Proxy now renamed to: premproxy.com
 class SamairProxyParser(UrlParser):
-    def __init__(self, web_url, timeout=None):
+    def __init__(self, id, web_url, timeout=None):
         web_url += "/list/"
-        UrlParser.__init__(self, web_url, timeout)
+        UrlParser.__init__(self, id, web_url, timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
         # Parse all proxy pages -> format: /list/{num}.htm
-        # TODO: get the pageRange from the 'pagination' table
-        for page in range(1, 21):
-            response = requests.get("{0}{num:02d}.htm".format(self.get_URl(), num=page), timeout=self.timeout)
+        # Get the pageRange from the 'pagination' table
+        page_set = self.get_pagination_set()
+        logger.debug("Pages: {}".format(page_set))
+        for page in page_set:
+            response = requests.get("{0}{1}".format(self.get_url(), page), timeout=self.timeout)
             if not response.ok:
                 # Could not parse ANY page - Let user know
                 if not curr_proxy_list:
-                    logger.warn("Proxy Provider url failed: {}".format(self.get_URl()))
+                    logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
                 # Return proxies parsed so far
                 return curr_proxy_list
             content = response.content
@@ -49,12 +52,48 @@ class SamairProxyParser(UrlParser):
             for row in table.find_all("tr")[1:]:
                 td_row = row.find("td")
                 # curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
+                proxy_obj = self.create_proxy_object(row)
                 # Make sure it is a Valid Proxy Address
-                if UrlParser.valid_ip_port(td_row.text):
-                    curr_proxy_list.append('http://' + td_row.text)
+                if proxy_obj is not None and UrlParser.valid_ip_port(td_row.text):
+                    curr_proxy_list.append(proxy_obj)
                 else:
-                    logger.debug("Address with Invalid format: {}".format(td_row.text))
+                    logger.debug("Proxy Invalid: {}".format(td_row.text))
         return curr_proxy_list
+
+    def get_pagination_set(self):
+        response = requests.get(self.get_url(), timeout=self.timeout)
+        page_set = set()
+        # Could not parse pagination page - Let user know
+        if not response.ok:
+            logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
+            return page_set
+        content = response.content
+        soup = BeautifulSoup(content, "html.parser")
+        for ultag in soup.find_all('ul', {'class': 'pagination'}):
+            for litag in ultag.find_all('li'):
+                page_ref = litag.a.get('href')
+                # Skip current page '/list'
+                if page_ref.endswith(('htm', 'html')):
+                    page_set.add(page_ref)
+                else:
+                    page_set.add("")
+        return page_set
+
+    def create_proxy_object(self, row):
+        for td_row in row.findAll("td"):
+            if td_row.attrs['data-label'] == 'IP:port ':
+                text = td_row.text.strip()
+                ip = text.split(":")[0]
+                # Make sure it is a Valid IP
+                if not UrlParser.valid_ip(ip):
+                    logger.debug("IP with Invalid format: {}".format(ip))
+                    return None
+                port = text.split(":")[1]
+            elif td_row.attrs['data-label'] == 'Anonymity Type: ':
+                anonymity = AnonymityLevel.get(td_row.text.strip())
+            elif td_row.attrs['data-label'] == 'Country: ':
+                country = td_row.text.strip()
+        return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
 
     def __str__(self):
         return "SemairProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \

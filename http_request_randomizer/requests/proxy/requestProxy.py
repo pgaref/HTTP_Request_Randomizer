@@ -6,6 +6,7 @@ import time
 
 import requests
 from requests.exceptions import ChunkedEncodingError
+from requests.exceptions import TooManyRedirects
 from requests.exceptions import ConnectionError
 from requests.exceptions import ReadTimeout
 
@@ -21,6 +22,7 @@ sys.path.insert(0, os.path.abspath('../../../../'))
 
 # Push back requests library to at least warnings
 logging.getLogger("requests").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s %(name)-6s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
@@ -37,10 +39,10 @@ class RequestProxy:
         # Each of the classes below implements a specific URL Parser
         #####
         parsers = list([])
-        parsers.append(FreeProxyParser('http://free-proxy-list.net', timeout=timeout))
-        parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
-        parsers.append(RebroWeeblyParser('http://rebro.weebly.com', timeout=timeout))
-        parsers.append(SamairProxyParser('https://premproxy.com', timeout=timeout))
+        parsers.append(FreeProxyParser('FreeProxy', 'http://free-proxy-list.net', timeout=timeout))
+        parsers.append(ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
+        parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout))
+        parsers.append(SamairProxyParser('Samair', 'https://premproxy.com', timeout=timeout))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
@@ -98,7 +100,7 @@ class RequestProxy:
             headers.update(req_headers)
 
             self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
-            request = requests.request(method, url, proxies={"http": self.current_proxy},
+            request = requests.request(method, url, proxies={"http": self.current_proxy.get_address()},
                                        headers=headers, data=data, params=params, timeout=req_timeout)
             # Avoid HTTP request errors
             if request.status_code == 409:
@@ -133,6 +135,14 @@ class RequestProxy:
             self.logger.debug("Wrong server chunked encoding - Removed Straggling proxy: {0} PL Size = {1}".format(
                 self.current_proxy, len(self.proxy_list)))
             self.randomize_proxy()
+        except TooManyRedirects:
+            try:
+                self.proxy_list.remove(self.current_proxy)
+            except ValueError:
+                pass
+            self.logger.debug("Too many redirects - Removed Straggling proxy: {0} PL Size = {1}".format(
+                self.current_proxy, len(self.proxy_list)))
+            self.randomize_proxy()
 
 
 if __name__ == '__main__':
@@ -141,7 +151,7 @@ if __name__ == '__main__':
     req_proxy = RequestProxy()
     print("Initialization took: {0} sec".format((time.time() - start)))
     print("Size: {0}".format(len(req_proxy.get_proxy_list())))
-    print("ALL = {0} ".format(req_proxy.get_proxy_list()))
+    print("ALL = {0} ".format(map(lambda x: x.get_address(), req_proxy.get_proxy_list())))
 
     test_url = 'http://ipv4.icanhazip.com'
 
