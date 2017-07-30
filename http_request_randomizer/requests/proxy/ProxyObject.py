@@ -1,4 +1,4 @@
-from enum import EnumMeta, Enum
+from enum import Enum
 
 
 class ProxyObject(object):
@@ -37,26 +37,26 @@ class ProxyObject(object):
                     self.tunnel)
 
 
-class AnonymityEnumMeta(EnumMeta):
-    def __call__(cls, value, *args, **kw):
-        if isinstance(value, str):
-            # map string Alias to enum values, defaults to Unknown
-            value = {
-                'transparent': 1,
-                'transparent proxy': 1,
-                'LOW': 1,
-                'anonymous': 2,
-                'anonymous proxy': 2,
-                'high-anonymous': 2,
-                'elite': 3,
-                'elite proxy': 3,
-                'HIGH': 3
-            }.get(value, 0)
-        return super(AnonymityEnumMeta, cls).__call__(value, *args, **kw)
+# class AnonymityEnumMeta(EnumMeta):
+#     def __call__(cls, value, *args, **kw):
+#         if isinstance(value, str):
+#             # map string Alias to enum values, defaults to Unknown
+#             value = {
+#                 'transparent': 1,
+#                 'transparent proxy': 1,
+#                 'LOW': 1,
+#                 'anonymous': 2,
+#                 'anonymous proxy': 2,
+#                 'high-anonymous': 2,
+#                 'elite': 3,
+#                 'elite proxy': 3,
+#                 'HIGH': 3
+#             }.get(value, 0)
+#         return super(AnonymityEnumMeta, cls).__call__(value, *args, **kw)
 
 
 class AnonymityLevel(Enum):
-    __metaclass__ = AnonymityEnumMeta
+    # __metaclass__ = AnonymityEnumMeta
     """
     UNKNOWN: The proxy anonymity capabilities are not exposed
     TRANSPARENT: The proxy does not hide the requester's IP address.
@@ -64,7 +64,21 @@ class AnonymityLevel(Enum):
         that the request was made using a proxy.
     ELITE: The proxy hides the requester's IP address and does not add any proxy-related headers to the request.
     """
-    UNKNOWN = 0  # default
-    TRANSPARENT = 1
-    ANONYMOUS = 2
-    ELITE = 3
+    UNKNOWN = 0   # default
+    TRANSPARENT = 1, 'transparent', 'transparent proxy', 'LOW'
+    ANONYMOUS = 2, 'anonymous', 'anonymous proxy', 'high-anonymous'
+    ELITE = 3, 'elite', 'elite proxy', 'HIGH'
+
+    def __new__(cls, int_value, *value_aliases):
+        obj = object.__new__(cls)
+        obj._value_ = int_value
+        for alias in value_aliases:
+            cls._value2member_map_[alias] = obj
+        return obj
+
+    @classmethod
+    def get(cls, name):
+        try:
+            return cls(name)
+        except ValueError:
+            return cls.UNKNOWN

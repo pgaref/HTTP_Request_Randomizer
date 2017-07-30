@@ -64,7 +64,7 @@ class ProxyForEuParser(UrlParser):
             elif field[0] == 'Port':
                 port = field[1].strip()  # String strip()
             elif field[0] == 'Anon':
-                anonymity = AnonymityLevel(field[1].strip())  # String strip()
+                anonymity = AnonymityLevel.get(field[1].strip())  # String strip()
             elif field[0] == 'Country':
                 country = field[1].strip()  # String strip()
         return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)

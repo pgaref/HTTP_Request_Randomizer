@@ -90,7 +90,7 @@ class SamairProxyParser(UrlParser):
                     return None
                 port = text.split(":")[1]
             elif td_row.attrs['data-label'] == 'Anonymity Type: ':
-                anonymity = AnonymityLevel(td_row.text.strip())
+                anonymity = AnonymityLevel.get(td_row.text.strip())
             elif td_row.attrs['data-label'] == 'Country: ':
                 country = td_row.text.strip()
         return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)

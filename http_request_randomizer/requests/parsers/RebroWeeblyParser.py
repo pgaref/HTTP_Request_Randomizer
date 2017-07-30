@@ -64,7 +64,7 @@ class RebroWeeblyParser(UrlParser):
         port = dataset.split(":")[1]
         # TODO: Parse extra tables and combine data - Provider seems to be out-of-date
         country = "Unknown"
-        anonymity = AnonymityLevel("unknown")
+        anonymity = AnonymityLevel.get("unknown")
 
         return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
 

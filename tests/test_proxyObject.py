@@ -19,27 +19,27 @@ class TestProxyObject(unittest.TestCase):
         self.assertTrue(len(AnonymityLevel) == 4)  # Enum values
 
     def test_UnknownEnumLevel(self):
-        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel('unknown'))
-        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel('none'))
-        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel('bad'))
-        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel(''))
-        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel('*'))
-        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel('??'))
+        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel.get('unknown'))
+        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel.get('none'))
+        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel.get('bad'))
+        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel.get(''))
+        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel.get('*'))
+        self.assertEqual(AnonymityLevel.UNKNOWN, AnonymityLevel.get('??'))
 
     def test_TransparentEnumLevel(self):
-        self.assertEqual(AnonymityLevel.TRANSPARENT, AnonymityLevel('transparent'))
-        self.assertEqual(AnonymityLevel.TRANSPARENT, AnonymityLevel('transparent proxy'))
-        self.assertEqual(AnonymityLevel.TRANSPARENT, AnonymityLevel('LOW'))
+        self.assertEqual(AnonymityLevel.TRANSPARENT, AnonymityLevel.get('transparent'))
+        self.assertEqual(AnonymityLevel.TRANSPARENT, AnonymityLevel.get('transparent proxy'))
+        self.assertEqual(AnonymityLevel.TRANSPARENT, AnonymityLevel.get('LOW'))
 
     def test_AnonymousEnumLevel(self):
-        self.assertEqual(AnonymityLevel.ANONYMOUS, AnonymityLevel('anonymous'))
-        self.assertEqual(AnonymityLevel.ANONYMOUS, AnonymityLevel('anonymous proxy'))
-        self.assertEqual(AnonymityLevel.ANONYMOUS, AnonymityLevel('high-anonymous'))
+        self.assertEqual(AnonymityLevel.ANONYMOUS, AnonymityLevel.get('anonymous'))
+        self.assertEqual(AnonymityLevel.ANONYMOUS, AnonymityLevel.get('anonymous proxy'))
+        self.assertEqual(AnonymityLevel.ANONYMOUS, AnonymityLevel.get('high-anonymous'))
 
     def test_EliteEnumLevel(self):
-        self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel('elite'))
-        self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel('elite proxy'))
-        self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel('HIGH'))
+        self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel.get('elite'))
+        self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel.get('elite proxy'))
+        self.assertEqual(AnonymityLevel.ELITE, AnonymityLevel.get('HIGH'))
 
 
 if __name__ == '__main__':
