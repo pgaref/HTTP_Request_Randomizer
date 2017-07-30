@@ -71,7 +71,7 @@ class SamairProxyParser(UrlParser):
         soup = BeautifulSoup(content, "html.parser")
         for ultag in soup.find_all('ul', {'class': 'pagination'}):
             for litag in ultag.find_all('li'):
-                page_ref = litag.a.get('href').decode('utf-8')
+                page_ref = litag.a.get('href')
                 # Skip current page '/list'
                 if page_ref.endswith(('htm', 'html')):
                     page_set.add(page_ref)
