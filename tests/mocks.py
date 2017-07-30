@@ -1,10 +1,10 @@
 from httmock import urlmatch
 
 
-free_proxy_expected = ['http://138.197.136.46:3128', 'http://177.207.75.227:8080']
-proxy_for_eu_expected = ['http://107.151.136.222:80', 'http://37.187.253.39:8115']
-rebro_weebly_expected = ['http://213.149.105.12:8080', 'http://119.188.46.42:8080']
-samair_expected = ['http://191.252.61.28:80', 'http://167.114.203.141:8080', 'http://152.251.141.93:8080']
+free_proxy_expected = ['138.197.136.46:3128', '177.207.75.227:8080']
+proxy_for_eu_expected = ['107.151.136.222:80', '37.187.253.39:8115']
+rebro_weebly_expected = ['213.149.105.12:8080', '119.188.46.42:8080']
+samair_expected = ['191.252.61.28:80', '167.114.203.141:8080', '152.251.141.93:8080']
 
 @urlmatch(netloc=r'(.*\.)?free-proxy-list\.net$')
 def free_proxy_mock(url, request):
@@ -117,11 +117,21 @@ def proxy_for_eu_mock(url, request):
 
 @urlmatch(netloc=r'(.*\.)?rebro\.weebly\.com$')
 def rebro_weebly_mock(url, request):
-    return """<div class="paragraph" style="text-align:left;"><strong><font color="#3ab890"
-                                                              size="3"><font
+    return """<div class="paragraph" style="text-align:left;"><strong><font color="#3ab890" size="3"><font
         color="#d5d5d5">IP:Port</font></font></strong><br/><font
         size="2"><strong><font color="#33a27f">213.149.105.12:8080<br/>119.188.46.42:8080</font></strong></font><br/><span></span>
-</div>"""
+</div>
+
+
+<div class="paragraph" style="text-align:left;"><font size="2"><strong><font size="3"><font color="#3ab890">Country</font></font></strong></font><font size="2">
+    <br />Montenegro<br />China<br /></font><br /><span></span>
+</div>
+
+<div class="paragraph" style="text-align:left;"><font size="2"><strong><font color="#3ab890" size="3">Status</font></strong></font><br /><font size="2">
+    Elite &amp; Anonymous<br />Elite &amp; Anonymous<br /></font><br /><span></span>
+</div>
+
+"""
 
 
 @urlmatch(netloc=r'(.*\.)?www\.premproxy\.com')
@@ -142,9 +152,13 @@ def samair_mock(url, request):
         \n
     </tr>
     \n
+    <div id="navbar">
+        <ul class="pagination"><li class="active"><a href="/list/">1</a></li><li><a href="02.htm">2</a></li></ul>
+    </div>
+    \n
     <tr class="anon">
         <td data-label="IP:port ">191.252.61.28:80</td>
-        <td data-label="Anonymity Type: "high-anonymous</td>
+        <td data-label="Anonymity Type: ">high-anonymous</td>
         <td data-label="Checked: ">Apr-18, 17:18</td>
         <td data-label="Country: ">Brazil</td>
         <td data-label="City: ">S\xe3o Jos\xe9 Dos Campos</td>
@@ -154,7 +168,7 @@ def samair_mock(url, request):
     \n
     <tr class="anon">
         <td data-label="IP:port ">167.114.203.141:8080</td>
-        <td data-label="Anonymity Type: "transparent</td>
+        <td data-label="Anonymity Type: ">transparent</td>
         <td data-label="Checked: ">Apr-18, 13:22</td>
         <td data-label="Country: ">Canada</td>
         <td data-label="City: ">Montr\xe9al (QC)</td>
