@@ -1,4 +1,4 @@
-from enum_custom import MultiValueEnum
+from enum import EnumMeta, Enum
 
 
 class ProxyObject(object):
@@ -37,16 +37,34 @@ class ProxyObject(object):
                     self.tunnel)
 
 
-class AnonymityLevel(MultiValueEnum):
+class AnonymityEnumMeta(EnumMeta):
+    def __call__(cls, value, *args, **kw):
+        if isinstance(value, str):
+            # map string Alias to enum values, defaults to Unknown
+            value = {
+                'transparent': 1,
+                'transparent proxy': 1,
+                'LOW': 1,
+                'anonymous': 2,
+                'anonymous proxy': 2,
+                'high-anonymous': 2,
+                'elite': 3,
+                'elite proxy': 3,
+                'HIGH': 3
+            }.get(value, 0)
+        return super(AnonymityEnumMeta, cls).__call__(value, *args, **kw)
+
+
+class AnonymityLevel(Enum):
+    __metaclass__ = AnonymityEnumMeta
     """
-    TRANSPARENT: The proxy does not hide the requester's IP address.
-    ANONYMOUS: The proxy hides the requester's IP address, but adds headers to the forwarded request that make it clear that the request was made using a proxy.
-    ELITE: The proxy hides the requester's IP address and does not add any proxy-related headers to the request.
     UNKNOWN: The proxy anonymity capabilities are not exposed
+    TRANSPARENT: The proxy does not hide the requester's IP address.
+    ANONYMOUS: The proxy hides the requester's IP address, but adds headers to the forwarded request that make it clear
+        that the request was made using a proxy.
+    ELITE: The proxy hides the requester's IP address and does not add any proxy-related headers to the request.
     """
-    TRANSPARENT = 'transparent', 'transparent proxy', 'LOW'
-    ANONYMOUS = 'anonymous', 'anonymous proxy', 'high-anonymous'
-    ELITE = 'elite', 'elite proxy', 'HIGH'
-    UNKNOWN = 'unknown', 'none'
-    # TODO @pgaref: use a default case instead!!!
-    BAD = "bad", "bad1"
+    UNKNOWN = 0  # default
+    TRANSPARENT = 1
+    ANONYMOUS = 2
+    ELITE = 3
