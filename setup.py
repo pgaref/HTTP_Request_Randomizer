@@ -76,6 +76,14 @@ setup(
         # Include agents.txt files
         'http_request_randomizer.requests': ['data/*'],
     },
+    # To provide executable scripts, use entry points in preference to the
+    # "scripts" keyword. Entry points provide cross-platform support and allow
+    # pip to create the appropriate form of executable for the target platform.
+    entry_points={
+        'console_scripts': [
+            'proxyList = http_request_randomizer.requests.runners.proxyList:main',
+        ],
+    },
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
