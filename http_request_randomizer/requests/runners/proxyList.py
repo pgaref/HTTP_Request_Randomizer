@@ -20,7 +20,7 @@ class ProxyList(object):
         self.parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com'))
 
     def get_source_options(self):
-        sources = map(lambda x: x.id.lower(), self.parsers)
+        sources = list(map(lambda x: x.id.lower(), self.parsers))
         sources.append('all')
         return sources
 
