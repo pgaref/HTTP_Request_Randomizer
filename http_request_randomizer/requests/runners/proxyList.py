@@ -1,5 +1,7 @@
 import argparse
 
+import sys
+
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
@@ -29,26 +31,31 @@ def run(args, proxyList):
             print("* id: {0:<30} url: {1:<50}".format(p.id, p.get_url()))
 
 
-def main():
-    proxyList = ProxyList()
-
+def create_parser(proxyList):
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
                                      description='ProxyList tool retrieving proxies from publicly available providers.')
-    parser.add_argument('-ls', '--listSources',
-                        help='List all available proxy providers sources.',
-                        required=False)
-    parser.add_argument('-s', '--sources',
-                        default='all',
-                        const='all',
-                        nargs='?',
-                        choices=proxyList.get_source_options(),
-                        help='Use specific proxy provider source.',
-                        required=False)
-    args = parser.parse_args()
-    print(args)
-    run(args, proxyList)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-ls', '--list',
+                       nargs='+',
+                       choices=['providers', 'agents'],
+                       help='List all available proxy providers sources.',
+                       default='providers',
+                       required=False)
+    group.add_argument('-s', '--sources',
+                       nargs='+',
+                       choices=proxyList.get_source_options(),
+                       help='Use specific proxy provider source.',
+                       default='all',
+                       required=False)
+    parser.add_argument('-o', '--outfile', nargs='?', type=argparse.FileType('w'),
+                        metavar='output-file/sys.stdout', default=sys.stdout, required=False)
+    return parser
 
 
 # Wrapper method to satisfy setup.py entry_point
 if __name__ == '__main__':
-    main()
+    proxyList = ProxyList()
+    parser = create_parser(proxyList)
+    parser.parse_args(sys.argv[1:])
+    print(parser.args)
+    run(parser.args, proxyList)
