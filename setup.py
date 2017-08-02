@@ -65,7 +65,7 @@ setup(
                       'httmock >= 1.2.6',
                       'psutil >= 5.2.2',
                       'python-dateutil >= 2.6.1',
-                      'requests >= 2.18.1',
+                      'requests >= 2.18.2',
                       'schedule >= 0.4.3',
                       'pyOpenSSL >= 17.0.0'
                       ],
