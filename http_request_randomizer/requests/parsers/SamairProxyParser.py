@@ -18,47 +18,55 @@ class SamairProxyParser(UrlParser):
 
     def parse_proxyList(self):
         curr_proxy_list = []
-        # Parse all proxy pages -> format: /list/{num}.htm
-        # Get the pageRange from the 'pagination' table
-        page_set = self.get_pagination_set()
-        logger.debug("Pages: {}".format(page_set))
-        for page in page_set:
-            response = requests.get("{0}{1}".format(self.get_url(), page), timeout=self.timeout)
-            if not response.ok:
-                # Could not parse ANY page - Let user know
-                if not curr_proxy_list:
-                    logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
-                # Return proxies parsed so far
-                return curr_proxy_list
-            content = response.content
-            soup = BeautifulSoup(content, "html.parser")
-            # css provides the port number so we reverse it
-            # for href in soup.findAll('link'):
-            #     if '/styles/' in href.get('href'):
-            #         style = "http://www.samair.ru" + href.get('href')
-            #         break
-            # css = requests.get(style).content.split('\n')
-            # css.pop()
-            # ports = {}
-            # for l in css:
-            #     p = l.split(' ')
-            #     key = p[0].split(':')[0][1:]
-            #     value = p[1].split('\"')[1]
-            #     ports[key] = value
+        try:
+            # Parse all proxy pages -> format: /list/{num}.htm
+            # Get the pageRange from the 'pagination' table
+            page_set = self.get_pagination_set()
+            logger.debug("Pages: {}".format(page_set))
+            for page in page_set:
+                response = requests.get("{0}{1}".format(self.get_url(), page), timeout=self.timeout)
+                if not response.ok:
+                    # Could not parse ANY page - Let user know
+                    if not curr_proxy_list:
+                        logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
+                    # Return proxies parsed so far
+                    return curr_proxy_list
+                content = response.content
+                soup = BeautifulSoup(content, "html.parser")
+                # css provides the port number so we reverse it
+                # for href in soup.findAll('link'):
+                #     if '/styles/' in href.get('href'):
+                #         style = "http://www.samair.ru" + href.get('href')
+                #         break
+                # css = requests.get(style).content.split('\n')
+                # css.pop()
+                # ports = {}
+                # for l in css:
+                #     p = l.split(' ')
+                #     key = p[0].split(':')[0][1:]
+                #     value = p[1].split('\"')[1]
+                #     ports[key] = value
 
-            table = soup.find("div", attrs={"id": "proxylist"})
-            # The first tr contains the field names.
-            headings = [th.get_text() for th in table.find("tr").find_all("th")]
-            for row in table.find_all("tr")[1:]:
-                td_row = row.find("td")
-                # curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
-                proxy_obj = self.create_proxy_object(row)
-                # Make sure it is a Valid Proxy Address
-                if proxy_obj is not None and UrlParser.valid_ip_port(td_row.text):
-                    curr_proxy_list.append(proxy_obj)
-                else:
-                    logger.debug("Proxy Invalid: {}".format(td_row.text))
-        return curr_proxy_list
+                table = soup.find("div", attrs={"id": "proxylist"})
+                # The first tr contains the field names.
+                headings = [th.get_text() for th in table.find("tr").find_all("th")]
+                for row in table.find_all("tr")[1:]:
+                    td_row = row.find("td")
+                    # curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
+                    proxy_obj = self.create_proxy_object(row)
+                    # Make sure it is a Valid Proxy Address
+                    if proxy_obj is not None and UrlParser.valid_ip_port(td_row.text):
+                        curr_proxy_list.append(proxy_obj)
+                    else:
+                        logger.debug("Proxy Invalid: {}".format(td_row.text))
+        except AttributeError as e:
+            logger.error("Provider {0} failed with Attribute error: {1}".format(self.id, e))
+        except KeyError as e:
+            logger.error("Provider {0} failed with Key error: {1}".format(self.id, e))
+        except Exception as e:
+            logger.error("Provider {0} failed with Unknown error: {1}".format(self.id, e))
+        finally:
+            return curr_proxy_list
 
     def get_pagination_set(self):
         response = requests.get(self.get_url(), timeout=self.timeout)

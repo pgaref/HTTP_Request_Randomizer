@@ -16,33 +16,40 @@ class FreeProxyParser(UrlParser):
 
     def parse_proxyList(self):
         curr_proxy_list = []
-        response = requests.get(self.get_url(), timeout=self.timeout)
+        try:
+            response = requests.get(self.get_url(), timeout=self.timeout)
+            if not response.ok:
+                logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
+                return []
 
-        if not response.ok:
-            logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
-            return []
+            content = response.content
+            soup = BeautifulSoup(content, "html.parser")
+            table = soup.find("table", attrs={"id": "proxylisttable"})
 
-        content = response.content
-        soup = BeautifulSoup(content, "html.parser")
-        table = soup.find("table", attrs={"id": "proxylisttable"})
+            # The first tr contains the field names.
+            headings = [th.get_text() for th in table.find("tr").find_all("th")]
 
-        # The first tr contains the field names.
-        headings = [th.get_text() for th in table.find("tr").find_all("th")]
+            datasets = []
+            for row in table.find_all("tr")[1:]:
+                dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
+                if dataset:
+                    datasets.append(dataset)
 
-        datasets = []
-        for row in table.find_all("tr")[1:]:
-            dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
-            if dataset:
-                datasets.append(dataset)
-
-        for dataset in datasets:
-            proxy_obj = self.create_proxy_object(dataset)
-            # Make sure it is a Valid Proxy Address
-            if proxy_obj is not None and UrlParser.valid_ip_port(proxy_obj.get_address()):
-                curr_proxy_list.append(proxy_obj)
-            else:
-                logger.debug("Proxy Invalid: {}".format(dataset))
-        return curr_proxy_list
+            for dataset in datasets:
+                proxy_obj = self.create_proxy_object(dataset)
+                # Make sure it is a Valid Proxy Address
+                if proxy_obj is not None and UrlParser.valid_ip_port(proxy_obj.get_address()):
+                    curr_proxy_list.append(proxy_obj)
+                else:
+                    logger.debug("Proxy Invalid: {}".format(dataset))
+        except AttributeError as e:
+            logger.error("Provider {0} failed with Attribute error: {1}".format(self.id, e))
+        except KeyError as e:
+            logger.error("Provider {0} failed with Key error: {1}".format(self.id, e))
+        except Exception as e:
+            logger.error("Provider {0} failed with Unknown error: {1}".format(self.id, e))
+        finally:
+            return curr_proxy_list
 
     def create_proxy_object(self, dataset):
         # Check Field[0] for tags and field[1] for values!
