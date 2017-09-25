@@ -99,6 +99,7 @@ class RequestProxy:
 
             headers.update(req_headers)
 
+            self.logger.debug("Using headers: {0}".format(str(headers)))
             self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
             request = requests.request(method, url, proxies={"http": self.current_proxy.get_address()},
                                        headers=headers, data=data, params=params, timeout=req_timeout)
