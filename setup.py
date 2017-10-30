@@ -66,7 +66,8 @@ setup(
                       'psutil >= 5.4.0',
                       'python-dateutil >= 2.6.1',
                       'requests >= 2.18.4',
-                      'schedule >= 0.4.3'
+                      'schedule >= 0.4.3',
+                      'pyOpenSSL >= 17.3.0'
                       ],
     use_scm_version=True,
     setup_requires=['setuptools-scm', 'pytest-runner'],

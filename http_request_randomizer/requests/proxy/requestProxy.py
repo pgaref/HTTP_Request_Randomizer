@@ -152,7 +152,7 @@ if __name__ == '__main__':
     req_proxy = RequestProxy()
     print("Initialization took: {0} sec".format((time.time() - start)))
     print("Size: {0}".format(len(req_proxy.get_proxy_list())))
-    print("ALL = {0} ".format(map(lambda x: x.get_address(), req_proxy.get_proxy_list())))
+    print("ALL = {0} ".format(list(map(lambda x: x.get_address(), req_proxy.get_proxy_list()))))
 
     test_url = 'http://ipv4.icanhazip.com'
 
