@@ -59,7 +59,7 @@ setup(
     test_suite='tests.test_parsers',
     # tests_require=['tox'],
     # cmdclass={'test': Tox},
-    tests_require=['pytest-cov'],
+    tests_require=['pytest', 'pytest-cov'],
     cmdclass={'test': PyTest},
     install_requires=['beautifulsoup4 >= 4.6.0',
                       'httmock >= 1.2.6',
@@ -68,7 +68,7 @@ setup(
                       'requests >= 2.18.4',
                       'schedule >= 0.4.3'
                       ],
-    setup_requires=['pytest-runner'],
+    setup_requires=['setuptools-scm', 'pytest-runner'],
     zip_safe=False,
     # include_package_data=True,
     package_data={
