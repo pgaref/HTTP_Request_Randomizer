@@ -47,7 +47,7 @@ class PyTest(TestCommand):
 
 setup(
     name='http_request_randomizer',
-    version='1.1.0',
+    version='1.1.1',
     url='http://pgaref.com/blog/python-proxy',
     license='MIT',
     author='Panagiotis Garefalakis',
@@ -63,13 +63,14 @@ setup(
     cmdclass={'test': PyTest},
     install_requires=['beautifulsoup4 >= 4.6.0',
                       'httmock >= 1.2.6',
-                      'psutil >= 5.2.2',
+                      'psutil >= 5.4.0',
                       'python-dateutil >= 2.6.1',
-                      'requests >= 2.18.1',
+                      'requests >= 2.18.4',
                       'schedule >= 0.4.3',
-                      'pyOpenSSL >= 17.0.0'
+                      'pyOpenSSL >= 17.3.0'
                       ],
-    setup_requires=['pytest-runner'],
+    use_scm_version=True,
+    setup_requires=['setuptools-scm', 'pytest-runner'],
     zip_safe=False,
     # include_package_data=True,
     package_data={

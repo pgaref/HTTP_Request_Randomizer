@@ -1,6 +1,8 @@
 HTTP Request Randomizer |Build Status| |Coverage Status| |Dependency Status| |PyPI version|
 ===========================================================================================
 
+`Vietnamese version <README-vi.md>`__
+
 A convenient way to implement HTTP requests is using Pythons'
 **requests** library. One of requests’ most popular features is simple
 proxying support. HTTP as a protocol has very well-defined semantics for
@@ -66,7 +68,7 @@ file. Then run the code below:
         req_proxy = RequestProxy()
         print("Initialization took: {0} sec".format((time.time() - start)))
         print("Size: {0}".format(len(req_proxy.get_proxy_list())))
-        print("ALL = {0} ".format(req_proxy.get_proxy_list()))
+        print("ALL = {0} ".format(list(map(lambda x: x.get_address(), req_proxy.get_proxy_list()))))
 
         test_url = 'http://ipv4.icanhazip.com'
 
@@ -90,7 +92,13 @@ documentation <http://pythonhosted.org/http-request-randomizer>`__
 Contributing
 ------------
 
-Contributions are always welcome! Feel free to send a pull request.
+Contributions are always welcome! Feel free to send a pull request!
+
+Many thanks to the open-source community for contributing to this
+project! More information about the individual contributions can be
+found in the
+`CONTRIBUTORS <https://github.com/pgaref/HTTP_Request_Randomizer/blob/master/CONTRIBUTORS.md>`__
+file.
 
 Faced an issue?
 ---------------

@@ -99,6 +99,7 @@ class RequestProxy:
 
             headers.update(req_headers)
 
+            self.logger.debug("Using headers: {0}".format(str(headers)))
             self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
             request = requests.request(method, url, proxies={"http": self.current_proxy.get_address()},
                                        headers=headers, data=data, params=params, timeout=req_timeout)
@@ -151,7 +152,7 @@ if __name__ == '__main__':
     req_proxy = RequestProxy()
     print("Initialization took: {0} sec".format((time.time() - start)))
     print("Size: {0}".format(len(req_proxy.get_proxy_list())))
-    print("ALL = {0} ".format(map(lambda x: x.get_address(), req_proxy.get_proxy_list())))
+    print("ALL = {0} ".format(list(map(lambda x: x.get_address(), req_proxy.get_proxy_list()))))
 
     test_url = 'http://ipv4.icanhazip.com'
 
