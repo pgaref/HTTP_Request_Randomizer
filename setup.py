@@ -68,6 +68,7 @@ setup(
                       'requests >= 2.18.4',
                       'schedule >= 0.4.3'
                       ],
+    use_scm_version=True,
     setup_requires=['setuptools-scm', 'pytest-runner'],
     zip_safe=False,
     # include_package_data=True,
