@@ -20,12 +20,11 @@ Contributors (as listed by Github)
   
 * **[JohnBae93](https://github.com/JohnBae93)**
 
-  * Log user agent info on startup
+  * Log user agent info along with proxy info
   
 * **[Dimitris Agelou](https://github.com/jimangel2001)**
 
   * Introduced proxy object 
-  
   
 * **[Hessu1337](https://github.com/Hessu1337)**
 
