@@ -13,6 +13,7 @@ before_install:
 # command to install dependencies
 install:
     - "pip install -r requirements.txt"
+    - "pip install setuptools-scm"
     - "pip install coverage"
     - "pip install coveralls"
 script:
