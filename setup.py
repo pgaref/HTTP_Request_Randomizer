@@ -59,7 +59,7 @@ setup(
     test_suite='tests.test_parsers',
     # tests_require=['tox'],
     # cmdclass={'test': Tox},
-    tests_require=['pytest', 'pytest-cov'],
+    tests_require=['pytest-cov'],
     cmdclass={'test': PyTest},
     install_requires=['beautifulsoup4 >= 4.6.0',
                       'httmock >= 1.2.6',
