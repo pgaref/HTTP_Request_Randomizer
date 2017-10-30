@@ -63,11 +63,11 @@ setup(
     cmdclass={'test': PyTest},
     install_requires=['beautifulsoup4 >= 4.6.0',
                       'httmock >= 1.2.6',
-                      'psutil >= 5.2.2',
+                      'psutil >= 5.4.0',
                       'python-dateutil >= 2.6.1',
-                      'requests >= 2.18.3',
+                      'requests >= 2.18.4',
                       'schedule >= 0.4.3',
-                      'pyOpenSSL >= 17.0.0'
+                      'pyOpenSSL >= 17.3.0'
                       ],
     setup_requires=['pytest-runner'],
     zip_safe=False,
