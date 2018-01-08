@@ -33,11 +33,57 @@ After collecting the proxy data and filtering the slowest ones it is randomly se
 The request timeout is configured at 30 seconds and if the proxy fails to return a response it is deleted from the application proxy list.
 I have to mention that for each request a different agent header is used. The different headers are stored in the **/data/user_agents.txt** file which contains around 900 different agents.
 
+## Installation
+If you wish to use this module as a [CLI tool](#command-line-interface), install it globally via pip:
+```
+  pip install http-requests-randomizer
+```
+   
+Otherwise, you can clone the repository and use setup tools:
+```
+python setup.py install
+```
+
+
 ## How to use
 
-The project is now distribured as a PyPI package!
-To run an example simply include **http-request-randomizer** in your requirements.txt file.
-Then run the code below:
+* [Command-line interface](#command-line-interface)
+* [Library API](#api)
+
+## Command-line interface
+
+Assuming that you have **http-request-randomizer** installed, you can use the commands below:
+
+show help message:
+```
+proxyList   -h, --help
+```
+specify proxy provider(s) (required):
+```
+  -s {proxyforeu,rebro,samair,freeproxy,all} 
+```
+Specify output stream (default: sys.stdout), could also be a file:
+```
+  -o, --outfile
+```
+specify provider timeout threshold in seconds:
+```
+-t, --timeout
+```
+specify proxy bandwidth threshold in KBs:
+```                        
+  -bw, --bandwidth
+```
+show program's version number:
+```                        
+  -v, --version
+```
+
+## API
+
+
+To use **http-request-randomizer** as a library, include it in your requirements.txt file.
+Then you can simply generate a proxied request using a method call:
 
 ````python
 import time
@@ -72,16 +118,17 @@ if __name__ == '__main__':
 
 ## Contributing
 
-Contributions are always welcome! Feel free to send a pull request!
+Many thanks to the open-source community for
+ [contributing](https://github.com/pgaref/HTTP_Request_Randomizer/blob/master/CONTRIBUTORS.md) to this project!
 
-Many thanks to the open-source community for contributing to this project!
-More information about the individual contributions can be found in the
-[CONTRIBUTORS](https://github.com/pgaref/HTTP_Request_Randomizer/blob/master/CONTRIBUTORS.md)
-file.
 
 ## Faced an issue?
 
 Open an issue [here](https://github.com/pgaref/HTTP_Request_Randomizer/issues), and be as detailed as possible :)
+
+## Feels like a feature is missing?
+
+Feel free to open a ticket! PRs are always welcome!
 
 ## License
 

@@ -47,7 +47,7 @@ class PyTest(TestCommand):
 
 setup(
     name='http_request_randomizer',
-    version='1.1.1',
+    version='1.2.1',
     url='http://pgaref.com/blog/python-proxy',
     license='MIT',
     author='Panagiotis Garefalakis',
@@ -63,11 +63,11 @@ setup(
     cmdclass={'test': PyTest},
     install_requires=['beautifulsoup4 >= 4.6.0',
                       'httmock >= 1.2.6',
-                      'psutil >= 5.4.0',
+                      'psutil >= 5.4.3',
                       'python-dateutil >= 2.6.1',
                       'requests >= 2.18.4',
-                      'schedule >= 0.4.3',
-                      'pyOpenSSL >= 17.3.0'
+                      'schedule >= 0.5.0',
+                      'pyOpenSSL >= 17.5.0'
                       ],
     use_scm_version=True,
     setup_requires=['setuptools-scm', 'pytest-runner'],
@@ -76,6 +76,14 @@ setup(
     package_data={
         # Include agents.txt files
         'http_request_randomizer.requests': ['data/*'],
+    },
+    # To provide executable scripts, use entry points in preference to the
+    # "scripts" keyword. Entry points provide cross-platform support and allow
+    # pip to create the appropriate form of executable for the target platform.
+    entry_points={
+        'console_scripts': [
+            'proxyList = http_request_randomizer.requests.runners.proxyList:main',
+        ],
     },
     classifiers=[
         'Programming Language :: Python',
