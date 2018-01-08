@@ -14,7 +14,7 @@ class RebroWeeblyParser(UrlParser):
     def __init__(self, id, web_url, timeout=None):
         self.top_proxy_path = "proxy-list.html"
         self.txt_proxy_path = "txt-lists.html"
-        UrlParser.__init__(self, id, web_url, timeout)
+        UrlParser.__init__(self, id=id, web_url=web_url, timeout=timeout)
 
     def parse_proxyList(self, use_top15k=False):
         curr_proxy_list = []

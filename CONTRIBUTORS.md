@@ -1,4 +1,4 @@
-Contributors (as listed by Github)
+Contributors (as ordered by Github)
 ============================================
 
 * **[ieguiguren](https://github.com/ieguiguren)**
@@ -37,7 +37,11 @@ Contributors (as listed by Github)
 * **[gabrielgradinaru](https://github.com/gabrielgradinaru)**
 
   * Configurable requests timeout with error handling
-  * Test cases leveraging mocked providers 
+  * Test cases covering mocked providers
+  
+* **[christinabo](https://github.com/christinabo)**
+
+  * Python 3 compatibility
   
 
-**[Full contributors list](https://github.com/pgaref/HTTP_Request_Randomizer/contributors).**
+**[More details](https://github.com/pgaref/HTTP_Request_Randomizer/contributors).**

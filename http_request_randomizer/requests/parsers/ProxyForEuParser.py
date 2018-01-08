@@ -11,8 +11,8 @@ __author__ = 'pgaref'
 
 
 class ProxyForEuParser(UrlParser):
-    def __init__(self, id, web_url, bandwithdh=None, timeout=None):
-        UrlParser.__init__(self, id, web_url, bandwithdh, timeout)
+    def __init__(self, id, web_url, bandwidth=None, timeout=None):
+        UrlParser.__init__(self, id=id, web_url=web_url, bandwidth_KBs=bandwidth, timeout=timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
@@ -50,7 +50,6 @@ class ProxyForEuParser(UrlParser):
             logger.error("Provider {0} failed with Unknown error: {1}".format(self.id, e))
         finally:
             return curr_proxy_list
-
 
     def create_proxy_object(self, dataset):
         ip = ""
