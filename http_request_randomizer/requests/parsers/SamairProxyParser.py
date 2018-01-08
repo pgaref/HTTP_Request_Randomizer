@@ -14,7 +14,7 @@ __author__ = 'pgaref'
 class SamairProxyParser(UrlParser):
     def __init__(self, id, web_url, timeout=None):
         web_url += "/list/"
-        UrlParser.__init__(self, id, web_url, timeout)
+        UrlParser.__init__(self, id=id, web_url=web_url, timeout=timeout)
 
     def parse_proxyList(self):
         curr_proxy_list = []
