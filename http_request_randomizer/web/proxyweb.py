@@ -19,7 +19,7 @@ from http_request_randomizer.web.common import query_db, query_db_jsonified
 from http_request_randomizer.web.schedulers.parsing import ParsingScheduler
 
 # configuration
-DATABASE = '/tmp/proxylist.db'
+DATABASE = '/tmp/proxyweb.db'
 PER_PAGE = 30
 DEBUG = True
 SECRET_KEY = 'development key'

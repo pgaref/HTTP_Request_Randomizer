@@ -1,14 +1,14 @@
 from httmock import urlmatch
 
 
-free_proxy_expected = ['http://138.197.136.46:3128', 'http://177.207.75.227:8080']
-proxy_for_eu_expected = ['http://107.151.136.222:80', 'http://37.187.253.39:8115']
-rebro_weebly_expected = ['http://213.149.105.12:8080', 'http://119.188.46.42:8080']
-samair_expected = ['http://191.252.61.28:80', 'http://167.114.203.141:8080']
+free_proxy_expected = ['138.197.136.46:3128', '177.207.75.227:8080']
+proxy_for_eu_expected = ['107.151.136.222:80', '37.187.253.39:8115']
+rebro_weebly_expected = ['213.149.105.12:8080', '119.188.46.42:8080']
+samair_expected = ['191.252.61.28:80', '167.114.203.141:8080', '152.251.141.93:8080']
 
 @urlmatch(netloc=r'(.*\.)?free-proxy-list\.net$')
 def free_proxy_mock(url, request):
-    return """<table border="0" cellpadding="0" cellspacing="0" class="display fpltable"
+    return """<table border="0" cellpadding="0" cellspacing="0" id="proxylisttable"
 id="proxylisttable">\n
 <thead>\n
 <tr>\n
@@ -117,29 +117,34 @@ def proxy_for_eu_mock(url, request):
 
 @urlmatch(netloc=r'(.*\.)?rebro\.weebly\.com$')
 def rebro_weebly_mock(url, request):
-    return """<div class="paragraph" style="text-align:left;"><strong><font color="#3ab890"
-                                                              size="3"><font
+    return """<div class="paragraph" style="text-align:left;"><strong><font color="#3ab890" size="3"><font
         color="#d5d5d5">IP:Port</font></font></strong><br/><font
         size="2"><strong><font color="#33a27f">213.149.105.12:8080<br/>119.188.46.42:8080</font></strong></font><br/><span></span>
-</div>"""
+</div>
 
 
-@urlmatch(netloc=r'(.*\.)?www.samair.ru')
+<div class="paragraph" style="text-align:left;"><font size="2"><strong><font size="3"><font color="#3ab890">Country</font></font></strong></font><font size="2">
+    <br />Montenegro<br />China<br /></font><br /><span></span>
+</div>
+
+<div class="paragraph" style="text-align:left;"><font size="2"><strong><font color="#3ab890" size="3">Status</font></strong></font><br /><font size="2">
+    Elite &amp; Anonymous<br />Elite &amp; Anonymous<br /></font><br /><span></span>
+</div>
+
+"""
+
+
+@urlmatch(netloc=r'(.*\.)?www\.premproxy\.com')
 def samair_mock(url, request):
-    return """<table id="proxylist">\n
-    <tr class="list_sorted">\n
-        <th><a href="http://samair.ru/proxy/ip-address-01.htm"
-               title="Proxy List sorted by ip address">IP address</a></th>
+    return """<div id="proxylist">\n
+    <tr class="anon">\n
+        <th><a href="/list/ip-address-01.htm" title="Proxy List sorted by ip address">IP address</a></th>
         \n
-        <th><a href="http://samair.ru/proxy/proxy-01.htm"
-               title="Proxy List sorted by anonymity level">Anonymity level</a>
-        </th>
+        <th><a href="/list/" title="Proxy List sorted by anonymity level">Anonymity</a></th>
         \n
-        <th><a href="http://samair.ru/proxy/time-01.htm"
-               title="Proxy List sorted by updated time">Checked time</a></th>
+        <th><a href="/list/time-01.htm" title="Proxy List sorted by updated time">Checked</a></th>
         \n
-        <th><a href="http://samair.ru/proxy/type-01.htm"
-               title="Proxy list sorted by country">Country</a></th>
+        <th><a href="/list/type-01.htm" title="Proxy list sorted by country">Country</a></th>
         \n
         <th><dfn title="City or State\\Region ">City</dfn></th>
         \n
@@ -147,23 +152,36 @@ def samair_mock(url, request):
         \n
     </tr>
     \n
-    <tr class="elite">
-        <td>191.252.61.28:80</td>
-        <td>high-anonymous</td>
-        <td>Apr-18, 17:18</td>
-        <td>Brazil</td>
-        <td>S\xe3o Jos\xe9 Dos Campos</td>
-        <td><dfn title="Locaweb Servi\xe7os de Internet S/A">Locaweb
+    <div id="navbar">
+        <ul class="pagination"><li class="active"><a href="/list/">1</a></li><li><a href="02.htm">2</a></li></ul>
+    </div>
+    \n
+    <tr class="anon">
+        <td data-label="IP:port ">191.252.61.28:80</td>
+        <td data-label="Anonymity Type: ">high-anonymous</td>
+        <td data-label="Checked: ">Apr-18, 17:18</td>
+        <td data-label="Country: ">Brazil</td>
+        <td data-label="City: ">S\xe3o Jos\xe9 Dos Campos</td>
+        <td data-label="ISP: "><dfn title="Locaweb Servi\xe7os de Internet S/A">Locaweb
             Servi\xe7o...</dfn></td>
     </tr>
     \n
-    <tr class="transp">
-        <td>167.114.203.141:8080</td>
-        <td>transparent</td>
-        <td>Apr-18, 13:22</td>
-        <td>Canada</td>
-        <td>Montr\xe9al (QC)</td>
-        <td>OVH Hosting</td>
+    <tr class="anon">
+        <td data-label="IP:port ">167.114.203.141:8080</td>
+        <td data-label="Anonymity Type: ">transparent</td>
+        <td data-label="Checked: ">Apr-18, 13:22</td>
+        <td data-label="Country: ">Canada</td>
+        <td data-label="City: ">Montr\xe9al (QC)</td>
+        <td data-label="ISP: ">OVH Hosting</td>
     </tr>
     \n
-</table>"""
+    <tr class="anon">
+        <td data-label="IP:port ">152.251.141.93:8080</td>
+        <td data-label="Anonymity Type: ">elite </td>
+        <td data-label="Checked: ">Jul-16, 04:39</td>
+        <td data-label="Country: ">Brazil</td>
+        <td data-label="City: ">&nbsp;</td>
+        <td data-label="ISP: ">Vivo</td>
+    </tr>
+    \n
+</div>"""

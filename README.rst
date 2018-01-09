@@ -1,5 +1,7 @@
-HTTP Request Randomizer in Python |Build Status| |Coverage Status| |PyPI version|
-=================================================================================
+HTTP Request Randomizer |Build Status| |Coverage Status| |Dependency Status| |PyPI version|
+===========================================================================================
+
+`Vietnamese version <README-vi.md>`__
 
 A convenient way to implement HTTP requests is using Pythons'
 **requests** library. One of requests’ most popular features is simple
@@ -48,12 +50,76 @@ mention that for each request a different agent header is used. The
 different headers are stored in the **/data/user\_agents.txt** file
 which contains around 900 different agents.
 
+Installation
+------------
+
+If you wish to use this module as a `CLI
+tool <#command-line-interface>`__, install it globally via pip:
+
+::
+
+      pip install http-requests-randomizer
+
+Otherwise, you can clone the repository and use setup tools:
+
+::
+
+    python setup.py install
+
 How to use
 ----------
 
-The project is now distribured as a PyPI package! To run an example
-simply include **http-request-randomizer==1.0.3** in your
-requirements.txt file. Then run the code below:
+-  `Command-line interface <#command-line-interface>`__
+-  `Library API <#api>`__
+
+Command-line interface
+----------------------
+
+Assuming that you have **http-request-randomizer** installed, you can
+use the commands below:
+
+show help message:
+
+::
+
+    proxyList   -h, --help
+
+specify proxy provider(s) (required):
+
+::
+
+      -s {proxyforeu,rebro,samair,freeproxy,all} 
+
+Specify output stream (default: sys.stdout), could also be a file:
+
+::
+
+      -o, --outfile
+
+specify provider timeout threshold in seconds:
+
+::
+
+    -t, --timeout
+
+specify proxy bandwidth threshold in KBs:
+
+::
+
+      -bw, --bandwidth
+
+show program's version number:
+
+::
+
+      -v, --version
+
+API
+---
+
+To use **http-request-randomizer** as a library, include it in your
+requirements.txt file. Then you can simply generate a proxied request
+using a method call:
 
 .. code:: python
 
@@ -64,21 +130,21 @@ requirements.txt file. Then run the code below:
 
         start = time.time()
         req_proxy = RequestProxy()
-        print "Initialization took: {0} sec".format((time.time() - start))
-        print "Size : ", len(req_proxy.get_proxy_list())
-        print " ALL = ", req_proxy.get_proxy_list()
+        print("Initialization took: {0} sec".format((time.time() - start)))
+        print("Size: {0}".format(len(req_proxy.get_proxy_list())))
+        print("ALL = {0} ".format(list(map(lambda x: x.get_address(), req_proxy.get_proxy_list()))))
 
         test_url = 'http://ipv4.icanhazip.com'
 
         while True:
             start = time.time()
             request = req_proxy.generate_proxied_request(test_url)
-            print "Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__())
+            print("Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__()))
             if request is not None:
-                print "\t Response: ip={0}".format(u''.join(request.text).encode('utf-8'))
-            print "Proxy List Size: ", len(req_proxy.get_proxy_list())
+                print("\t Response: ip={0}".format(u''.join(request.text).encode('utf-8')))
+            print("Proxy List Size: {0}".format(len(req_proxy.get_proxy_list())))
 
-            print"-> Going to sleep.."
+            print("-> Going to sleep..")
             time.sleep(10)
 
 Documentation
@@ -90,7 +156,9 @@ documentation <http://pythonhosted.org/http-request-randomizer>`__
 Contributing
 ------------
 
-Contributions are always welcome! Feel free to send a pull request.
+Many thanks to the open-source community for
+`contributing <https://github.com/pgaref/HTTP_Request_Randomizer/blob/master/CONTRIBUTORS.md>`__
+to this project!
 
 Faced an issue?
 ---------------
@@ -98,6 +166,11 @@ Faced an issue?
 Open an issue
 `here <https://github.com/pgaref/HTTP_Request_Randomizer/issues>`__, and
 be as detailed as possible :)
+
+Feels like a feature is missing?
+--------------------------------
+
+Feel free to open a ticket! PRs are always welcome!
 
 License
 -------
@@ -108,5 +181,7 @@ This project is licensed under the terms of the MIT license.
    :target: https://travis-ci.org/pgaref/HTTP_Request_Randomizer
 .. |Coverage Status| image:: https://coveralls.io/repos/github/pgaref/HTTP_Request_Randomizer/badge.svg?branch=master
    :target: https://coveralls.io/github/pgaref/HTTP_Request_Randomizer?branch=master
+.. |Dependency Status| image:: https://gemnasium.com/badges/github.com/pgaref/HTTP_Request_Randomizer.svg
+   :target: https://gemnasium.com/github.com/pgaref/HTTP_Request_Randomizer
 .. |PyPI version| image:: https://badge.fury.io/py/http-request-randomizer.svg
    :target: https://badge.fury.io/py/http-request-randomizer

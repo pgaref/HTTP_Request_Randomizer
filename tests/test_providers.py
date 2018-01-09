@@ -21,27 +21,40 @@ class TestProxyProviders(unittest.TestCase):
 
     def test_FreeProxyParser(self):
         with HTTMock(free_proxy_mock):
-            proxy_provider = FreeProxyParser('http://free-proxy-list.net')
+            proxy_provider = FreeProxyParser('FreeProxy', 'http://free-proxy-list.net')
             proxy_list = proxy_provider.parse_proxyList()
-        self.assertEqual(proxy_list, free_proxy_expected)
+            proxy_list_addr = []
+            for proxy in proxy_list:
+                proxy_list_addr.append(proxy.get_address())
+        self.assertEqual(proxy_list_addr, free_proxy_expected)
 
     def test_ProxyForEuParser(self):
         with HTTMock(proxy_for_eu_mock):
-            proxy_provider = ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0)
+            proxy_provider = ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php', 1.0)
             proxy_list = proxy_provider.parse_proxyList()
-        self.assertEqual(proxy_list, proxy_for_eu_expected)
+            proxy_list_addr = []
+            for proxy in proxy_list:
+                proxy_list_addr.append(proxy.get_address())
+        self.assertEqual(proxy_list_addr, proxy_for_eu_expected)
 
     def test_RebroWeeblyParser(self):
         with HTTMock(rebro_weebly_mock):
-            proxy_provider = RebroWeeblyParser('http://rebro.weebly.com')
+            proxy_provider = RebroWeeblyParser('ReBro', 'http://rebro.weebly.com')
             proxy_list = proxy_provider.parse_proxyList()
-        self.assertEqual(proxy_list, rebro_weebly_expected)
+            proxy_list_addr = []
+            for proxy in proxy_list:
+                proxy_list_addr.append(proxy.get_address())
+        self.assertEqual(proxy_list_addr, rebro_weebly_expected)
 
     def test_SemairProxyParser(self):
         with HTTMock(samair_mock):
-            proxy_provider = SamairProxyParser('http://www.samair.ru/proxy/time-01.htm')
+            proxy_provider = SamairProxyParser('Samair', 'https://www.premproxy.com')
             proxy_list = proxy_provider.parse_proxyList()
-        self.assertEqual(proxy_list, samair_expected)
+            proxy_list_addr = []
+            for proxy in proxy_list:
+                proxy_list_addr.append(proxy.get_address())
+            for item in samair_expected:
+                self.assertTrue(item in proxy_list_addr)
 
 
 if __name__ == '__main__':

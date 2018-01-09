@@ -26,10 +26,11 @@ class ParsingScheduler:
 
     def __init__(self, database, timeout=5):
         parsers = list([])
-        parsers.append(FreeProxyParser('http://free-proxy-list.net', timeout=timeout))
-        parsers.append(ProxyForEuParser('http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
-        parsers.append(RebroWeeblyParser('http://rebro.weebly.com', timeout=timeout))
-        parsers.append(SamairProxyParser('http://samair.ru/proxy/time-01.htm', timeout=timeout))
+        parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout))
+        parsers.append(SamairProxyParser('Samair', 'https://premproxy.com', timeout=timeout))
+        parsers.append(FreeProxyParser('FreeProxy', 'http://free-proxy-list.net', timeout=timeout))
+        parsers.append(ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php',
+                                                      bandwidth=10, timeout=timeout))
         self.parsers = parsers
         self.database = database
         self.scheduler = BackgroundScheduler()
