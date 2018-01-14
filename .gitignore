@@ -20,3 +20,8 @@
 
 ## File-based project format:
 *.iws
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
