@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-import os
+import os, errno
 import sys
 import unittest
 
@@ -9,6 +9,14 @@ from http_request_randomizer.requests.runners.proxyList import ProxyList, create
 sys.path.insert(0, os.path.abspath('.'))
 
 __author__ = 'pgaref'
+
+
+def silentremove(filename):
+    try:
+        os.remove(filename)
+    except OSError as e:
+        if e.errno != errno.ENOENT:
+            raise
 
 
 class ParserTest(unittest.TestCase):
@@ -34,6 +42,7 @@ class ParserTest(unittest.TestCase):
 
         parsed = self.parser.parse_args(['-s', 'all', '-o', 'out.txt'])
         self.assertEqual(parsed.outfile.name, 'out.txt')
+        silentremove('./out.txt')
 
     def test_parser_timeout(self):
         # default

@@ -3,7 +3,7 @@
   {% if request.endpoint == 'public_index' %}
     Public Proxies
   {% else %}
-    Invalid Proxies
+    Invalid sPATH
   {% endif %}
 {% endblock %}
 {% block body %}
@@ -22,9 +22,9 @@
            <td class="proxy">{{ proxy.ip }}</td>
            <td class="proxy">{{ proxy.port }}</td>
            <td class="proxy">{{ proxy.provider }}</td>
-           <td class="proxy">{{ proxy.add_date | datetimeformat }}</td>
+           <td class="proxy">{{ proxy.pub_date | datetimeformat }}</td>
            <td class="proxy">{{ proxy.check_date | datetimeformat }}</td>
-           <td class="proxy">{{ proxy.anonymity_level }}</td>
+           <td class="proxy">{{ proxy.anonymity_level | anonymityformat }}</td>
           </tr>
         {% else %}
            <td colspan="6">No proxies so far</td>
@@ -33,17 +33,17 @@
       </table>
   </div>
 
-  <h2>Latest News</h2>
-  <ul class="messages">
-  {% for message in messages %}
-    <li><img src="{{ message.email }}"><p>
-      <strong><a href="{{ url_for('user_timeline', username=message.username)
-      }}">{{ message.username }}</a></strong>
-      {{ message.text }}
-      <small>&mdash; {{ message.pub_date | datetimeformat }}</small>
-    {% else %}
-      <li><em>No news so far</em>
-  {% endfor %}
-  </ul>
+{#  <h2>Latest News</h2>#}
+{#  <ul class="messages">#}
+{#  {% for message in messages %}#}
+{#    <li><img src="{{ message.email }}"><p>#}
+{#      <strong><a href="{{ url_for('user_timeline', username=message.username)#}
+{#      }}">{{ message.username }}</a></strong>#}
+{#      {{ message.text }}#}
+{#      <small>&mdash; {{ message.pub_date | datetimeformat }}</small>#}
+{#    {% else %}#}
+{#      <li><em>No news so far</em>#}
+{#  {% endfor %}#}
+{#  </ul>#}
 
 {% endblock %}

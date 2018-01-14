@@ -1,20 +1,19 @@
 """
-Demonstrates how to use the background scheduler to schedule a job that executes on 3 second
-intervals.
+Use a background scheduler to schedule a job that parses periodically the available providers.
 """
+import logging
+import os
+import time
+from datetime import datetime
+
+from apscheduler.schedulers.background import BackgroundScheduler
+from requests.exceptions import ReadTimeout
+
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
 from http_request_randomizer.requests.parsers.SamairProxyParser import SamairProxyParser
-from apscheduler.schedulers.background import BackgroundScheduler
-from requests.exceptions import ReadTimeout
-from sqlite3 import dbapi2 as sqlite3
-from urlparse import urlparse
-import logging
-import time
-import os
-
-from http_request_randomizer.web.common import insert_proxy_db
+from http_request_randomizer.web.common.queries import db_store_proxy_object
 
 logger = logging.getLogger(__name__)
 logging.basicConfig()
@@ -24,19 +23,18 @@ __author__ = 'pgaref'
 
 class ParsingScheduler:
 
-    def __init__(self, database, timeout=5):
+    def __init__(self, timeout=5):
         parsers = list([])
         parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout))
         parsers.append(SamairProxyParser('Samair', 'https://premproxy.com', timeout=timeout))
         parsers.append(FreeProxyParser('FreeProxy', 'http://free-proxy-list.net', timeout=timeout))
         parsers.append(ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php',
-                                                      bandwidth=10, timeout=timeout))
+                                        bandwidth=10, timeout=timeout))
         self.parsers = parsers
-        self.database = database
         self.scheduler = BackgroundScheduler()
 
     def tick(self):
-        print('Tick! The time is: %s' % time.time())
+        print('Parser cycle: {0}'.format(datetime.utcnow()))
         for parser in self.parsers:
             curr_proxy_list = []
             try:
@@ -44,13 +42,8 @@ class ParsingScheduler:
             except ReadTimeout:
                 print("Proxy Parser: '{}' TimedOut!".format(parser.url))
             finally:
-                # Separate db connection per parser
-                sqlite_db = sqlite3.connect(self.database)
-                sqlite_db.row_factory = sqlite3.Row
                 for current_proxy in curr_proxy_list:
-                    parsed_proxy = urlparse(current_proxy)
-                    insert_proxy_db(sqlite_db, proxy_ip=parsed_proxy.hostname, proxy_port=parsed_proxy.port,
-                                    provider=parser.url)
+                    db_store_proxy_object(current_proxy)
                 print("Inserted: {} proxies from: {}".format(len(curr_proxy_list), parser.url))
 
     def add_background_task(self, interval=60):
@@ -64,8 +57,8 @@ class ParsingScheduler:
 
 
 if __name__ == '__main__':
-    ps = ParsingScheduler(database='/tmp/proxylist.db')
-    ps.add_background_task(10)
+    ps = ParsingScheduler()
+    ps.add_background_task(60)
     ps.start_background_task()
 
     print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))

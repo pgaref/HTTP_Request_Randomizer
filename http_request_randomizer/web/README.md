@@ -1,10 +1,11 @@
-# HTTP Request Randomizer WebApp
+# www.proxypad.com web app using flask
 
 
 ## Setup instructions
-Running from project root: 
+    python db_create.py
 
-    export FLASK_APP=http_request_randomizer.web.proxylist
+Running from project root:
+ 
+    export FLASK_APP=http_request_randomizer.web.proxypad
     export FLASK_DEBUG=1
-    flask initdb
     flask run

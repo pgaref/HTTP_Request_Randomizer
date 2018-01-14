@@ -1,20 +1,10 @@
 """
-Demonstrates how to use the background scheduler to schedule a job that executes on 3 second
-intervals.
+Use a background scheduler to schedule a job that executes periodically and checks proxy health.
 """
-from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
-from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
-from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
-from http_request_randomizer.requests.parsers.SamairProxyParser import SamairProxyParser
-from apscheduler.schedulers.background import BackgroundScheduler
-from requests.exceptions import ReadTimeout
-from sqlite3 import dbapi2 as sqlite3
-from urlparse import urlparse
 import logging
-import time
-import os
+from datetime import datetime
 
-from http_request_randomizer.web.common import insert_proxy_db
+from apscheduler.schedulers.background import BackgroundScheduler
 
 logger = logging.getLogger(__name__)
 logging.basicConfig()
@@ -29,7 +19,7 @@ class HealthScheduler:
         self.scheduler = BackgroundScheduler()
 
     def tick(self):
-        print('Tick! The time is: %s' % time.time())
+        print('Health cycle: {0}'.format(datetime.utcnow()))
         # TODO: Check Proxy health and Anonymity level!
 
     def add_background_task(self, interval=60):
@@ -41,5 +31,3 @@ class HealthScheduler:
 
     def shutdown_background_task(self):
         self.scheduler.shutdown()
-
-

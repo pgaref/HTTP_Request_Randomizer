@@ -9,4 +9,5 @@ requests >= 2.18.4
 schedule >= 0.5.0
 pyOpenSSL >= 17.5.0
 flask >= 0.12.2
+Flask-SQLAlchemy >= 2.3.2
 APScheduler >= 3.3.1
