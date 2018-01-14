@@ -10,4 +10,5 @@ schedule >= 0.5.0
 pyOpenSSL >= 17.5.0
 flask >= 0.12.2
 Flask-SQLAlchemy >= 2.3.2
+PyMySQL >= 0.8.0
 APScheduler >= 3.3.1

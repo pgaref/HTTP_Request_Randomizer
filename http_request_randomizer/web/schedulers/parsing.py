@@ -13,6 +13,7 @@ from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyPa
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
 from http_request_randomizer.requests.parsers.SamairProxyParser import SamairProxyParser
+from http_request_randomizer.web import application
 from http_request_randomizer.web.common.queries import db_store_proxy_object
 
 logger = logging.getLogger(__name__)
@@ -34,17 +35,17 @@ class ParsingScheduler:
         self.scheduler = BackgroundScheduler()
 
     def tick(self):
-        print('Parser cycle: {0}'.format(datetime.utcnow()))
+        application.logger.info('Parser cycle: {0}'.format(datetime.utcnow()))
         for parser in self.parsers:
             curr_proxy_list = []
             try:
                 curr_proxy_list = parser.parse_proxyList()
             except ReadTimeout:
-                print("Proxy Parser: '{}' TimedOut!".format(parser.url))
+                application.logger.error("Proxy Parser: '{}' TimedOut!".format(parser.url))
             finally:
                 for current_proxy in curr_proxy_list:
                     db_store_proxy_object(current_proxy)
-                print("Inserted: {} proxies from: {}".format(len(curr_proxy_list), parser.url))
+                application.logger.info("Inserted: {} proxies from: {}".format(len(curr_proxy_list), parser.url))
 
     def add_background_task(self, interval=60):
         self.scheduler.add_job(self.tick, 'interval', seconds=interval)

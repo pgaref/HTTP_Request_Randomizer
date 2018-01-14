@@ -10,7 +10,7 @@
 import json
 from datetime import datetime
 
-from flask import Flask, url_for, redirect, render_template, Response, flash
+from flask import url_for, redirect, render_template, Response, flash
 
 from http_request_randomizer.requests.proxy.ProxyObject import AnonymityLevel
 from http_request_randomizer.web import db, application
@@ -18,6 +18,11 @@ from http_request_randomizer.web import db, application
 from http_request_randomizer.web.common.models import ProxyData
 from http_request_randomizer.web.common.queries import db_get_proxy_results
 from http_request_randomizer.web.schedulers.parsing import ParsingScheduler
+
+import logging
+file_handler = logging.FileHandler('proxypad.log')
+application.logger.addHandler(file_handler)
+application.logger.setLevel(logging.INFO)
 
 __author__ = 'pgaref'
 
@@ -84,6 +89,6 @@ application.jinja_env.filters['anonymityformat'] = anonymityformat
 
 if __name__ == '__main__':
     bg_parser = ParsingScheduler()
-    bg_parser.add_background_task(60)
+    bg_parser.add_background_task(30*60)
     bg_parser.start_background_task()
     application.run(host='0.0.0.0')
