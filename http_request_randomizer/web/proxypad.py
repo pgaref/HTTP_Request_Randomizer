@@ -8,19 +8,18 @@
     :license: MIT, see LICENSE for more details.
 """
 import json
-from datetime import datetime
+import logging
 
 from flask import url_for, redirect, render_template, Response, flash
 
 from config import PROXIES_PER_PAGE
 from http_request_randomizer.requests.proxy.ProxyObject import AnonymityLevel
 from http_request_randomizer.web import db, application
-
 from http_request_randomizer.web.common.models import ProxyData
+from http_request_randomizer.web.common.momentjs import momentjs
 from http_request_randomizer.web.common.queries import db_get_proxy_results
 from http_request_randomizer.web.schedulers.parsing import ParsingScheduler
 
-import logging
 file_handler = logging.FileHandler('proxypad.log')
 application.logger.addHandler(file_handler)
 application.logger.setLevel(logging.INFO)
@@ -39,7 +38,8 @@ def shutdown_session(exception=None):
     """Closes the database again at the end of the request."""
     db.session.remove()
 
-@application.route('/',  methods=['GET'])
+
+@application.route('/', methods=['GET'])
 def index():
     """Shows top-Proxies to a human user by redirecting to the public index.
         If we find a robot can display a different page
@@ -47,7 +47,7 @@ def index():
     return redirect(url_for('public_index'))
 
 
-@application.route('/index',  methods=['GET'])
+@application.route('/index', methods=['GET'])
 @application.route('/index/<int:page>', methods=['GET'])
 def public_index(page=1):
     """Displays paginated top Proxies"""
@@ -56,7 +56,7 @@ def public_index(page=1):
         db.session.close()
     except:
         db.session.rollback()
-    return render_template('public_index.html',proxies=page_proxies)
+    return render_template('public_index.html', proxies=page_proxies)
 
 
 @application.route('/top<number>')
@@ -85,10 +85,10 @@ def anonymityformat(anonymity_lvl):
 # add some filters to jinja
 application.jinja_env.filters['datetimeformat'] = format_datetime
 application.jinja_env.filters['anonymityformat'] = anonymityformat
-
+application.jinja_env.globals['momentjs'] = momentjs
 
 if __name__ == '__main__':
     bg_parser = ParsingScheduler()
-    bg_parser.add_background_task(30*60)
+    bg_parser.add_background_task(30 * 60)
     bg_parser.start_background_task()
     application.run(host='0.0.0.0')

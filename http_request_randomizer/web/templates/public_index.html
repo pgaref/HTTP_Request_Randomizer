@@ -23,8 +23,8 @@
                     <td class="proxy">{{ proxy.ip }}</td>
                     <td class="proxy">{{ proxy.port }}</td>
                     <td class="proxy">{{ proxy.provider }}</td>
-                    <td class="proxy">{{ proxy.pub_date | datetimeformat }}</td>
-                    <td class="proxy">{{ proxy.check_date | datetimeformat }}</td>
+                    <td class="proxy">{{ momentjs(proxy.pub_date).calendar() }}</td>
+                    <td class="proxy">{{ momentjs(proxy.check_date).fromNow() }}</td>
                     <td class="proxy">{{ proxy.anonymity_level | anonymityformat }}</td>
                     </tr>
                 {% else %}

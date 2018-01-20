@@ -5,6 +5,7 @@ from http_request_randomizer.web.common.models import ProxyData
 
 __author__ = 'pgaref'
 
+
 def db_store_proxy_object(proxy_object):
     try:
         proxy_data = ProxyData(proxy_object=proxy_object, pub_date=datetime.utcnow())
