@@ -12,6 +12,7 @@ from datetime import datetime
 
 from flask import url_for, redirect, render_template, Response, flash
 
+from config import PROXIES_PER_PAGE
 from http_request_randomizer.requests.proxy.ProxyObject import AnonymityLevel
 from http_request_randomizer.web import db, application
 
@@ -26,8 +27,6 @@ application.logger.setLevel(logging.INFO)
 
 __author__ = 'pgaref'
 
-# Global Conf
-PER_PAGE = 30
 
 # Elastic Beanstalk initalization
 # application = Flask(__name__, static_folder='static')
@@ -49,14 +48,15 @@ def index():
 
 
 @application.route('/index',  methods=['GET'])
-def public_index():
-    """Displays the latest top Proxies"""
+@application.route('/index/<int:page>', methods=['GET'])
+def public_index(page=1):
+    """Displays paginated top Proxies"""
     try:
-        query_db = ProxyData.query.order_by(ProxyData.check_date.desc()).limit(PER_PAGE)
+        page_proxies = ProxyData.query.order_by(ProxyData.check_date.desc()).paginate(page, PROXIES_PER_PAGE, False)
         db.session.close()
     except:
         db.session.rollback()
-    return render_template('public_index.html',proxies=query_db)
+    return render_template('public_index.html',proxies=page_proxies)
 
 
 @application.route('/top<number>')
