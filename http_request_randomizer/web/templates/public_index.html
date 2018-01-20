@@ -32,10 +32,10 @@
                     </tr>
                 {% endfor %}
         </table>
-        {% if proxies.has_prev %}<a href="{{ url_for('public_index', page=proxies.prev_num) }}">&lt;&lt; Next</a>
-        {% else %}&lt;&lt; Next{% endif %} |
-        {% if proxies.has_next %}<a href="{{ url_for('public_index', page=proxies.next_num) }}"> Previous &gt;&gt;</a>
-        {% else %} Previous &gt;&gt;{% endif %}
+        {% if proxies.has_prev %}<a href="{{ url_for('public_index', page=proxies.prev_num) }}">&lt;&lt; Previous</a>
+        {% else %}&lt;&lt; Previous{% endif %} |
+        {% if proxies.has_next %}<a href="{{ url_for('public_index', page=proxies.next_num) }}"> Next &gt;&gt;</a>
+        {% else %} Next &gt;&gt;{% endif %}
     </div>
 
     {#  <h2>Latest News</h2>#}
