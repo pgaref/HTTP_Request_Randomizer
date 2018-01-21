@@ -66,7 +66,6 @@ setup(
                       'psutil >= 5.4.3',
                       'python-dateutil >= 2.6.1',
                       'requests >= 2.18.4',
-                      'schedule >= 0.5.0',
                       'pyOpenSSL >= 17.5.0'
                       ],
     use_scm_version=True,
