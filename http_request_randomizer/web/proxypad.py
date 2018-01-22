@@ -21,8 +21,8 @@ from http_request_randomizer.web.common.momentjs import momentjs
 from http_request_randomizer.web.common.queries import db_get_proxy_results
 from http_request_randomizer.web.schedulers.parsing import ParsingScheduler
 
-# file_handler = logging.FileHandler('proxypad.log')
-# application.logger.addHandler(file_handler)
+file_handler = logging.FileHandler('/opt/python/log/my.log')
+application.logger.addHandler(file_handler)
 application.logger.setLevel(logging.DEBUG)
 
 __author__ = 'pgaref'
