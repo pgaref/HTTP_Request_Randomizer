@@ -91,11 +91,11 @@ application.jinja_env.globals['momentjs'] = momentjs
 if __name__ == '__main__':
     # Proxy Parser Task
     bg_parser = ParsingScheduler()
-    bg_parser.add_background_task(2*60*60)
+    bg_parser.add_background_task(60*60)
     bg_parser.start_background_task()
     # Proxy Health Task
-    bg_health = HealthScheduler()
-    bg_health.add_background_task(30*60)
+    bg_health = HealthScheduler(timeout=1)
+    bg_health.add_background_task(5*60)
     bg_health.start_background_task()
 
     application.run(host='0.0.0.0')
