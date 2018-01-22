@@ -67,7 +67,9 @@ setup(
                       'python-dateutil >= 2.6.1',
                       'requests >= 2.18.4',
                       'pyOpenSSL >= 17.5.0',
-                      'flask>=0.12.2'
+                      'flask>=0.12.2',
+                      'Flask-SQLAlchemy>= 2.3.2',
+                      'APScheduler >= 3.3.1'
                       ],
     use_scm_version=True,
     setup_requires=['setuptools-scm', 'pytest-runner'],

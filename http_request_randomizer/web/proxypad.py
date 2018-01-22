@@ -21,9 +21,9 @@ from http_request_randomizer.web.common.momentjs import momentjs
 from http_request_randomizer.web.common.queries import db_get_proxy_results
 from http_request_randomizer.web.schedulers.parsing import ParsingScheduler
 
-file_handler = logging.FileHandler('proxypad.log')
-application.logger.addHandler(file_handler)
-application.logger.setLevel(logging.INFO)
+# file_handler = logging.FileHandler('proxypad.log')
+# application.logger.addHandler(file_handler)
+application.logger.setLevel(logging.DEBUG)
 
 __author__ = 'pgaref'
 
@@ -67,7 +67,7 @@ def top_proxies(number):
         filtered_proxies = db_get_proxy_results(number)
         return Response(json.dumps(filtered_proxies), mimetype='application/json')
     else:
-        flash("ProxyPad API limited to top100 proxies")
+        flash("ProxyPad REST API limited to top100 proxies")
         return redirect(url_for('public_index'))
 
 
@@ -91,10 +91,10 @@ application.jinja_env.globals['momentjs'] = momentjs
 if __name__ == '__main__':
     # Proxy Parser Task
     bg_parser = ParsingScheduler()
-    bg_parser.add_background_task(60*60)
+    bg_parser.add_background_task(10*60)
     bg_parser.start_background_task()
     # Proxy Health Task
-    bg_health = HealthScheduler(timeout=1)
+    bg_health = HealthScheduler(timeout=0.5)
     bg_health.add_background_task(1*60)
     bg_health.start_background_task()
 
