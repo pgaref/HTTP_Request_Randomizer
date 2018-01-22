@@ -95,7 +95,7 @@ if __name__ == '__main__':
     bg_parser.start_background_task()
     # Proxy Health Task
     bg_health = HealthScheduler(timeout=1)
-    bg_health.add_background_task(5*60)
+    bg_health.add_background_task(1*60)
     bg_health.start_background_task()
 
     application.run(host='0.0.0.0')

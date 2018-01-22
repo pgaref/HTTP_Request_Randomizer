@@ -6,9 +6,11 @@ import os
 import time
 import urllib2
 from datetime import datetime
+from dateutil import rrule
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
+from config import PROXIES_PER_PAGE
 from http_request_randomizer.requests.useragent.userAgent import UserAgentManager
 from http_request_randomizer.web import db, application
 from http_request_randomizer.web.common.models import ProxyData
@@ -25,19 +27,22 @@ class HealthScheduler:
         self.timeout = timeout
         self.userAgent = UserAgentManager()
         self.scheduler = BackgroundScheduler()
+        self.proxy_iterator = None
 
     def tick(self):
         application.logger.info('Health cycle: {0}'.format(datetime.utcnow()))
         # Check Proxy health
+        proxies = self.get_next_proxy_batch()
         try:
-            proxies = ProxyData.query.order_by(ProxyData.check_date.asc()).all()
             # TODO: Validate anonymity level
             for proxy in proxies:
                 if self.is_healthy_proxy(proxy.get_address()):
                     proxy.check_date = datetime.utcnow()
-                    db.session.commit()
-            db.session.close()
-        except:
+                # elif self.get_weeks_between(proxy.check_date) >= 1:
+                #     db.session.delete(proxy)
+            db.session.commit()
+        except Exception as e:
+            raise(e)
             db.session.rollback()
 
     def add_background_task(self, interval=60):
@@ -48,6 +53,19 @@ class HealthScheduler:
 
     def shutdown_background_task(self):
         self.scheduler.shutdown()
+
+    @staticmethod
+    def get_weeks_between(start_date, end_date=datetime.utcnow()):
+        weeks = rrule.rrule(rrule.WEEKLY, dtstart=start_date, until=end_date)
+        return weeks.count()
+
+    def get_next_proxy_batch(self):
+        if self.proxy_iterator is None or not self.proxy_iterator.has_next:
+            next_page = 1
+        elif self.proxy_iterator.has_next:
+            next_page = self.proxy_iterator.next_num
+        return ProxyData.query.order_by(ProxyData.check_date.asc()) \
+            .paginate(next_page, PROXIES_PER_PAGE, False).items
 
     def is_healthy_proxy(self, proxy_address):
         try:
@@ -61,12 +79,12 @@ class HealthScheduler:
             req = urllib2.Request('http://www.example.com')
             sock = urllib2.urlopen(req, timeout=self.timeout)
         except urllib2.HTTPError, e:
-            application.logger.warn("Unhealthy proxy {} ERROR {}".format(proxy_address, e.code))
+            application.logger.warn("PROXY {} ERROR {}".format(proxy_address, e.code))
             return False
         except Exception, detail:
-            application.logger.warn("Unhealthy proxy {} ERROR {}".format(proxy_address, detail))
+            application.logger.warn("PROXY {} ERROR {}".format(proxy_address, detail))
             return False
-        application.logger.info("Healthy proxy {}".format(proxy_address))
+        application.logger.info("PROXY {} OK".format(proxy_address))
         return True
 
 
