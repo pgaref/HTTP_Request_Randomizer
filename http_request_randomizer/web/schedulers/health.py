@@ -2,9 +2,16 @@
 Use a background scheduler to schedule a job that executes periodically and checks proxy health.
 """
 import logging
+import os
+import time
+import urllib2
 from datetime import datetime
 
 from apscheduler.schedulers.background import BackgroundScheduler
+
+from http_request_randomizer.requests.useragent.userAgent import UserAgentManager
+from http_request_randomizer.web import db, application
+from http_request_randomizer.web.common.models import ProxyData
 
 logger = logging.getLogger(__name__)
 logging.basicConfig()
@@ -14,20 +21,66 @@ __author__ = 'pgaref'
 
 class HealthScheduler:
 
-    def __init__(self, proxies, timeout=5):
-        self.all_proxies = proxies
+    def __init__(self, timeout=2):
+        self.timeout = timeout
+        self.userAgent = UserAgentManager()
         self.scheduler = BackgroundScheduler()
 
     def tick(self):
-        print('Health cycle: {0}'.format(datetime.utcnow()))
-        # TODO: Check Proxy health and Anonymity level!
+        application.logger.info('Health cycle: {0}'.format(datetime.utcnow()))
+        # Check Proxy health
+        try:
+            proxies = ProxyData.query.order_by(ProxyData.check_date.asc()).all()
+            # TODO: Validate anonymity level
+            for proxy in proxies:
+                if self.is_healthy_proxy(proxy.get_address()):
+                    proxy.check_date = datetime.utcnow()
+                    db.session.commit()
+            db.session.close()
+        except:
+            db.session.rollback()
 
     def add_background_task(self, interval=60):
         self.scheduler.add_job(self.tick, 'interval', seconds=interval)
 
-    # TODO: Connect task with APP
     def start_background_task(self):
         self.scheduler.start()
 
     def shutdown_background_task(self):
         self.scheduler.shutdown()
+
+    def is_healthy_proxy(self, proxy_address):
+        try:
+            proxy_handler = urllib2.ProxyHandler({'http': proxy_address})
+            opener = urllib2.build_opener(proxy_handler)
+            opener.addheaders = [
+                ("Connection", "close"),
+                ('User-agent', self.userAgent.get_random_user_agent())
+            ]
+            urllib2.install_opener(opener)
+            req = urllib2.Request('http://www.example.com')
+            sock = urllib2.urlopen(req, timeout=self.timeout)
+        except urllib2.HTTPError, e:
+            application.logger.warn("Unhealthy proxy {} ERROR {}".format(proxy_address, e.code))
+            return False
+        except Exception, detail:
+            application.logger.warn("Unhealthy proxy {} ERROR {}".format(proxy_address, detail))
+            return False
+        application.logger.info("Healthy proxy {}".format(proxy_address))
+        return True
+
+
+if __name__ == '__main__':
+    hs = HealthScheduler()
+    hs.add_background_task(60)
+    hs.start_background_task()
+
+    print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
+
+    try:
+        # This is here to simulate application activity (which keeps the main thread alive).
+        while True:
+            time.sleep(2)
+    except (KeyboardInterrupt, SystemExit):
+        # Not strictly necessary if daemonic mode is enabled but should be done if possible
+        hs.shutdown_background_task()

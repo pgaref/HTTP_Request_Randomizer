@@ -11,6 +11,7 @@ import json
 import logging
 
 from flask import url_for, redirect, render_template, Response, flash
+from http_request_randomizer.web.schedulers.health import HealthScheduler
 
 from config import PROXIES_PER_PAGE
 from http_request_randomizer.requests.proxy.ProxyObject import AnonymityLevel
@@ -88,7 +89,13 @@ application.jinja_env.filters['anonymityformat'] = anonymityformat
 application.jinja_env.globals['momentjs'] = momentjs
 
 if __name__ == '__main__':
+    # Proxy Parser Task
     bg_parser = ParsingScheduler()
-    bg_parser.add_background_task(30 * 60)
+    bg_parser.add_background_task(2*60*60)
     bg_parser.start_background_task()
+    # Proxy Health Task
+    bg_health = HealthScheduler()
+    bg_health.add_background_task(30*60)
+    bg_health.start_background_task()
+
     application.run(host='0.0.0.0')
