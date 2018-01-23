@@ -11,7 +11,6 @@ import json
 import logging
 
 from flask import url_for, redirect, render_template, Response, flash
-from http_request_randomizer.web.schedulers.health import HealthScheduler
 
 from config import PROXIES_PER_PAGE
 from http_request_randomizer.requests.proxy.ProxyObject import AnonymityLevel
@@ -19,6 +18,7 @@ from http_request_randomizer.web import db, application
 from http_request_randomizer.web.common.models import ProxyData
 from http_request_randomizer.web.common.momentjs import momentjs
 from http_request_randomizer.web.common.queries import db_get_proxy_results
+from http_request_randomizer.web.schedulers.health import HealthScheduler
 from http_request_randomizer.web.schedulers.parsing import ParsingScheduler
 
 file_handler = logging.FileHandler('proxypad.log')
@@ -26,6 +26,15 @@ application.logger.addHandler(file_handler)
 application.logger.setLevel(logging.DEBUG)
 
 __author__ = 'pgaref'
+
+# Proxy Parser Task
+bg_parser = ParsingScheduler()
+bg_parser.add_background_task(60 * 60)
+bg_parser.start_background_task()
+# Proxy Health Task
+bg_health = HealthScheduler(timeout=1)
+bg_health.add_background_task(1 * 60)
+bg_health.start_background_task()
 
 
 # Elastic Beanstalk initalization
@@ -86,13 +95,4 @@ application.jinja_env.filters['anonymityformat'] = anonymityformat
 application.jinja_env.globals['momentjs'] = momentjs
 
 if __name__ == '__main__':
-    # Proxy Parser Task
-    bg_parser = ParsingScheduler()
-    bg_parser.add_background_task(60*60)
-    bg_parser.start_background_task()
-    # Proxy Health Task
-    bg_health = HealthScheduler(timeout=1)
-    bg_health.add_background_task(1*60)
-    bg_health.start_background_task()
-
     application.run(host='0.0.0.0')
