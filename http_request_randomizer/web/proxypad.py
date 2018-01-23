@@ -21,7 +21,7 @@ from http_request_randomizer.web.common.momentjs import momentjs
 from http_request_randomizer.web.common.queries import db_get_proxy_results
 from http_request_randomizer.web.schedulers.parsing import ParsingScheduler
 
-file_handler = logging.FileHandler('/opt/python/log/my.log')
+file_handler = logging.FileHandler('proxypad.log')
 application.logger.addHandler(file_handler)
 application.logger.setLevel(logging.DEBUG)
 
@@ -91,11 +91,11 @@ application.jinja_env.globals['momentjs'] = momentjs
 if __name__ == '__main__':
     # Proxy Parser Task
     bg_parser = ParsingScheduler()
-    bg_parser.add_background_task(10*60)
+    bg_parser.add_background_task(5*60)
     bg_parser.start_background_task()
     # Proxy Health Task
-    bg_health = HealthScheduler(timeout=0.5)
-    bg_health.add_background_task(1*60)
-    bg_health.start_background_task()
+    # bg_health = HealthScheduler(timeout=0.5)
+    # bg_health.add_background_task(1*60)
+    # bg_health.start_background_task()
 
-    application.run(host='0.0.0.0')
+    application.run(host='0.0.0.0', debug=True)
