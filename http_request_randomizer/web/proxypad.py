@@ -52,11 +52,8 @@ def index():
 @application.route('/index/<int:page>', methods=['GET'])
 def public_index(page=1):
     """Displays paginated top Proxies"""
-    try:
-        page_proxies = ProxyData.query.order_by(ProxyData.check_date.desc()).paginate(page, PROXIES_PER_PAGE, False)
-        db.session.close()
-    except:
-        db.session.rollback()
+    page_proxies = ProxyData.query.order_by(ProxyData.check_date.desc()).paginate(page, PROXIES_PER_PAGE, False)
+    db.session.close()
     return render_template('public_index.html', proxies=page_proxies)
 
 
