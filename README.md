@@ -6,7 +6,7 @@ A convenient way to implement HTTP requests is using Pythons' **requests** libra
 One of requests’ most popular features is simple proxying support.
 HTTP as a protocol has very well-defined semantics for dealing with proxies, and this contributed to the widespread deployment of HTTP proxies
 
-Proxying is very useful when conducting intensive web crawling/scrapping or when you just want to hide your identity (anomization).
+Proxying is very useful when conducting intensive web crawling/scrapping or when you just want to hide your identity (anonymization).
 
 In this project I am using public proxies to randomise http requests over a number of IP addresses and using a variety of known user agent headers these requests look to have been produced by different applications and operating systems.
 
@@ -36,7 +36,7 @@ I have to mention that for each request a different agent header is used. The di
 ## Installation
 If you wish to use this module as a [CLI tool](#command-line-interface), install it globally via pip:
 ```
-  pip install http-requests-randomizer
+  pip install http-request-randomizer
 ```
    
 Otherwise, you can clone the repository and use setup tools:

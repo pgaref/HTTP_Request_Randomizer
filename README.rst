@@ -10,7 +10,7 @@ dealing with proxies, and this contributed to the widespread deployment
 of HTTP proxies
 
 Proxying is very useful when conducting intensive web crawling/scrapping
-or when you just want to hide your identity (anomization).
+or when you just want to hide your identity (anonymization).
 
 In this project I am using public proxies to randomise http requests
 over a number of IP addresses and using a variety of known user agent
@@ -58,7 +58,7 @@ tool <#command-line-interface>`__, install it globally via pip:
 
 ::
 
-      pip install http-requests-randomizer
+      pip install http-request-randomizer
 
 Otherwise, you can clone the repository and use setup tools:
 
