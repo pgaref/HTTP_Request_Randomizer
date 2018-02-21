@@ -7,3 +7,4 @@ pytest-cov >= 2.5.1
 python-dateutil >= 2.6.1
 requests >= 2.18.4
 pyOpenSSL >= 17.5.0
+PyQt5
