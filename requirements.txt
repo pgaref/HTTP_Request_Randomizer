@@ -1,8 +1,8 @@
 beautifulsoup4 >= 4.6.0
-coverage >= 4.4.2
+coverage >= 4.5.1
 httmock >= 1.2.6
 psutil >= 5.4.3
-pytest >= 3.3.2
+pytest >= 3.4.0
 pytest-cov >= 2.5.1
 python-dateutil >= 2.6.1
 requests >= 2.18.4
