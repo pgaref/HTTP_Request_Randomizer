@@ -56,7 +56,7 @@ class RequestProxy:
             try:
                 self.proxy_list += parsers[i].parse_proxyList()
             except ReadTimeout:
-                self.logger.warn("Proxy Parser: '{}' TimedOut!".format(parsers[i].url))
+                self.logger.warning("Proxy Parser: '{}' TimedOut!".format(parsers[i].url))
         self.current_proxy = self.randomize_proxy()
 
     def set_logger_level(self, level):

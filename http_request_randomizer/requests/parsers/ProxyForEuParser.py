@@ -20,7 +20,7 @@ class ProxyForEuParser(UrlParser):
             response = requests.get(self.get_url(), timeout=self.timeout)
 
             if not response.ok:
-                logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
+                logger.warning("Proxy Provider url failed: {}".format(self.get_url()))
                 return []
 
             content = response.content

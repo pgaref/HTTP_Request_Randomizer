@@ -100,7 +100,7 @@ specify provider timeout threshold in seconds:
 
 ::
 
-    -t, --timeout
+      -t, --timeout
 
 specify proxy bandwidth threshold in KBs:
 

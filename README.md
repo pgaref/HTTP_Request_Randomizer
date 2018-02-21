@@ -68,7 +68,7 @@ Specify output stream (default: sys.stdout), could also be a file:
 ```
 specify provider timeout threshold in seconds:
 ```
--t, --timeout
+  -t, --timeout
 ```
 specify proxy bandwidth threshold in KBs:
 ```                        

@@ -2,7 +2,6 @@ import argparse
 import logging
 import sys
 
-import os
 import pkg_resources
 
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser

@@ -28,7 +28,7 @@ class SamairProxyParser(UrlParser):
                 if not response.ok:
                     # Could not parse ANY page - Let user know
                     if not curr_proxy_list:
-                        logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
+                        logger.warning("Proxy Provider url failed: {}".format(self.get_url()))
                     # Return proxies parsed so far
                     return curr_proxy_list
                 content = response.content
@@ -73,7 +73,7 @@ class SamairProxyParser(UrlParser):
         page_set = set()
         # Could not parse pagination page - Let user know
         if not response.ok:
-            logger.warn("Proxy Provider url failed: {}".format(self.get_url()))
+            logger.warning("Proxy Provider url failed: {}".format(self.get_url()))
             return page_set
         content = response.content
         soup = BeautifulSoup(content, "html.parser")
