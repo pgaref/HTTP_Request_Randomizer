@@ -3,16 +3,18 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
+from http_request_randomizer.requests.parsers.jsunpacker import JsUnpacker
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
-from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel, Protocol
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
 
 
 # Samair Proxy now renamed to: premproxy.com
-class SamairProxyParser(UrlParser):
+class PremProxyParser(UrlParser):
     def __init__(self, id, web_url, timeout=None):
+        self.base_url = web_url
         web_url += "/list/"
         UrlParser.__init__(self, id=id, web_url=web_url, timeout=timeout)
 
@@ -32,33 +34,30 @@ class SamairProxyParser(UrlParser):
                     # Return proxies parsed so far
                     return curr_proxy_list
                 content = response.content
-                soup = BeautifulSoup(content, "html.parser")
-                # css provides the port number so we reverse it
-                # for href in soup.findAll('link'):
-                #     if '/styles/' in href.get('href'):
-                #         style = "http://www.samair.ru" + href.get('href')
-                #         break
-                # css = requests.get(style).content.split('\n')
-                # css.pop()
-                # ports = {}
-                # for l in css:
-                #     p = l.split(' ')
-                #     key = p[0].split(':')[0][1:]
-                #     value = p[1].split('\"')[1]
-                #     ports[key] = value
+                soup = BeautifulSoup(content, "html.parser", from_encoding="iso-8859-1")
+                # js file contains the values for the ports
+                jsUrl = ''
+                for script in soup.findAll('script'):
+                     if '/js/' in script.get('src'):
+                         jsUrl = self.base_url + script.get('src')
+                         #logger.debug('Found script url: '+jsUrl)
+                         break
+                jsUnpacker = JsUnpacker(jsUrl)
+                ports = jsUnpacker.get_ports()
 
                 table = soup.find("div", attrs={"id": "proxylist"})
                 # The first tr contains the field names.
                 headings = [th.get_text() for th in table.find("tr").find_all("th")]
-                for row in table.find_all("tr")[1:]:
+                for row in table.find_all("tr")[1:-1]:
                     td_row = row.find("td")
-                    # curr_proxy_list.append('http://' + row.text + ports[row['class'][0]])
-                    proxy_obj = self.create_proxy_object(row)
+                    portKey = td_row.find('span', attrs={'class':True}).get('class')[0]
+                    port = ports[portKey]
+                    proxy_obj = self.create_proxy_object(row, port)
                     # Make sure it is a Valid Proxy Address
-                    if proxy_obj is not None and UrlParser.valid_ip_port(td_row.text):
+                    if proxy_obj is not None and UrlParser.valid_ip(proxy_obj.ip) and UrlParser.valid_port(port):
                         curr_proxy_list.append(proxy_obj)
                     else:
-                        logger.debug("Proxy Invalid: {}".format(td_row.text))
+                        logger.debug("Proxy Invalid: {}".format(proxy_obj.to_str()))
         except AttributeError as e:
             logger.error("Provider {0} failed with Attribute error: {1}".format(self.id, e))
         except KeyError as e:
@@ -87,7 +86,7 @@ class SamairProxyParser(UrlParser):
                     page_set.add("")
         return page_set
 
-    def create_proxy_object(self, row):
+    def create_proxy_object(self, row, port):
         for td_row in row.findAll("td"):
             if td_row.attrs['data-label'] == 'IP:port ':
                 text = td_row.text.strip()
@@ -96,13 +95,13 @@ class SamairProxyParser(UrlParser):
                 if not UrlParser.valid_ip(ip):
                     logger.debug("IP with Invalid format: {}".format(ip))
                     return None
-                port = text.split(":")[1]
             elif td_row.attrs['data-label'] == 'Anonymity Type: ':
                 anonymity = AnonymityLevel.get(td_row.text.strip())
             elif td_row.attrs['data-label'] == 'Country: ':
                 country = td_row.text.strip()
-        return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
+            protocols = [Protocol.HTTP]
+        return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country, protocols=protocols)
 
     def __str__(self):
-        return "SemairProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \
-            .format(self.url, self.minimum_bandwidth_in_KBs)
+        return "{0} parser of '{1}' with required bandwidth: '{2}' KBs" \
+            .format(self.id, self.url, self.minimum_bandwidth_in_KBs)
