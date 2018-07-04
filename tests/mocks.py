@@ -4,7 +4,7 @@ from httmock import urlmatch
 free_proxy_expected = ['138.197.136.46:3128', '177.207.75.227:8080']
 proxy_for_eu_expected = ['107.151.136.222:80', '37.187.253.39:8115']
 rebro_weebly_expected = ['213.149.105.12:8080', '119.188.46.42:8080']
-samair_expected = ['191.252.61.28:80', '167.114.203.141:8080', '152.251.141.93:8080']
+prem_expected = ['191.252.61.28:80', '167.114.203.141:8080', '152.251.141.93:8080']
 
 @urlmatch(netloc=r'(.*\.)?free-proxy-list\.net$')
 def free_proxy_mock(url, request):
@@ -135,7 +135,7 @@ def rebro_weebly_mock(url, request):
 
 
 @urlmatch(netloc=r'(.*\.)?www\.premproxy\.com')
-def samair_mock(url, request):
+def prem_mock(url, request):
     return """<div id="proxylist">\n
     <tr class="anon">\n
         <th><a href="/list/ip-address-01.htm" title="Proxy List sorted by ip address">IP address</a></th>

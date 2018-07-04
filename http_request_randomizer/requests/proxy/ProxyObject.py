@@ -82,3 +82,10 @@ class AnonymityLevel(Enum):
             return cls(name)
         except ValueError:
             return cls.UNKNOWN
+
+class Protocol(Enum):
+    UNKNOWN = 0
+    HTTP = 1
+    HTTPS = 2
+    SOCS4 = 3
+    SOCS5 = 4

@@ -10,11 +10,12 @@ from requests.exceptions import TooManyRedirects
 from requests.exceptions import ConnectionError
 from requests.exceptions import ReadTimeout
 
+from http_request_randomizer.requests.proxy.ProxyObject import Protocol
 from http_request_randomizer.requests.errors.ProxyListException import ProxyListException
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
-from http_request_randomizer.requests.parsers.SamairProxyParser import SamairProxyParser
+from http_request_randomizer.requests.parsers.PremProxyParser import PremProxyParser
 from http_request_randomizer.requests.useragent.userAgent import UserAgentManager
 
 __author__ = 'pgaref'
@@ -29,7 +30,7 @@ handler.setFormatter(formatter)
 
 
 class RequestProxy:
-    def __init__(self, web_proxy_list=[], sustain=False, timeout=5):
+    def __init__(self, web_proxy_list=[], sustain=False, timeout=5, protocol=Protocol.HTTP):
         self.userAgent = UserAgentManager()
         self.logger = logging.getLogger()
         self.logger.addHandler(handler)
@@ -40,9 +41,9 @@ class RequestProxy:
         #####
         parsers = list([])
         parsers.append(FreeProxyParser('FreeProxy', 'http://free-proxy-list.net', timeout=timeout))
-        parsers.append(ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php', 1.0, timeout=timeout))
-        parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout))
-        parsers.append(SamairProxyParser('Samair', 'https://premproxy.com', timeout=timeout))
+        #parsers.append(ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php', 1.0, timeout=timeout)) <--doesn't work anymore
+        #parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout)) <--doesn't work anymore
+        parsers.append(PremProxyParser('PremProxy', 'https://premproxy.com', timeout=timeout))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
@@ -52,11 +53,17 @@ class RequestProxy:
         self.sustain = sustain
         self.parsers = parsers
         self.proxy_list = web_proxy_list
-        for i in range(len(parsers)):
+        for parser in parsers:
             try:
-                self.proxy_list += parsers[i].parse_proxyList()
+                size = len(self.proxy_list)
+                self.proxy_list += parser.parse_proxyList()
+                self.logger.debug('Added {} proxies from {}'.format(len(self.proxy_list)-size, parser.id))
             except ReadTimeout:
-                self.logger.warning("Proxy Parser: '{}' TimedOut!".format(parsers[i].url))
+                self.logger.warning("Proxy Parser: '{}' TimedOut!".format(parser.url))
+        self.logger.debug('Total proxies = '+str(len(self.proxy_list)))
+        # filtering the list of available proxies according to user preferences
+        self.proxy_list = [p for p in self.proxy_list if protocol in p.protocols]
+        self.logger.debug('Filtered proxies = '+str(len(self.proxy_list)))
         self.current_proxy = self.randomize_proxy()
 
     def set_logger_level(self, level):
@@ -101,8 +108,8 @@ class RequestProxy:
 
             self.logger.debug("Using headers: {0}".format(str(headers)))
             self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
-            request = requests.request(method, url, proxies={"http": self.current_proxy.get_address()},
-                                       headers=headers, data=data, params=params, timeout=req_timeout)
+            request = requests.request(method, url, headers=headers, data=data, params=params, timeout=req_timeout,
+                    proxies={"http": self.current_proxy.get_address(), "https": self.current_proxy.get_address()})
             # Avoid HTTP request errors
             if request.status_code == 409:
                 raise ConnectionError("HTTP Response [409] - Possible Cloudflare DNS resolution error")
