@@ -12,7 +12,7 @@ from tests.mocks import free_proxy_expected, proxy_for_eu_expected, rebro_weebly
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
-from http_request_randomizer.requests.parsers.SamairProxyParser import SamairProxyParser
+from http_request_randomizer.requests.parsers.PremProxyParser import PremProxyParser
 
 __author__ = 'pgaref'
 
@@ -48,7 +48,7 @@ class TestProxyProviders(unittest.TestCase):
 
     def test_SemairProxyParser(self):
         with HTTMock(samair_mock):
-            proxy_provider = SamairProxyParser('Samair', 'https://www.premproxy.com')
+            proxy_provider = PremProxyParser('Prem', 'https://www.premproxy.com')
             proxy_list = proxy_provider.parse_proxyList()
             proxy_list_addr = []
             for proxy in proxy_list:
