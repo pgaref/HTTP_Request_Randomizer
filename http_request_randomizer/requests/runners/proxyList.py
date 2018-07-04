@@ -7,7 +7,7 @@ import pkg_resources
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
-from http_request_randomizer.requests.parsers.SamairProxyParser import SamairProxyParser
+from http_request_randomizer.requests.parsers.PremProxyParser import PremProxyParser
 
 __author__ = 'pgaref'
 
@@ -23,7 +23,7 @@ class ProxyList(object):
         # Each of the entries implements a specific URL Parser
         self.parsers = dict()
         self.parsers['rebro'] = RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout)
-        self.parsers['samair'] = SamairProxyParser('Samair', 'https://premproxy.com', timeout=timeout)
+        self.parsers['prem'] = SamairProxyParser('Prem', 'https://premproxy.com', timeout=timeout)
         self.parsers['freeproxy'] = FreeProxyParser('FreeProxy', 'http://free-proxy-list.net', timeout=timeout)
         self.parsers['proxyforeu'] = ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php',
                                                       bandwidth=bandwidth, timeout=timeout)
