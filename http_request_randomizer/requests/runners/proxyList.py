@@ -23,7 +23,7 @@ class ProxyList(object):
         # Each of the entries implements a specific URL Parser
         self.parsers = dict()
         self.parsers['rebro'] = RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout)
-        self.parsers['prem'] = SamairProxyParser('Prem', 'https://premproxy.com', timeout=timeout)
+        self.parsers['prem'] = PremProxyParser('Prem', 'https://premproxy.com', timeout=timeout)
         self.parsers['freeproxy'] = FreeProxyParser('FreeProxy', 'http://free-proxy-list.net', timeout=timeout)
         self.parsers['proxyforeu'] = ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php',
                                                       bandwidth=bandwidth, timeout=timeout)
