@@ -76,3 +76,7 @@ class UrlParser(object):
         if not match:
             return False
         return True
+
+    @staticmethod
+    def valid_port(port):
+        return 1 <= int(port) <= 65535

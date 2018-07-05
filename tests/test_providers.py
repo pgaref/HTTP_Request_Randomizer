@@ -7,12 +7,12 @@ from httmock import HTTMock
 
 sys.path.insert(0, os.path.abspath('.'))
 
-from tests.mocks import free_proxy_mock, proxy_for_eu_mock, rebro_weebly_mock, samair_mock
-from tests.mocks import free_proxy_expected, proxy_for_eu_expected, rebro_weebly_expected, samair_expected
+from tests.mocks import free_proxy_mock, proxy_for_eu_mock, rebro_weebly_mock, prem_mock
+from tests.mocks import free_proxy_expected, proxy_for_eu_expected, rebro_weebly_expected, prem_expected, prem_js_mock
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
-from http_request_randomizer.requests.parsers.SamairProxyParser import SamairProxyParser
+from http_request_randomizer.requests.parsers.PremProxyParser import PremProxyParser
 
 __author__ = 'pgaref'
 
@@ -46,14 +46,14 @@ class TestProxyProviders(unittest.TestCase):
                 proxy_list_addr.append(proxy.get_address())
         self.assertEqual(proxy_list_addr, rebro_weebly_expected)
 
-    def test_SemairProxyParser(self):
-        with HTTMock(samair_mock):
-            proxy_provider = SamairProxyParser('Samair', 'https://www.premproxy.com')
+    def test_PremProxyParser(self):
+        with HTTMock(prem_js_mock, prem_mock):
+            proxy_provider = PremProxyParser('Prem', 'https://www.premproxy.com')
             proxy_list = proxy_provider.parse_proxyList()
             proxy_list_addr = []
             for proxy in proxy_list:
                 proxy_list_addr.append(proxy.get_address())
-            for item in samair_expected:
+            for item in prem_expected:
                 self.assertTrue(item in proxy_list_addr)
 
 

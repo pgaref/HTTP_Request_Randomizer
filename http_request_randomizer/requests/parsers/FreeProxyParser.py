@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
-from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel
+from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel, Protocol
 
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
@@ -30,7 +30,7 @@ class FreeProxyParser(UrlParser):
             headings = [th.get_text() for th in table.find("tr").find_all("th")]
 
             datasets = []
-            for row in table.find_all("tr")[1:]:
+            for row in table.find_all("tr")[1:-1]:
                 dataset = zip(headings, (td.get_text() for td in row.find_all("td")))
                 if dataset:
                     datasets.append(dataset)
@@ -57,6 +57,7 @@ class FreeProxyParser(UrlParser):
         port = None
         anonymity = AnonymityLevel.UNKNOWN
         country = None
+        protocols = []
         for field in dataset:
             if field[0] == 'IP Address':
                 # Make sure it is a Valid IP
@@ -71,8 +72,11 @@ class FreeProxyParser(UrlParser):
                 anonymity = AnonymityLevel.get(field[1].strip())  # String strip()
             elif field[0] == 'Country':
                 country = field[1].strip()  # String strip()
-        return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country)
+            elif field[0] == 'Https':
+                if field[1].strip().lower() == 'yes': protocols.extend([Protocol.HTTP, Protocol.HTTPS])
+                elif field[1].strip().lower() == 'no': protocols.append(Protocol.HTTP)
+        return ProxyObject(source=self.id, ip=ip, port=port, anonymity_level=anonymity, country=country, protocols=protocols)
 
     def __str__(self):
-        return "FreeProxy Parser of '{0}' with required bandwidth: '{1}' KBs" \
-            .format(self.url, self.minimum_bandwidth_in_KBs)
+        return "{0} parser of '{1}' with required bandwidth: '{2}' KBs" \
+            .format(self.id, self.url, self.minimum_bandwidth_in_KBs)
