@@ -181,7 +181,7 @@ This project is licensed under the terms of the MIT license.
    :target: https://travis-ci.org/pgaref/HTTP_Request_Randomizer
 .. |Coverage Status| image:: https://coveralls.io/repos/github/pgaref/HTTP_Request_Randomizer/badge.svg?branch=master
    :target: https://coveralls.io/github/pgaref/HTTP_Request_Randomizer?branch=master
-.. |Dependency Status| image:: https://gemnasium.com/badges/github.com/pgaref/HTTP_Request_Randomizer.svg
-   :target: https://gemnasium.com/github.com/pgaref/HTTP_Request_Randomizer
+.. |Dependency Status| image:: https://requires.io/github/pgaref/HTTP_Request_Randomizer/requirements.svg?branch=master
+   :target: https://requires.io/github/pgaref/HTTP_Request_Randomizer/requirements/?branch=master
 .. |PyPI version| image:: https://badge.fury.io/py/http-request-randomizer.svg
    :target: https://badge.fury.io/py/http-request-randomizer

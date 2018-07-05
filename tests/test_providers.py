@@ -8,7 +8,7 @@ from httmock import HTTMock
 sys.path.insert(0, os.path.abspath('.'))
 
 from tests.mocks import free_proxy_mock, proxy_for_eu_mock, rebro_weebly_mock, prem_mock
-from tests.mocks import free_proxy_expected, proxy_for_eu_expected, rebro_weebly_expected, prem_expected
+from tests.mocks import free_proxy_expected, proxy_for_eu_expected, rebro_weebly_expected, prem_expected, prem_js_mock
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
@@ -47,7 +47,7 @@ class TestProxyProviders(unittest.TestCase):
         self.assertEqual(proxy_list_addr, rebro_weebly_expected)
 
     def test_PremProxyParser(self):
-        with HTTMock(prem_mock):
+        with HTTMock(prem_js_mock, prem_mock):
             proxy_provider = PremProxyParser('Prem', 'https://www.premproxy.com')
             proxy_list = proxy_provider.parse_proxyList()
             proxy_list_addr = []

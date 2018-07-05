@@ -42,6 +42,11 @@ Contributors (as ordered by Github)
 * **[christinabo](https://github.com/christinabo)**
 
   * Python 3 compatibility
+
+* **[la55u](https://github.com/la55u)**
+
+  * JS unpacker
+  * PremProxy migration
   
 
 **[More details](https://github.com/pgaref/HTTP_Request_Randomizer/contributors).**
