@@ -3,7 +3,7 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-from http_request_randomizer.requests.parsers.jsunpacker import JsUnpacker
+from http_request_randomizer.requests.parsers.js.UnPacker import JsUnPacker
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
 from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel, Protocol
 
@@ -16,6 +16,8 @@ class PremProxyParser(UrlParser):
     def __init__(self, id, web_url, timeout=None):
         self.base_url = web_url
         web_url += "/list/"
+        # Ports decoded by the JS unpacker
+        self.js_unpacker = None
         UrlParser.__init__(self, id=id, web_url=web_url, timeout=timeout)
 
     def parse_proxyList(self):
@@ -25,6 +27,9 @@ class PremProxyParser(UrlParser):
             # Get the pageRange from the 'pagination' table
             page_set = self.get_pagination_set()
             logger.debug("Pages: {}".format(page_set))
+            # One JS unpacker per provider (not per page)
+            self.js_unpacker = self.init_js_unpacker()
+
             for page in page_set:
                 response = requests.get("{0}{1}".format(self.get_url(), page), timeout=self.timeout)
                 if not response.ok:
@@ -35,23 +40,15 @@ class PremProxyParser(UrlParser):
                     return curr_proxy_list
                 content = response.content
                 soup = BeautifulSoup(content, "html.parser", from_encoding="iso-8859-1")
-                # js file contains the values for the ports
-                jsUrl = ''
-                for script in soup.findAll('script'):
-                     if '/js/' in script.get('src'):
-                         jsUrl = self.base_url + script.get('src')
-                         #logger.debug('Found script url: '+jsUrl)
-                         break
-                jsUnpacker = JsUnpacker(jsUrl)
-                ports = jsUnpacker.get_ports()
 
                 table = soup.find("div", attrs={"id": "proxylist"})
                 # The first tr contains the field names.
                 headings = [th.get_text() for th in table.find("tr").find_all("th")]
+                # skip last 'Select All' row
                 for row in table.find_all("tr")[1:-1]:
                     td_row = row.find("td")
-                    portKey = td_row.find('span', attrs={'class':True}).get('class')[0]
-                    port = ports[portKey]
+                    portKey = td_row.find('span', attrs={'class': True}).get('class')[0]
+                    port = self.js_unpacker.get_port(portKey)
                     proxy_obj = self.create_proxy_object(row, port)
                     # Make sure it is a Valid Proxy Address
                     if proxy_obj is not None and UrlParser.valid_ip(proxy_obj.ip) and UrlParser.valid_port(port):
@@ -85,6 +82,22 @@ class PremProxyParser(UrlParser):
                 else:
                     page_set.add("")
         return page_set
+
+    def init_js_unpacker(self):
+        response = requests.get(self.get_url(), timeout=self.timeout)
+        # Could not parse provider page - Let user know
+        if not response.ok:
+            logger.warning("Proxy Provider url failed: {}".format(self.get_url()))
+            return None
+        content = response.content
+        soup = BeautifulSoup(content, "html.parser")
+
+        # js file contains the values for the ports
+        for script in soup.findAll('script'):
+            if '/js/' in script.get('src'):
+                jsUrl = self.base_url + script.get('src')
+                return JsUnPacker(jsUrl)
+        return None
 
     def create_proxy_object(self, row, port):
         for td_row in row.findAll("td"):
