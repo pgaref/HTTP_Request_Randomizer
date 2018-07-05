@@ -66,7 +66,8 @@ setup(
                       'psutil >= 5.4.3',
                       'python-dateutil >= 2.6.1',
                       'requests >= 2.18.4',
-                      'pyOpenSSL >= 17.5.0'
+                      'pyOpenSSL >= 17.5.0',
+                      'fake-useragent >= 0.1.10'
                       ],
     use_scm_version=True,
     setup_requires=['setuptools-scm', 'pytest-runner'],
