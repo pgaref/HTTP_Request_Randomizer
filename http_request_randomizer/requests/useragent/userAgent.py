@@ -47,7 +47,7 @@ class UserAgentManager:
 
 
 if __name__ == '__main__':
-    ua = UserAgentManager(file='/home/la/HTTP_Request_Randomizer/http_request_randomizer/requests/data/user_agents.txt')
+    ua = UserAgentManager()
     if ua.agent_file:
         print("Number of User Agent headers: {0}".format(ua.get_len_user_agent()))
         print("First User Agent in file: {0}".format(ua.get_first_user_agent()))
