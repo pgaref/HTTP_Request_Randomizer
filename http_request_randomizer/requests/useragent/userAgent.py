@@ -4,7 +4,6 @@ from fake_useragent import FakeUserAgent
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 class UserAgentManager:
     def __init__(self, fallback=None, file=None):
@@ -37,13 +36,25 @@ class UserAgentManager:
             return self.fakeuseragent.random
 
     def get_first_user_agent(self):
-        return self.useragents[0].decode('utf-8') if self.agent_file else None
+        if self.agent_file:
+            return self.useragents[0].decode('utf-8')
+        else:
+            logger.warning('User-Agents file not set')
+            return None
 
     def get_last_user_agent(self):
-        return self.useragents[-1].decode('utf-8') if self.agent_file else None
+        if self.agent_file:
+            return self.useragents[-1].decode('utf-8')
+        else:
+            logger.warning('User-Agents file not set')
+            return None
 
     def get_len_user_agent(self):
-        return len(self.useragents) if self.agent_file else None
+        if self.agent_file:
+            return len(self.useragents)
+        else:
+            logger.warning('User-Agents file not set')
+            return None
 
 
 if __name__ == '__main__':

@@ -31,10 +31,10 @@ handler.setFormatter(formatter)
 
 class RequestProxy:
     def __init__(self, web_proxy_list=[], sustain=False, timeout=5, protocol=Protocol.HTTP):
-        self.userAgent = UserAgentManager()
         self.logger = logging.getLogger()
         self.logger.addHandler(handler)
         self.logger.setLevel(0)
+        self.userAgent = UserAgentManager()
 
         #####
         # Each of the classes below implements a specific URL Parser
