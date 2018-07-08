@@ -13,8 +13,9 @@ class UserAgentManager:
             self.useragents = self.load_user_agents(self.agent_file)
         else:
             logger.info('Using fake-useragent package for user agents.')
-            fb = fallback
-            self.fakeuseragent = FakeUserAgent(fallback=fb)
+            if fallback is None:
+                fallback = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
+            self.fakeuseragent = FakeUserAgent(fallback=fallback, cache=False)
 
     def load_user_agents(self, useragentsfile):
         """
@@ -39,21 +40,21 @@ class UserAgentManager:
         if self.agent_file:
             return self.useragents[0].decode('utf-8')
         else:
-            logger.warning('User-Agents file not set')
+            logger.warning('Fake-useragent library does not support operaration get_first - change to user-agent file!')
             return None
 
     def get_last_user_agent(self):
         if self.agent_file:
             return self.useragents[-1].decode('utf-8')
         else:
-            logger.warning('User-Agents file not set')
+            logger.warning('Fake-useragent library does not support operaration get_last - change to user-agent file!')
             return None
 
     def get_len_user_agent(self):
         if self.agent_file:
             return len(self.useragents)
         else:
-            logger.warning('User-Agents file not set')
+            logger.warning('Fake-useragent library does not support operaration get_len - change to user-agent file!')
             return None
 
 
