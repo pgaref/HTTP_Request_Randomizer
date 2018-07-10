@@ -16,6 +16,7 @@ from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyPa
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
 from http_request_randomizer.requests.parsers.PremProxyParser import PremProxyParser
+from http_request_randomizer.requests.parsers.SslProxyParser import SslProxyParser
 from http_request_randomizer.requests.useragent.userAgent import UserAgentManager
 
 __author__ = 'pgaref'
@@ -44,6 +45,7 @@ class RequestProxy:
         #parsers.append(ProxyForEuParser('ProxyForEU', 'http://proxyfor.eu/geo.php', 1.0, timeout=timeout)) <--doesn't work anymore
         #parsers.append(RebroWeeblyParser('ReBro', 'http://rebro.weebly.com', timeout=timeout)) <--doesn't work anymore
         parsers.append(PremProxyParser('PremProxy', 'https://premproxy.com', timeout=timeout))
+        parsers.append(SslProxyParser('SslProxy', 'https://www.sslproxies.org', timeout=timeout))
 
         self.logger.debug("=== Initialized Proxy Parsers ===")
         for i in range(len(parsers)):
@@ -117,7 +119,7 @@ class RequestProxy:
                 raise ConnectionError("HTTP Response [403] - Permission denied error")
             elif request.status_code == 503:
                 raise ConnectionError("HTTP Response [503] - Service unavailable error")
-            print('RR Status {}'.format(request.status_code))
+            self.logger.info('RR Status {}'.format(request.status_code))
             return request
         except ConnectionError:
             try:
