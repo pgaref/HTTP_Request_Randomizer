@@ -34,7 +34,7 @@ class RequestProxy:
         self.logger = logging.getLogger()
         self.logger.addHandler(handler)
         self.logger.setLevel(0)
-        self.userAgent = UserAgentManager()
+        self.userAgent = UserAgentManager(file=os.path.join(os.path.dirname(__file__), '../data/user_agents.txt'))
 
         #####
         # Each of the classes below implements a specific URL Parser

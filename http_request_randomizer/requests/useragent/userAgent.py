@@ -5,6 +5,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class UserAgentManager:
     def __init__(self, fallback=None, file=None):
         self.agent_file = file
