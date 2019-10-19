@@ -23,11 +23,12 @@ Surprisingly, the only thing that tells a server the application triggered the r
 
 ## The source code
 
-The project code in this repository is crawling **four** different public proxy websites:
+The project code in this repository is crawling **five** different public proxy websites:
 * http://proxyfor.eu/geo.php
 * http://free-proxy-list.net
 * http://rebro.weebly.com/proxy-list.html
 * http://www.samair.ru/proxy/time-01.htm 
+* https://www.sslproxies.org
 
 After collecting the proxy data and filtering the slowest ones it is randomly selecting one of them to query the target url.
 The request timeout is configured at 30 seconds and if the proxy fails to return a response it is deleted from the application proxy list.
