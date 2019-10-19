@@ -25,6 +25,7 @@ Mã nguồn trong repository này sẽ thực hiện lấy proxy từ **bốn** 
 * http://free-proxy-list.net
 * http://rebro.weebly.com/proxy-list.html
 * http://www.samair.ru/proxy/time-01.htm 
+* https://www.sslproxies.org
 
 Sau khi thu thập danh sách các proxy và loại bỏ những proxy chậm nó sẽ lấy ngẫu nhiên một proxy để gửi request đến url được chỉ định.
 Thời gian chờ được thiết lập là 30 giây và nếu proxy không phản hồi kết quả nó sẽ được xóa bỏ trong danh sách proxy.

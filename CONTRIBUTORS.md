@@ -47,6 +47,7 @@ Contributors (as ordered by Github)
 
   * JS unpacker
   * PremProxy migration
+  * SslProxyParser
   
 
 **[More details](https://github.com/pgaref/HTTP_Request_Randomizer/contributors).**
