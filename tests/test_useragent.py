@@ -32,8 +32,11 @@ class TestBaseProxyParsers(unittest.TestCase):
         self.assertIsNone(self.uafake.get_last_user_agent())
 
     def test_random_user_agent(self):
-        self.assertNotEqual(self.uafile.get_random_user_agent(), self.uafile.get_random_user_agent())
-        self.assertNotEqual(self.uafake.get_random_user_agent(), self.uafake.get_random_user_agent())
+        count = 0
+        for i in range(1, 101):
+            if self.uafile.get_random_user_agent() == self.uafile.get_random_user_agent():
+                count = count + 1
+        self.assertNotEqual(count, i)
 
 
 if __name__ == '__main__':
