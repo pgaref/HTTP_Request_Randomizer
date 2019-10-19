@@ -5,6 +5,68 @@ free_proxy_expected = ['138.197.136.46:3128', '177.207.75.227:8080']
 proxy_for_eu_expected = ['107.151.136.222:80', '37.187.253.39:8115']
 rebro_weebly_expected = ['213.149.105.12:8080', '119.188.46.42:8080']
 prem_expected = ['191.252.61.28:80', '167.114.203.141:8080', '152.251.141.93:8080']
+sslproxy_expected = ['24.211.89.146:8080', '187.84.222.153:80', '41.193.238.249:8080']
+
+@urlmatch(netloc=r'(.*\.)?sslproxies\.org$')
+def sslproxy_mock(url, request):
+    return """<table class="table table-striped table-bordered" cellspacing="0" width="100%" id="proxylisttable">
+    <thead>
+    <tr>
+        <th>IP Address</th>
+        <th>Port</th>
+        <th>Code</th>
+        <th class='hm'>Country</th>
+        <th>Anonymity</th>
+        <th class='hm'>Google</th>
+        <th class='hx'>Https</th>
+        <th class='hm'>Last Checked</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>24.211.89.146</td>
+        <td>8080</td>
+        <td>US</td>
+        <td class='hm'>United States</td>
+        <td>elite proxy</td>
+        <td class='hm'>no</td>
+        <td class='hx'>yes</td>
+        <td class='hm'>8 seconds ago</td>
+    </tr>
+    <tr>
+        <td>187.84.222.153</td>
+        <td>80</td>
+        <td>BR</td>
+        <td class='hm'>Brazil</td>
+        <td>anonymous</td>
+        <td class='hm'>no</td>
+        <td class='hx'>yes</td>
+        <td class='hm'>1 minute ago</td>
+    </tr>
+    <tr>
+        <td>41.193.238.249</td>
+        <td>8080</td>
+        <td>ZA</td>
+        <td class='hm'>South Africa</td>
+        <td>elite proxy</td>
+        <td class='hm'>no</td>
+        <td class='hx'>yes</td>
+        <td class='hm'>1 minute ago</td>
+    </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+        <th class="input"><input type="text" /></th>
+        <th></th><th></th>
+        <th class='hm'></th>
+        <th></th>
+        <th class='hm'></th>
+        <th class='hx'></th>
+        <th class='hm'></th>
+        </tr>
+    </tfoot>
+</table>
+        """
 
 @urlmatch(netloc=r'(.*\.)?free-proxy-list\.net$')
 def free_proxy_mock(url, request):

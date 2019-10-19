@@ -7,12 +7,13 @@ from httmock import HTTMock
 
 sys.path.insert(0, os.path.abspath('.'))
 
-from tests.mocks import free_proxy_mock, proxy_for_eu_mock, rebro_weebly_mock, prem_mock
-from tests.mocks import free_proxy_expected, proxy_for_eu_expected, rebro_weebly_expected, prem_expected, prem_js_mock
+from tests.mocks import free_proxy_mock, proxy_for_eu_mock, rebro_weebly_mock, prem_mock, sslproxy_mock
+from tests.mocks import free_proxy_expected, proxy_for_eu_expected, rebro_weebly_expected, prem_expected, prem_js_mock, sslproxy_expected
 from http_request_randomizer.requests.parsers.FreeProxyParser import FreeProxyParser
 from http_request_randomizer.requests.parsers.ProxyForEuParser import ProxyForEuParser
 from http_request_randomizer.requests.parsers.RebroWeeblyParser import RebroWeeblyParser
 from http_request_randomizer.requests.parsers.PremProxyParser import PremProxyParser
+from http_request_randomizer.requests.parsers.SslProxyParser import SslProxyParser
 
 __author__ = 'pgaref'
 
@@ -56,6 +57,14 @@ class TestProxyProviders(unittest.TestCase):
             for item in prem_expected:
                 self.assertTrue(item in proxy_list_addr)
 
+    def test_SslProxyParser(self):
+        with HTTMock(sslproxy_mock):
+            proxy_provider = SslProxyParser('SslProxy', 'https://www.sslproxies.org/')
+            proxy_list = proxy_provider.parse_proxyList()
+            proxy_list_addr = []
+            for proxy in proxy_list:
+                proxy_list_addr.append(proxy.get_address())
+        self.assertEqual(proxy_list_addr, sslproxy_expected)
 
 if __name__ == '__main__':
     unittest.main()
