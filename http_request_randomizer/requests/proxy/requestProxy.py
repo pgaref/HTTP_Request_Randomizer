@@ -111,7 +111,10 @@ class RequestProxy:
             self.logger.debug("Using headers: {0}".format(str(headers)))
             self.logger.debug("Using proxy: {0}".format(str(self.current_proxy)))
             request = requests.request(method, url, headers=headers, data=data, params=params, timeout=req_timeout,
-                    proxies={"http": self.current_proxy.get_address(), "https": self.current_proxy.get_address()})
+                    proxies={
+                        "http": "http://{0}".format(self.current_proxy.get_address()),
+                        "https": "https://{0}".format(self.current_proxy.get_address())
+                    })
             # Avoid HTTP request errors
             if request.status_code == 409:
                 raise ConnectionError("HTTP Response [409] - Possible Cloudflare DNS resolution error")
