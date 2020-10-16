@@ -161,7 +161,7 @@ Documentation
 -------------
 
 `http-request-randomizer
-documentation <http://pythonhosted.org/http-request-randomizer>`__
+documentation <https://pgaref.com/HTTP_Request_Randomizer>`__
 
 Contributing
 ------------

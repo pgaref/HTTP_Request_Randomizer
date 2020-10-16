@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>http_request_randomizer.requests.proxy package &mdash; HTTP Request Randomizer 1.3.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="http_request_randomizer.requests.runners package" href="http_request_randomizer.requests.runners.html" />
+    <link rel="prev" title="http_request_randomizer.requests.parsers.js package" href="http_request_randomizer.requests.parsers.js.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> HTTP Request Randomizer
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">http_request_randomizer</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="http_request_randomizer.html">http_request_randomizer package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="http_request_randomizer.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="http_request_randomizer.requests.html">http_request_randomizer.requests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="http_request_randomizer.html#module-http_request_randomizer">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTTP Request Randomizer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">http_request_randomizer</a> &raquo;</li>
+        
+          <li><a href="http_request_randomizer.html">http_request_randomizer package</a> &raquo;</li>
+        
+          <li><a href="http_request_randomizer.requests.html">http_request_randomizer.requests package</a> &raquo;</li>
+        
+      <li>http_request_randomizer.requests.proxy package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/source/http_request_randomizer.requests.proxy.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="http-request-randomizer-requests-proxy-package">
+<h1>http_request_randomizer.requests.proxy package<a class="headerlink" href="#http-request-randomizer-requests-proxy-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-http_request_randomizer.requests.proxy.ProxyObject">
+<span id="http-request-randomizer-requests-proxy-proxyobject-module"></span><h2>http_request_randomizer.requests.proxy.ProxyObject module<a class="headerlink" href="#module-http_request_randomizer.requests.proxy.ProxyObject" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel">
+<em class="property">class </em><code class="sig-prename descclassname">http_request_randomizer.requests.proxy.ProxyObject.</code><code class="sig-name descname">AnonymityLevel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>UNKNOWN: The proxy anonymity capabilities are not exposed
+TRANSPARENT: The proxy does not hide the requester’s IP address.
+ANONYMOUS: The proxy hides the requester’s IP address, but adds headers to the forwarded request that make it clear</p>
+<blockquote>
+<div><p>that the request was made using a proxy.</p>
+</div></blockquote>
+<p>ELITE: The proxy hides the requester’s IP address and does not add any proxy-related headers to the request.</p>
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.ANONYMOUS">
+<code class="sig-name descname">ANONYMOUS</code><em class="property"> = 2</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.ANONYMOUS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.ELITE">
+<code class="sig-name descname">ELITE</code><em class="property"> = 3</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.ELITE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.TRANSPARENT">
+<code class="sig-name descname">TRANSPARENT</code><em class="property"> = 1</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.TRANSPARENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.UNKNOWN">
+<code class="sig-name descname">UNKNOWN</code><em class="property"> = 0</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.get">
+<em class="property">classmethod </em><code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.AnonymityLevel.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.Protocol">
+<em class="property">class </em><code class="sig-prename descclassname">http_request_randomizer.requests.proxy.ProxyObject.</code><code class="sig-name descname">Protocol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.Protocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.Protocol.HTTP">
+<code class="sig-name descname">HTTP</code><em class="property"> = 1</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.Protocol.HTTP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.Protocol.HTTPS">
+<code class="sig-name descname">HTTPS</code><em class="property"> = 2</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.Protocol.HTTPS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.Protocol.SOCS4">
+<code class="sig-name descname">SOCS4</code><em class="property"> = 3</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.Protocol.SOCS4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.Protocol.SOCS5">
+<code class="sig-name descname">SOCS5</code><em class="property"> = 4</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.Protocol.SOCS5" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.Protocol.UNKNOWN">
+<code class="sig-name descname">UNKNOWN</code><em class="property"> = 0</em><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.Protocol.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.ProxyObject">
+<em class="property">class </em><code class="sig-prename descclassname">http_request_randomizer.requests.proxy.ProxyObject.</code><code class="sig-name descname">ProxyObject</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span class="n">ip</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">anonymity_level</span></em>, <em class="sig-param"><span class="n">country</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">protocols</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">tunnel</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.ProxyObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.ProxyObject.get_address">
+<code class="sig-name descname">get_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.ProxyObject.get_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="http_request_randomizer.requests.proxy.ProxyObject.ProxyObject.to_str">
+<code class="sig-name descname">to_str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.ProxyObject.ProxyObject.to_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-http_request_randomizer.requests.proxy.requestProxy">
+<span id="http-request-randomizer-requests-proxy-requestproxy-module"></span><h2>http_request_randomizer.requests.proxy.requestProxy module<a class="headerlink" href="#module-http_request_randomizer.requests.proxy.requestProxy" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="http_request_randomizer.requests.proxy.requestProxy.RequestProxy">
+<em class="property">class </em><code class="sig-prename descclassname">http_request_randomizer.requests.proxy.requestProxy.</code><code class="sig-name descname">RequestProxy</code><span class="sig-paren">(</span><em class="sig-param">web_proxy_list=[]</em>, <em class="sig-param">sustain=False</em>, <em class="sig-param">timeout=5</em>, <em class="sig-param">protocol=&lt;Protocol.HTTP: 1&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.requestProxy.RequestProxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="http_request_randomizer.requests.proxy.requestProxy.RequestProxy.generate_proxied_request">
+<code class="sig-name descname">generate_proxied_request</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'GET'</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">req_timeout</span><span class="o">=</span><span class="default_value">30</span></em><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.requestProxy.RequestProxy.generate_proxied_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="http_request_randomizer.requests.proxy.requestProxy.RequestProxy.generate_random_request_headers">
+<code class="sig-name descname">generate_random_request_headers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.requestProxy.RequestProxy.generate_random_request_headers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="http_request_randomizer.requests.proxy.requestProxy.RequestProxy.get_proxy_list">
+<code class="sig-name descname">get_proxy_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.requestProxy.RequestProxy.get_proxy_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="http_request_randomizer.requests.proxy.requestProxy.RequestProxy.randomize_proxy">
+<code class="sig-name descname">randomize_proxy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.requestProxy.RequestProxy.randomize_proxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="http_request_randomizer.requests.proxy.requestProxy.RequestProxy.set_logger_level">
+<code class="sig-name descname">set_logger_level</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">level</span></em><span class="sig-paren">)</span><a class="headerlink" href="#http_request_randomizer.requests.proxy.requestProxy.RequestProxy.set_logger_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-http_request_randomizer.requests.proxy">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-http_request_randomizer.requests.proxy" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="http_request_randomizer.requests.runners.html" class="btn btn-neutral float-right" title="http_request_randomizer.requests.runners package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="http_request_randomizer.requests.parsers.js.html" class="btn btn-neutral float-left" title="http_request_randomizer.requests.parsers.js package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Panagiotis Garefalakis
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
