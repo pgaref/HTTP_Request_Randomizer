@@ -1,4 +1,4 @@
-# HTTP Request Randomizer  [![Build Status](https://travis-ci.org/pgaref/HTTP_Request_Randomizer.svg?branch=master)](https://travis-ci.org/pgaref/HTTP_Request_Randomizer) [![Coverage Status](https://coveralls.io/repos/github/pgaref/HTTP_Request_Randomizer/badge.svg?branch=master)](https://coveralls.io/github/pgaref/HTTP_Request_Randomizer?branch=master) [![Requirements Status](https://requires.io/github/pgaref/HTTP_Request_Randomizer/requirements.svg?branch=master)](https://requires.io/github/pgaref/HTTP_Request_Randomizer/requirements/?branch=master) [![PyPI version](https://badge.fury.io/py/http-request-randomizer.svg)](https://badge.fury.io/py/http-request-randomizer)
+# HTTP Request Randomizer [![Build Status](https://github.com/pgaref/http_request_randomizer/workflows/CI/badge.svg)](https://github.com/pgaref/http_request_randomizer/actions)  [![codecov](https://codecov.io/gh/pgaref/HTTP_Request_Randomizer/branch/master/graph/badge.svg?token=FjHh47wdYV)](undefined) [![Requirements Status](https://requires.io/github/pgaref/HTTP_Request_Randomizer/requirements.svg?branch=master)](https://requires.io/github/pgaref/HTTP_Request_Randomizer/requirements/?branch=master) [![PyPI version](https://badge.fury.io/py/http-request-randomizer.svg)](https://badge.fury.io/py/http-request-randomizer)
 
 [Vietnamese version](README-vi.md)
 
@@ -45,6 +45,12 @@ Otherwise, you can clone the repository and use setup tools:
 python setup.py install
 ```
 
+## Dev testing
+Clone repo, install requirements, develop and run tests:
+```
+pip install -r requirements.txt
+tox -e pyDevVerbose
+```
 
 ## How to use
 
