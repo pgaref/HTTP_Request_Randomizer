@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
 ## Documentation 
 
-[http-request-randomizer documentation](http://pythonhosted.org/http-request-randomizer)
+[http-request-randomizer documentation](https://pgaref.com/HTTP_Request_Randomizer)
 
 
 ## Contributing

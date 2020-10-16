@@ -1,0 +1,21 @@
+http\_request\_randomizer.requests.useragent package
+====================================================
+
+Submodules
+----------
+
+http\_request\_randomizer.requests.useragent.userAgent module
+-------------------------------------------------------------
+
+.. automodule:: http_request_randomizer.requests.useragent.userAgent
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: http_request_randomizer.requests.useragent
+   :members:
+   :undoc-members:
+   :show-inheritance:
