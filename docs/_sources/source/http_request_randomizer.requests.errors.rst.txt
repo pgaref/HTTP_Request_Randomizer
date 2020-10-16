@@ -1,0 +1,29 @@
+http\_request\_randomizer.requests.errors package
+=================================================
+
+Submodules
+----------
+
+http\_request\_randomizer.requests.errors.ParserExceptions module
+-----------------------------------------------------------------
+
+.. automodule:: http_request_randomizer.requests.errors.ParserExceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+http\_request\_randomizer.requests.errors.ProxyListException module
+-------------------------------------------------------------------
+
+.. automodule:: http_request_randomizer.requests.errors.ProxyListException
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: http_request_randomizer.requests.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:

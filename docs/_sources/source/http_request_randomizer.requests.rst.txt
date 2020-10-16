@@ -1,0 +1,22 @@
+http\_request\_randomizer.requests package
+==========================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   http_request_randomizer.requests.errors
+   http_request_randomizer.requests.parsers
+   http_request_randomizer.requests.proxy
+   http_request_randomizer.requests.runners
+   http_request_randomizer.requests.useragent
+
+Module contents
+---------------
+
+.. automodule:: http_request_randomizer.requests
+   :members:
+   :undoc-members:
+   :show-inheritance:

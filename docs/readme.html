@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>HTTP Request Randomizer &mdash; HTTP Request Randomizer 1.3.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> HTTP Request Randomizer
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="source/modules.html">http_request_randomizer</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HTTP Request Randomizer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>HTTP Request Randomizer    </li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="http-request-randomizer-build-status-codecov-requirements-status-pypi-version">
+<h1>HTTP Request Randomizer <a class="reference external" href="https://github.com/pgaref/http_request_randomizer/actions"><img alt="Build Status" src="https://github.com/pgaref/http_request_randomizer/workflows/CI/badge.svg" /></a> <a class="reference external" href="undefined"><img alt="codecov" src="https://codecov.io/gh/pgaref/HTTP_Request_Randomizer/branch/master/graph/badge.svg?token=FjHh47wdYV" /></a> <a class="reference external" href="https://requires.io/github/pgaref/HTTP_Request_Randomizer/requirements/?branch=master"><img alt="Requirements Status" src="https://requires.io/github/pgaref/HTTP_Request_Randomizer/requirements.svg?branch=master" /></a> <a class="reference external" href="https://badge.fury.io/py/http-request-randomizer"><img alt="PyPI version" src="https://badge.fury.io/py/http-request-randomizer.svg" /></a><a class="headerlink" href="#http-request-randomizer-build-status-codecov-requirements-status-pypi-version" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="README-vi.md">Vietnamese version</a></p>
+<p>A convenient way to implement HTTP requests is using Pythons’
+<strong>requests</strong> library. One of requests’ most popular features is simple
+proxying support. HTTP as a protocol has very well-defined semantics for
+dealing with proxies, and this contributed to the widespread deployment
+of HTTP proxies</p>
+<p>Proxying is very useful when conducting intensive web crawling/scrapping
+or when you just want to hide your identity (anonymization).</p>
+<p>In this project I am using public proxies to randomise http requests
+over a number of IP addresses and using a variety of known user agent
+headers these requests look to have been produced by different
+applications and operating systems.</p>
+<div class="section" id="proxies">
+<h2>Proxies<a class="headerlink" href="#proxies" title="Permalink to this headline">¶</a></h2>
+<p>Proxies provide a way to use server P (the middleman) to contact server
+A and then route the response back to you. In more nefarious circles,
+it’s a prime way to make your presence unknown and pose as many clients
+to a website instead of just one client. Often times websites will block
+IPs that make too many requests, and proxies is a way to get around
+this. But even for simulating an attack, you should know how it’s done.</p>
+</div>
+<div class="section" id="user-agent">
+<h2>User Agent<a class="headerlink" href="#user-agent" title="Permalink to this headline">¶</a></h2>
+<p>Surprisingly, the only thing that tells a server the application
+triggered the request (like browser type or from a script) is a header
+called a “user agent” which is included in the HTTP request.</p>
+</div>
+<div class="section" id="the-source-code">
+<h2>The source code<a class="headerlink" href="#the-source-code" title="Permalink to this headline">¶</a></h2>
+<p>The project code in this repository is crawling <strong>five</strong> different
+public proxy websites: * <a class="reference external" href="http://proxyfor.eu/geo.php">http://proxyfor.eu/geo.php</a> *
+<a class="reference external" href="http://free-proxy-list.net">http://free-proxy-list.net</a> * <a class="reference external" href="http://rebro.weebly.com/proxy-list.html">http://rebro.weebly.com/proxy-list.html</a> *
+<a class="reference external" href="http://www.samair.ru/proxy/time-01.htm">http://www.samair.ru/proxy/time-01.htm</a> * <a class="reference external" href="https://www.sslproxies.org">https://www.sslproxies.org</a></p>
+<p>After collecting the proxy data and filtering the slowest ones it is
+randomly selecting one of them to query the target url. The request
+timeout is configured at 30 seconds and if the proxy fails to return a
+response it is deleted from the application proxy list. I have to
+mention that for each request a different agent header is used. The
+different headers are stored in the <strong>/data/user_agents.txt</strong> file which
+contains around 900 different agents.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to use this module as a <a class="reference external" href="#command-line-interface">CLI
+tool</a>, install it globally via pip:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">http</span><span class="o">-</span><span class="n">request</span><span class="o">-</span><span class="n">randomizer</span>
+</pre></div>
+</div>
+<p>Otherwise, you can clone the repository and use setup tools:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dev-testing">
+<h2>Dev testing<a class="headerlink" href="#dev-testing" title="Permalink to this headline">¶</a></h2>
+<p>Clone repo, install requirements, develop and run tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">tox</span> <span class="o">-</span><span class="n">e</span> <span class="n">pyDevVerbose</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-use">
+<h2>How to use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="#command-line-interface">Command-line interface</a></p></li>
+<li><p><a class="reference external" href="#api">Library API</a></p></li>
+</ul>
+</div>
+<div class="section" id="command-line-interface">
+<h2>Command-line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h2>
+<p>Assuming that you have <strong>http-request-randomizer</strong> installed, you can
+use the commands below:</p>
+<p>show help message:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">proxyList</span>   <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<p>specify proxy provider(s) (required):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">s</span> <span class="p">{</span><span class="n">proxyforeu</span><span class="p">,</span><span class="n">rebro</span><span class="p">,</span><span class="n">samair</span><span class="p">,</span><span class="n">freeproxy</span><span class="p">,</span><span class="nb">all</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Specify output stream (default: sys.stdout), could also be a file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">o</span><span class="p">,</span> <span class="o">--</span><span class="n">outfile</span>
+</pre></div>
+</div>
+<p>specify provider timeout threshold in seconds:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">t</span><span class="p">,</span> <span class="o">--</span><span class="n">timeout</span>
+</pre></div>
+</div>
+<p>specify proxy bandwidth threshold in KBs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">bw</span><span class="p">,</span> <span class="o">--</span><span class="n">bandwidth</span>
+</pre></div>
+</div>
+<p>show program’s version number:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">v</span><span class="p">,</span> <span class="o">--</span><span class="n">version</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<p>To use <strong>http-request-randomizer</strong> as a library, include it in your
+requirements.txt file. Then you can simply generate a proxied request
+using a method call:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">http_request_randomizer.requests.proxy.requestProxy</span> <span class="kn">import</span> <span class="n">RequestProxy</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">req_proxy</span> <span class="o">=</span> <span class="n">RequestProxy</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initialization took: </span><span class="si">{0}</span><span class="s2"> sec&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">req_proxy</span><span class="o">.</span><span class="n">get_proxy_list</span><span class="p">())))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ALL = </span><span class="si">{0}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get_address</span><span class="p">(),</span> <span class="n">req_proxy</span><span class="o">.</span><span class="n">get_proxy_list</span><span class="p">()))))</span>
+
+    <span class="n">test_url</span> <span class="o">=</span> <span class="s1">&#39;http://ipv4.icanhazip.com&#39;</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">req_proxy</span><span class="o">.</span><span class="n">generate_proxied_request</span><span class="p">(</span><span class="n">test_url</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proxied Request Took: </span><span class="si">{0}</span><span class="s2"> sec =&gt; Status: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">),</span> <span class="n">request</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="n">request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2"> Response: ip=</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proxy List Size: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">req_proxy</span><span class="o">.</span><span class="n">get_proxy_list</span><span class="p">())))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&gt; Going to sleep..&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://pythonhosted.org/http-request-randomizer">http-request-randomizer
+documentation</a></p>
+</div>
+<div class="section" id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<p>Many thanks to the open-source community for
+<a class="reference external" href="https://github.com/pgaref/HTTP_Request_Randomizer/blob/master/CONTRIBUTORS.md">contributing</a>
+to this project!</p>
+</div>
+<div class="section" id="faced-an-issue">
+<h2>Faced an issue?<a class="headerlink" href="#faced-an-issue" title="Permalink to this headline">¶</a></h2>
+<p>Open an issue
+<a class="reference external" href="https://github.com/pgaref/HTTP_Request_Randomizer/issues">here</a>, and
+be as detailed as possible :)</p>
+</div>
+<div class="section" id="feels-like-a-feature-is-missing">
+<h2>Feels like a feature is missing?<a class="headerlink" href="#feels-like-a-feature-is-missing" title="Permalink to this headline">¶</a></h2>
+<p>Feel free to open a ticket! PRs are always welcome!</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>This project is licensed under the terms of the MIT license.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Panagiotis Garefalakis
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
