@@ -118,6 +118,9 @@ if __name__ == '__main__':
         time.sleep(10)
 ````
 
+### Changing log levels
+The `RequestProxy` constructor accepts an optional parameter of `log_level` that can be used to change the level of logging. By default, this is equal to 0, or NOTSET. The python logging levels are documented [here](https://docs.python.org/3/library/logging.html#logging-levels). You can either use integers or their equivalent constant in the logging module. (e.g. `logging.DEBUG`, `logging.ERROR`, etc)
+
 ## Documentation 
 
 [http-request-randomizer documentation](https://pgaref.com/HTTP_Request_Randomizer)
