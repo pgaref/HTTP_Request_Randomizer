@@ -35,7 +35,8 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="http_request_randomizer.requests.useragent package" href="source/http_request_randomizer.requests.useragent.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -80,9 +81,31 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Package:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="source/modules.html">http_request_randomizer</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Instructions:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">HTTP Request Randomizer    </a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#proxies">Proxies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-agent">User Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-source-code">The source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dev-testing">Dev testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use">How to use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-interface">Command-line interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#changing-log-levels">Changing log levels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faced-an-issue">Faced an issue?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#feels-like-a-feature-is-missing">Feels like a feature is missing?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -252,13 +275,14 @@ use the commands below:</p>
 <p>To use <strong>http-request-randomizer</strong> as a library, include it in your
 requirements.txt file. Then you can simply generate a proxied request
 using a method call:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">http_request_randomizer.requests.proxy.requestProxy</span> <span class="kn">import</span> <span class="n">RequestProxy</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">req_proxy</span> <span class="o">=</span> <span class="n">RequestProxy</span><span class="p">()</span>
+    <span class="n">req_proxy</span> <span class="o">=</span> <span class="n">RequestProxy</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initialization took: </span><span class="si">{0}</span><span class="s2"> sec&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">req_proxy</span><span class="o">.</span><span class="n">get_proxy_list</span><span class="p">())))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ALL = </span><span class="si">{0}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get_address</span><span class="p">(),</span> <span class="n">req_proxy</span><span class="o">.</span><span class="n">get_proxy_list</span><span class="p">()))))</span>
@@ -277,10 +301,20 @@ using a method call:</p>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="section" id="changing-log-levels">
+<h3>Changing log levels<a class="headerlink" href="#changing-log-levels" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">RequestProxy</span></code> constructor accepts an optional parameter of
+<code class="docutils literal notranslate"><span class="pre">log_level</span></code> that can be used to change the level of logging. By
+default, this is equal to 0, or NOTSET. The python logging levels are
+documented
+<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging-levels">here</a>.
+You can either use integers or their equivalent constant in the logging
+module. (e.g. <code class="docutils literal notranslate"><span class="pre">logging.DEBUG</span></code>, <code class="docutils literal notranslate"><span class="pre">logging.ERROR</span></code>, etc)</p>
+</div>
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="http://pythonhosted.org/http-request-randomizer">http-request-randomizer
+<p><a class="reference external" href="https://pgaref.com/HTTP_Request_Randomizer">http-request-randomizer
 documentation</a></p>
 </div>
 <div class="section" id="contributing">
@@ -310,6 +344,13 @@ be as detailed as possible :)</p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="source/http_request_randomizer.requests.useragent.html" class="btn btn-neutral float-left" title="http_request_randomizer.requests.useragent package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
