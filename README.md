@@ -93,13 +93,14 @@ To use **http-request-randomizer** as a library, include it in your requirements
 Then you can simply generate a proxied request using a method call:
 
 ````python
+import logging
 import time
 from http_request_randomizer.requests.proxy.requestProxy import RequestProxy
 
 if __name__ == '__main__':
 
     start = time.time()
-    req_proxy = RequestProxy()
+    req_proxy = RequestProxy(log_level=logging.ERROR)
     print("Initialization took: {0} sec".format((time.time() - start)))
     print("Size: {0}".format(len(req_proxy.get_proxy_list())))
     print("ALL = {0} ".format(list(map(lambda x: x.get_address(), req_proxy.get_proxy_list()))))
