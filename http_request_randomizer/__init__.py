@@ -1,6 +1,6 @@
 __author__ = 'pgaref'
 
-__version__ = '1.2.3'
+__version__ = '1.3.2'
 
 __title__ = 'http_request_randomizer'
 __description__ = 'A package using public proxies to randomise http requests'

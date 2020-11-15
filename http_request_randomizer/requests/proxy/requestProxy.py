@@ -31,10 +31,10 @@ handler.setFormatter(formatter)
 
 
 class RequestProxy:
-    def __init__(self, web_proxy_list=[], sustain=False, timeout=5, protocol=Protocol.HTTP):
+    def __init__(self, web_proxy_list=[], sustain=False, timeout=5, protocol=Protocol.HTTP, log_level=0):
         self.logger = logging.getLogger()
         self.logger.addHandler(handler)
-        self.logger.setLevel(0)
+        self.logger.setLevel(log_level)
         self.userAgent = UserAgentManager(file=os.path.join(os.path.dirname(__file__), '../data/user_agents.txt'))
 
         #####
