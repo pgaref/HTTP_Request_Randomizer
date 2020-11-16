@@ -19,6 +19,11 @@ from http_request_randomizer.requests.parsers.PremProxyParser import PremProxyPa
 from http_request_randomizer.requests.parsers.SslProxyParser import SslProxyParser
 from http_request_randomizer.requests.useragent.userAgent import UserAgentManager
 
+## Temporary imports
+import datetime as dt
+import pandas as pd
+import pandas_datareader.data as web
+
 __author__ = 'pgaref'
 sys.path.insert(0, os.path.abspath('../../../../'))
 
@@ -89,6 +94,29 @@ class RequestProxy:
             rand_proxy = random.choice(self.proxy_list)
         self.current_proxy = rand_proxy
         return rand_proxy
+
+    def generate_proxied_session(self, params={}, headers={}):
+        random.shuffle(self.proxy_list)
+
+        req_headers = dict(params.items())
+        req_headers_random = dict(self.generate_random_request_headers().items())
+        req_headers.update(req_headers_random)
+
+        if not self.sustain:
+            self.randomize_proxy()
+
+        headers.update(req_headers)
+
+        self.logger.debug("Session headers: {0}".format(str(headers)))
+        self.logger.debug("Session proxy: {0}".format(str(self.current_proxy)))
+
+        with requests.Session() as s:
+            s.headers = headers
+            print("-----")
+            print({self.current_proxy.get_address()})
+            print("-----")
+            s.proxies.update({'http': self.current_proxy.get_address()})
+        return s
 
     #####
     # Proxy format:
@@ -170,11 +198,15 @@ if __name__ == '__main__':
 
     while True:
         start = time.time()
-        request = req_proxy.generate_proxied_request(test_url)
-        print("Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__()))
-        if request is not None:
-            print("\t Response: ip={0}".format(u''.join(request.text).encode('utf-8')))
-        print("Proxy List Size: {0}".format(len(req_proxy.get_proxy_list())))
+        # request = req_proxy.generate_proxied_request(test_url)
+        start = dt.datetime(2019, 1, 10)
+        end = dt.datetime.now()
+        df = web.DataReader('^GSPC', 'yahoo', start, end, session=req_proxy.generate_proxied_session())
+        # print("Proxied Request Took: {0} sec => Status: {1}".format((time.time() - start), request.__str__()))
+        # if request is not None:
+        #     print("\t Response: ip={0}".format(u''.join(request.text).encode('utf-8')))
+        # print("Proxy List Size: {0}".format(len(req_proxy.get_proxy_list())))
+        print(df.head)
 
         print("-> Going to sleep..")
         time.sleep(10)
