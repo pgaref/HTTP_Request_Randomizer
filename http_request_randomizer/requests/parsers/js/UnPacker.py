@@ -14,9 +14,9 @@ class JsUnPacker(object):
     """
     # TODO: it might not be necessary to unpack the js code
 
-    def __init__(self, js_file_url):
+    def __init__(self, js_file_url, headers=None):
         logger.info("JS UnPacker init path: {}".format(js_file_url))
-        r = requests.get(js_file_url)
+        r = requests.get(js_file_url, headers=headers)
         encrypted = r.text.strip()
         encrypted = '(' + encrypted.split('}(')[1][:-1]
         unpacked = eval('self.unpack' +encrypted) # string of the js code in unpacked form

@@ -7,6 +7,8 @@ from http_request_randomizer.requests.parsers.js.UnPacker import JsUnPacker
 from http_request_randomizer.requests.parsers.UrlParser import UrlParser
 from http_request_randomizer.requests.proxy.ProxyObject import ProxyObject, AnonymityLevel, Protocol
 
+from http_request_randomizer.requests.useragent.userAgent import UserAgentManager
+
 logger = logging.getLogger(__name__)
 __author__ = 'pgaref'
 
@@ -18,6 +20,12 @@ class PremProxyParser(UrlParser):
         web_url += "/list/"
         # Ports decoded by the JS unpacker
         self.js_unpacker = None
+        self.useragent = UserAgentManager()
+        self.headers = {
+            "User-Agent": self.useragent.get_random_user_agent(),
+            "Origin": self.base_url,
+            "Referer": self.base_url
+        }
         UrlParser.__init__(self, id=id, web_url=web_url, timeout=timeout)
 
     def parse_proxyList(self):
@@ -31,7 +39,7 @@ class PremProxyParser(UrlParser):
             self.js_unpacker = self.init_js_unpacker()
 
             for page in page_set:
-                response = requests.get("{0}{1}".format(self.get_url(), page), timeout=self.timeout)
+                response = requests.get("{0}{1}".format(self.get_url(), page), timeout=self.timeout, headers=self.headers)
                 if not response.ok:
                     # Could not parse ANY page - Let user know
                     if not curr_proxy_list:
@@ -65,7 +73,7 @@ class PremProxyParser(UrlParser):
             return curr_proxy_list
 
     def get_pagination_set(self):
-        response = requests.get(self.get_url(), timeout=self.timeout)
+        response = requests.get(self.get_url(), timeout=self.timeout, headers=self.headers)
         page_set = set()
         # Could not parse pagination page - Let user know
         if not response.ok:
@@ -84,7 +92,7 @@ class PremProxyParser(UrlParser):
         return page_set
 
     def init_js_unpacker(self):
-        response = requests.get(self.get_url(), timeout=self.timeout)
+        response = requests.get(self.get_url(), timeout=self.timeout, headers=self.headers)
         # Could not parse provider page - Let user know
         if not response.ok:
             logger.warning("Proxy Provider url failed: {}".format(self.get_url()))
@@ -96,7 +104,7 @@ class PremProxyParser(UrlParser):
         for script in soup.findAll('script'):
             if '/js/' in script.get('src'):
                 jsUrl = self.base_url + script.get('src')
-                return JsUnPacker(jsUrl)
+                return JsUnPacker(jsUrl, headers=self.headers)
         return None
 
     def create_proxy_object(self, row, port):
