@@ -70,77 +70,69 @@ def sslproxy_mock(url, request):
 
 @urlmatch(netloc=r'(.*\.)?free-proxy-list\.net$')
 def free_proxy_mock(url, request):
-    return """<table border="0" cellpadding="0" cellspacing="0" id="proxylisttable"
-id="proxylisttable">\n
-<thead>\n
-<tr>\n
-    <th>IP Address</th>
-    \n
-    <th>Port</th>
-    \n
-    <th>Code</th>
-    \n
-    <th>Country</th>
-    \n
-    <th>Anonymity</th>
-    \n
-    <th>Google</th>
-    \n
-    <th>Https</th>
-    \n
-    <th>Last Checked</th>
-    \n
-</tr>
-\n
-</thead>
-\n
-<tbody>
-<tr>
-    <td>138.197.136.46</td>
-    <td>3128</td>
-    <td>CA</td>
-    <td>Canada</td>
-    <td>anonymous</td>
-    <td>no</td>
-    <td>no</td>
-    <td>7 seconds ago</td>
-</tr>
-\n
-<tr>
-    <td>177.207.75.227</td>
-    <td>8080</td>
-    <td>BR</td>
-    <td>Brazil</td>
-    <td>transparent</td>
-    <td>no</td>
-    <td>no</td>
-    <td>2 hours 21 minutes ago</td>
-</tr>
-\n
-</tbody>
-\n
-<tfoot>\n
-<tr>\n
-    <th class="input"><input type="text"/></th>
-    \n
-    <th></th>
-    \n
-    <th></th>
-    \n
-    <th></th>
-    \n
-    <th></th>
-    \n
-    <th></th>
-    \n
-    <th></th>
-    \n
-    <th></th>
-    \n
-</tr>
-\n
-</tfoot>
-\n
+    return """<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>IP Address</th>
+            <th>Port</th>
+            <th>Code</th>
+            <th class="hm">Country</th>
+            <th>Anonymity</th>
+            <th class="hm">Google</th>
+            <th class="hx">Https</th>
+            <th class="hm">Last Checked</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>58.234.116.197</td>
+            <td>8193</td>
+            <td>KR</td>
+            <td class="hm">Korea</td>
+            <td>anonymous</td>
+            <td class="hm">yes</td>
+            <td class="hx">no</td>
+            <td class="hm">1 min ago</td>
+        </tr>
+        <tr>
+            <td>20.122.24.225</td>
+            <td>80</td>
+            <td>US</td>
+            <td class="hm">United States</td>
+            <td>anonymous</td>
+            <td class="hm">yes</td>
+            <td class="hx">no</td>
+            <td class="hm">1 min ago</td>
+            </tr>
+        <tr>
+            <td>154.236.177.100</td>
+            <td>1981</td><td>EG</td>
+            <td class="hm">Egypt</td>
+            <td>elite proxy</td>
+            <td class="hm">yes</td>
+            <td class="hx">yes</td>
+            <td class="hm">1 min ago</td>
+        </tr>
+        <tr>
+            <td>54.37.160.92</td>
+            <td>1080</td><td>FR</td>
+            <td class="hm">France</td>
+            <td>elite proxy</td>
+            <td class="hm">no</td>
+            <td class="hx">yes</td>
+            <td class="hm">1 min ago</td>
+        </tr>
+        <tr>
+            <td>110.232.78.55</td>
+            <td>55667</td>
+            <td>ID</td>
+            <td class="hm">Indonesia</td>
+            <td>anonymous</td>
+            <td class="hm">no</td>
+            <td class="hx">yes</td>
+            <td class="hm">1 min ago</td>
+        </tr>
+    </tbody>
 </table>"""
 
 
